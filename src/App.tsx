@@ -1,13 +1,15 @@
-import "./App.css";
-import { Button } from "./components/ui/button";
+import "./App.scss";
+import { Button } from "@/components/ui/button";
+import APP_CONSTANTS from "@/constants";
 
 function App() {
   return (
     <div>
-      <h1>FinTrack</h1>
+      <h1>{APP_CONSTANTS.title}</h1>
+      <h2>Track your expense</h2>
       <p>Smart Monthly Budgeting & Expense Tracker</p>
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
+      <div className="flex   flex-col items-center justify-center">
+        <Button data-testid="action-btn">Click me</Button>
       </div>
     </div>
   );
