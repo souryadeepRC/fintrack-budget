@@ -2,6 +2,10 @@
 
 **FinTrack** is a modern web application built with React, TypeScript, and ShadCN UI, designed to help users track monthly income, expenses, and loans. It includes budgeting tools, analytics, and alert features to promote smart financial management — especially tailored for Indian households.
 
+
+🔗 **Live App**: [https://fintrack-budget.vercel.app/](https://fintrack-budget.vercel.app/)
+
+
 ---
 
 ## 🛠️ Tech Stack
