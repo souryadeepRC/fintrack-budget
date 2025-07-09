@@ -1,6 +1,7 @@
 import "./App.scss";
 import { Button } from "@/components/ui/button";
 import APP_CONSTANTS from "@/constants";
+import { Outlet } from "react-router";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <div className="flex   flex-col items-center justify-center">
         <Button data-testid="action-btn">Click me</Button>
       </div>
+      <Outlet />
     </div>
   );
 }
