@@ -16,8 +16,20 @@ h5,
 p {
   margin: 0;
 }
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-size: 1.5rem;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    font-size: 1rem;
+  }
 }
 a {
   text-decoration: none;
@@ -30,8 +42,12 @@ a {
   }
 }
 
-@media screen and (max-width: 480px) {
-  h1 {
+@media screen and (max-width: $mobile-max-width) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-size: 1.1rem;
   }
   a {

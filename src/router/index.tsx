@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
-import { AutoPay, Debt, Expense } from "@/pages";
+import { AutoPay, Debt, Expense, Settings } from "@/pages";
 
 const router = createBrowserRouter([
   {
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/settings",
-        Component: () => <div>settings</div>,
+        Component: Settings,
       },
     ],
   },
