@@ -47,6 +47,10 @@ const router = createBrowserRouter([
         path: "/auto-pay",
         Component: AutoPay,
       },
+      {
+        path: "/settings",
+        Component: () => <div>settings</div>,
+      },
     ],
   },
   {
