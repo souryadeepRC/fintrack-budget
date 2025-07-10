@@ -1,30 +1,14 @@
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
-import { AutoPay, Debt, Expense, Settings } from "@/pages";
+import { AutoPay, Debt, Settings } from "@/pages";
+import expenseRouter from "./expenseRouter";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
     children: [
-      {
-        path: "/expense",
-        Component: Expense,
-        children: [
-          {
-            path: "/expense/add-expense",
-            Component: () => <div>Add New Expense</div>,
-          },
-          {
-            path: "/expense/:expenseId",
-            Component: () => <div>Expense Details</div>,
-          },
-          {
-            path: "/expense/:expenseId/edit",
-            Component: () => <div>Edit Expense</div>,
-          },
-        ],
-      },
+      expenseRouter,
       {
         path: "/debt",
         Component: Debt,

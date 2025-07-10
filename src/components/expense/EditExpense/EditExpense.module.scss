@@ -1,0 +1,54 @@
+.edit_expense__container {
+  padding: 1rem;
+  width: 70%;
+  margin: 0 auto;
+}
+.edit_expense__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3rem;
+  text-transform: capitalize;
+  h4 {
+    font-size: 1.2rem;
+  }
+}
+.expense__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  .form__inputs {
+    margin: 1rem 0;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 60vh;
+    overflow: hidden auto;
+  }
+  .form__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+.form_leaving__dialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 3rem;
+  .action__btns {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+@media screen and (max-width: $mobile-max-width) {
+  .edit_expense__container {
+    width: 100%;
+  }
+  .form_leaving__dialog {
+    gap: 1rem;
+  }
+}

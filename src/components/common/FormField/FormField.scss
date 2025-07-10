@@ -1,0 +1,36 @@
+.form_item__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  .form__label {
+    font-size: 1rem;
+    color: $primary-color;
+    font-weight: 500;
+    &.mandatory {
+      &::after {
+        content: " *";
+        color: $error-color;
+      }
+    }
+  }
+  .form__input {
+    padding: 0.8rem;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    background-color: inherit;
+    transition: color 0.5s ease-in;
+    width: 100%;
+    &.error {
+      border-color: $error-color;
+    }
+  }
+  .form__select {
+    padding: 0.8rem;
+    font-size: 1rem;
+    color: $primary-color;
+  }
+  .error__msg {
+    color: $error-color;
+    font-size: 0.8rem;
+  }
+}

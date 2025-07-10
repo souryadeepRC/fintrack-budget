@@ -1,0 +1,64 @@
+.expense__container {
+  padding: 1rem;
+}
+.expense__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.expense__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 65vh;
+  overflow: hidden auto;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.expense__item {
+  position: relative;
+  padding: 1rem;
+  background-color: $secondary-color;
+  color: $primary-color;
+  box-shadow: 0 5px 10px 0 $shadow-color;
+  cursor: pointer;
+  &:hover {
+    background-color: $secondary-hover-color;
+    &::after {
+      content: "See More >>>";
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: $primary-color;
+      text-align: right;
+      width: 50%;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  .expense__description {
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .expense__category {
+    border-radius: 5rem;
+    padding: 0.2rem 1rem;
+    font-size: 0.7rem;
+    background-color: $primary-color;
+    color: $secondary-color;
+    width: fit-content;
+  }
+  .expense__amount {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+  }
+  .expense__date {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+}
