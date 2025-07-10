@@ -1,12 +1,14 @@
 import { ExpenseState } from "@/types/expense";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { mockExpenses } from "@/assets/mockExpense";
+
 interface expenseState {
+  isLoaded: boolean;
   expenses: ExpenseState[];
 }
 
 const initialState: expenseState = {
-  expenses: mockExpenses,
+  isLoaded: false,
+  expenses: [],
 };
 const expenseSlice = createSlice({
   name: "expense",
@@ -15,6 +17,7 @@ const expenseSlice = createSlice({
     loadExpenses: (state, action: PayloadAction<ExpenseState[]>) => {
       return {
         ...state,
+        isLoaded: true,
         expenses: action.payload,
       };
     },

@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.form {
+  background: $secondary-color;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px $shadow-color;
+  width: 100%;
+  max-width: 350px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: $primary-color;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border: 1px solid $primary-color;
+  padding: 0.5rem;
+  background-color: $secondary-color;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  color: #666;
+}
+
+input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+  font-size: 1rem;
+}
+
+.error {
+  color: $error-color;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}

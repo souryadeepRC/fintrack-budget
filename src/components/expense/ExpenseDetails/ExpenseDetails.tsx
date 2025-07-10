@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { IoIosArrowBack } from "react-icons/io";
+import { useMutation } from "@tanstack/react-query";
 import { FaRegEdit } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 import { selectExpense } from "@/store/expenseReducer/expenseSelectors";
@@ -9,10 +10,25 @@ import { Button, Modal } from "@/components/common";
 import classes from "./ExpenseDetails.module.scss";
 import { convertDate } from "@/utils";
 import { RootState } from "@/store";
+import expenseDBService from "@/service/Expense";
+import { removeExpense } from "@/store/expenseReducer/expenseReducer";
+import { toast } from "sonner";
 
 const ExpenseDetails = () => {
-  const [isDelete, setIsDelete] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const { expenseId } = useParams<{ expenseId: string }>();
+  const { mutate } = useMutation({
+    mutationFn: (id: string) => expenseDBService.deleteExpense(id),
+    onSuccess: function () {
+      expenseId && dispatch(removeExpense(expenseId));
+      toast.success(`Expense removed successfully`);
+      setTimeout(() => navigate("/expense"), 0);
+    },
+    onError: function () {
+      toast.error(`Failed to remove expense`);
+    },
+  });
+  const [isDelete, setIsDelete] = useState<boolean>(false);
   const navigate = useNavigate();
   const expense = useSelector((state: RootState) =>
     expenseId ? selectExpense(state, expenseId) : undefined
@@ -24,12 +40,11 @@ const ExpenseDetails = () => {
     navigate(-1);
   };
   const onDelete = () => {
-    console.log("onDelete");
+    expenseId && mutate(expenseId);
   };
   const onEdit = () => {
     navigate(`/expense/${expenseId}/edit`);
   };
-  console.log({ expense });
   if (!expense)
     return (
       <div className={classes.expense__container}>

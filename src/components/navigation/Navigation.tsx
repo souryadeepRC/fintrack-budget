@@ -37,7 +37,9 @@ const NAVIGATION_LIST: NavigationItem[] = [
 const Navigation: React.FC = () => {
   return (
     <header className={classes.header__container}>
-      <h1>{APP_CONSTANTS.title}</h1>
+      <h1>
+        <NavLink to="/">{APP_CONSTANTS.title}</NavLink>
+      </h1>
       <nav>
         <ul className={classes.navigation__container}>
           {NAVIGATION_LIST.map((navigation: NavigationItem) => {

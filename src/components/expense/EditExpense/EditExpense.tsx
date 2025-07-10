@@ -2,10 +2,17 @@ import { Button, FormField, Modal } from "@/components/common";
 import { RootState } from "@/store";
 import { selectExpense } from "@/store/expenseReducer/expenseSelectors";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+
+import expenseDBService from "@/service/Expense";
 import classes from "./EditExpense.module.scss";
 import { useSettings } from "@/hooks";
+import { ExpenseState } from "@/types/expense";
+import { toast } from "sonner";
+import { editExpense } from "@/store/expenseReducer/expenseReducer";
+import { formatIsoToDate } from "@/utils";
 
 type ExpenseDetailsState = {
   title: string;
@@ -26,6 +33,20 @@ const initialState = {
 };
 type Errors = Partial<Record<keyof ExpenseDetailsState, string>>;
 const EditExpense = () => {
+  const dispatch = useDispatch();
+  const { mutate } = useMutation({
+    mutationFn: (expense: ExpenseState) =>
+      expenseDBService.storeExpense(expense),
+    onSuccess: function (response: ExpenseState) {
+      dispatch(editExpense(response));
+      toast.success(`Expense added under Category: ${response.category}`);
+      setTimeout(() => navigate("/expense"), 0);
+    },
+    onError: function () {
+      toast.error(`Failed to add expense`);
+    },
+  });
+
   const [isFormLeaving, setIsFormLeaving] = useState<boolean>(false);
   const options = useSettings();
   const [details, setDetails] = useState<ExpenseDetailsState>(initialState);
@@ -38,7 +59,11 @@ const EditExpense = () => {
 
   useEffect(() => {
     if (!expense) return;
-    setDetails({ ...expense, amount: `${expense.amount}` });
+    setDetails({
+      ...expense,
+      amount: `${expense.amount}`,
+      date: formatIsoToDate(expense.date),
+    });
   }, [expense]);
   const toggleIsFormLeaving = () => {
     setIsFormLeaving((isFormLeaving) => !isFormLeaving);
@@ -67,12 +92,8 @@ const EditExpense = () => {
       setErrors(errs);
       return;
     }
-
-    console.log("Saving expense:", { ...details, id: expenseId });
-    navigate("/expense");
+    mutate({ ...details, amount: Number(details.amount), id: expenseId || "" });
   };
-
-  console.log({ expenseId });
 
   const onChange = (name: string, value: string) => {
     setDetails((prev) => ({ ...prev, [name]: value }));
