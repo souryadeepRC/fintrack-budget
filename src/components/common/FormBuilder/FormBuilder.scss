@@ -1,0 +1,40 @@
+.from_wrapper__container {
+  padding: 1rem;
+  width: 70%;
+  margin: 0 auto;
+}
+.from_wrapper__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3rem;
+  text-transform: capitalize;
+  h4 {
+    font-size: 1.2rem;
+  }
+}
+.form__container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  .form__inputs {
+    margin: 1rem 0;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 60vh;
+    overflow: hidden auto;
+  }
+  .form__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: $mobile-max-width) {
+  .from_wrapper__container {
+    width: 100%;
+  }
+}

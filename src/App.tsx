@@ -1,16 +1,20 @@
+import { Outlet } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "sonner";
+
+import Navigation from "@/components/navigation/Navigation";
 import "./App.scss";
-import { Button } from "@/components/ui/button";
-import APP_CONSTANTS from "@/constants";
+import Landing from "./components/Landing/Landing";
 
 function App() {
+  const queryClient = new QueryClient();
   return (
     <div>
-      <h1>{APP_CONSTANTS.title}</h1>
-      <h2>Track your expense</h2>
-      <p>Smart Monthly Budgeting & Expense Tracker</p>
-      <div className="flex   flex-col items-center justify-center">
-        <Button data-testid="action-btn">Click me</Button>
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <Toaster richColors position="top-right" />
+        <Navigation />
+        <Outlet />
+      </QueryClientProvider>
     </div>
   );
 }

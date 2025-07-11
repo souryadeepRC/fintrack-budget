@@ -1,0 +1,31 @@
+.form_item__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  .form__label {
+    font-size: 1rem;
+    color: $primary-color;
+    font-weight: 500;
+    &.required {
+      &::after {
+        content: " *";
+        color: $error-color;
+      }
+    }
+  }
+  .form__field {
+    padding: 0.8rem;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    background-color: inherit;
+    width: 100%;
+    &.field__error {
+      border-color: $error-color;
+    }
+  }
+
+  .error__msg {
+    color: $error-color;
+    font-size: 0.8rem;
+  }
+}
