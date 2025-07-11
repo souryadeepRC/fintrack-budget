@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
-import { AutoPay, Debt, Settings } from "@/pages";
+import { Settings } from "@/pages";
 import expenseRouter from "./expenseRouter";
 import Landing from "@/components/Landing/Landing";
 import debtRouter from "./debtRouter";
+import notificationRouter from "./notificationRouter";
 
 const router = createBrowserRouter([
   {
@@ -16,10 +17,7 @@ const router = createBrowserRouter([
       },
       expenseRouter,
       debtRouter,
-      {
-        path: "/auto-pay",
-        Component: AutoPay,
-      },
+      notificationRouter,
       {
         path: "/settings",
         Component: Settings,

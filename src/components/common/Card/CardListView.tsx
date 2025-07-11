@@ -4,7 +4,7 @@ import "./Card.scss";
 interface CardListViewProps {
   onCardClick?: (itemId: string) => void;
   itemList: any[];
-  chipProperty: string;
+  chipProperty?: string;
 }
 
 const CardListView: React.FC<CardListViewProps> = (props) => {
@@ -18,7 +18,12 @@ const CardListView: React.FC<CardListViewProps> = (props) => {
           <Card
             key={item.id}
             {...(onCardClick && { onClick: () => onCardClick(item.id) })}
-            details={{ chip: item[chipProperty], title, amount, date }}
+            details={{
+              ...(chipProperty ? { chip: item[chipProperty] } : {}),
+              title,
+              amount,
+              date,
+            }}
           />
         );
       })}

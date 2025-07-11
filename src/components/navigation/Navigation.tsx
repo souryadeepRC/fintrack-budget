@@ -24,7 +24,7 @@ const NAVIGATION_LIST: NavigationItem[] = [
     Icon: MdOutlinePendingActions,
   },
   {
-    path: "/auto-pay",
+    path: "/notification",
     label: "Notification",
     Icon: AiFillNotification,
   },
