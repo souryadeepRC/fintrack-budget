@@ -1,31 +1,31 @@
-.expense__container {
+.card_details__container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem;
-  .expense__header {
+  .card_details__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     border-bottom: 1px solid $primary-color;
     padding: 1rem 0;
-    .expense__actions {
+    .card_details__actions {
       display: flex;
       gap: 0.5rem;
     }
   }
 }
-.expense__details {
+.card__details {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: flex-start;
   padding: 1.5rem;
-  .expense__description {
+  .card__heading {
     font-size: 1rem;
   }
-  .expense__category {
+  .card__chip {
     border-radius: 5rem;
     padding: 0.5rem 2rem;
     font-size: 0.8rem;
@@ -33,7 +33,7 @@
     color: $secondary-color;
     width: fit-content;
   }
-  .expense__note {
+  .card__description {
     display: flex;
     flex-direction: column;
   }

@@ -1,6 +1,5 @@
+import { ButtonMode, ButtonVariant } from "@/types";
 import "./Button.scss";
-type ButtonVariant = "outlined" | "contained" | "text";
-type ButtonMode = "info" | "warning" | "error";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   startIcon?: React.ReactNode;

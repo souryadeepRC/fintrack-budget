@@ -1,6 +1,5 @@
-import ExpenseFilter from "./ExpenseFilter/ExpenseFilter";
-import ExpenseDetails from "./ExpenseDetails/ExpenseDetails";
-import ExpenseList from "./ExpenseList/ExpenseList";
-import EditExpense from "./EditExpense/EditExpense";
+import ExpenseDetails from "./ExpenseDetails";
+import ExpenseList from "./ExpenseList";
+import EditExpense from "./EditExpense";
 
-export { ExpenseFilter, ExpenseDetails, ExpenseList, EditExpense };
+export { ExpenseDetails, ExpenseList, EditExpense };

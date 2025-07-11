@@ -1,15 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer from "./appReducer/appReducer";
 import expenseReducer from "./expenseReducer/expenseReducer";
+import debtReducer from "./debtReducer/debtReducer";
 
 const store = configureStore({
   reducer: {
     app: appReducer,
     expense: expenseReducer,
-    /*  
-    debts:
-    notifications:
-    settings: */
+    debt: debtReducer,
   },
 });
 

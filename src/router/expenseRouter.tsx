@@ -1,9 +1,4 @@
-import {
-  EditExpense,
-  ExpenseDetails,
-  ExpenseFilter,
-  ExpenseList,
-} from "@/components/expense";
+import { EditExpense, ExpenseDetails, ExpenseList } from "@/components/expense";
 import { Expense } from "@/pages";
 const expenseRouter = {
   path: "/expense",
@@ -15,7 +10,7 @@ const expenseRouter = {
     },
     {
       path: "/expense/filter",
-      Component: ExpenseFilter,
+      Component: () => <>Filter</>,
     },
     {
       path: "/expense/add-expense",

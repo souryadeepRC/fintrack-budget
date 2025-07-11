@@ -3,6 +3,7 @@ import App from "@/App";
 import { AutoPay, Debt, Settings } from "@/pages";
 import expenseRouter from "./expenseRouter";
 import Landing from "@/components/Landing/Landing";
+import debtRouter from "./debtRouter";
 
 const router = createBrowserRouter([
   {
@@ -14,24 +15,7 @@ const router = createBrowserRouter([
         Component: Landing,
       },
       expenseRouter,
-      {
-        path: "/debt",
-        Component: Debt,
-        children: [
-          {
-            path: "/debt/add-debt",
-            Component: () => <div>Add New debt</div>,
-          },
-          {
-            path: "/debt/:debtId",
-            Component: () => <div>debt Details</div>,
-          },
-          {
-            path: "/debt/:debtId/edit",
-            Component: () => <div>Edit debt</div>,
-          },
-        ],
-      },
+      debtRouter,
       {
         path: "/auto-pay",
         Component: AutoPay,
