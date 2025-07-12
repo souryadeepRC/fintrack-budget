@@ -32,7 +32,7 @@ const NotificationDetails = () => {
         actions={[
           {
             label: "Yes",
-            mode: "error",
+            mode: "alert",
             onClick: () => context.actions?.delete?.(notification.id),
           },
           {
@@ -56,7 +56,7 @@ const NotificationDetails = () => {
 
           {
             label: "Remove",
-            mode: "error",
+            mode: "alert",
             onClick: toggleIsDelete,
             startIcon: <AiOutlineDelete />,
           },

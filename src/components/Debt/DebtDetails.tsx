@@ -42,7 +42,7 @@ const DebtDetails = () => {
         actions={[
           {
             label: "Yes",
-            mode: "error",
+            mode: "alert",
             onClick: () => context.actions?.delete?.(debt.id),
           },
           {
@@ -66,7 +66,7 @@ const DebtDetails = () => {
 
           {
             label: "Remove",
-            mode: "error",
+            mode: "alert",
             onClick: toggleIsDelete,
             startIcon: <AiOutlineDelete />,
           },

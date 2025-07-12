@@ -8,56 +8,42 @@
   margin: 1rem 0;
 }
 .card__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 0 1rem;
   position: relative;
-  padding: 1rem;
-  background-color: $secondary-color;
   color: $primary-color;
-  box-shadow: 0 5px 10px 0 $shadow-color;
   cursor: pointer;
-  &:hover {
-    &::after {
-      content: "See More >>>";
-      position: absolute;
-      top: 0;
-      right: 0;
-      color: $primary-color;
-      text-align: right;
-      width: 50%;
-      padding: 0.5rem;
-      font-size: 0.8rem;
-    }
-  }
+  border-bottom: 1px solid $shadow-color;
 
-  .card__description {
-    max-width: 500px;
+  .card__title {
+    max-width: 60vw;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .card__category {
-    border-radius: 5rem;
-    padding: 0.2rem 1rem;
-    font-size: 0.7rem;
-    background-color: $primary-color;
-    color: $secondary-color;
-    width: fit-content;
-  }
-  .card__amount {
+  .card__info {
     display: flex;
-    gap: 0.25rem;
-    align-items: center;
-  }
-  .card__date {
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
-    font-size: 0.8rem;
+    justify-content: space-between;
+    width: 100%;
+    .card__amount {
+      font-size: 0.8rem;
+    }
+    .card__date {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+      font-size: 0.8rem;
+    }
   }
 }
 
 .dashboard__container {
   padding: 1rem;
   width: 70%;
+  min-width: 500px;
   margin: 0 auto;
 }
 .dashboard__actions {
@@ -69,5 +55,6 @@
   .dashboard__container {
     padding: 1rem;
     width: 100%;
+    min-width: 100%;
   }
 }

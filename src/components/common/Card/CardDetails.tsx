@@ -2,6 +2,7 @@ import { Button } from "@/components/common";
 import { ActionButtonType } from "@/types";
 import "./CardDetails.scss";
 import { formatToINR } from "@/utils";
+import { FaArrowLeft } from "react-icons/fa";
 
 type CardPropertyType = {
   label?: string;
@@ -15,9 +16,9 @@ interface CardDetailsProps {
   actions?: ActionButtonType[];
   properties: CardPropertyType[];
 }
-
 const CardDetails: React.FC<CardDetailsProps> = (props) => {
   const { type, isEmpty, backAction, actions, properties } = props;
+
   if (isEmpty) {
     return (
       <div className="card_details__container">
@@ -26,7 +27,9 @@ const CardDetails: React.FC<CardDetailsProps> = (props) => {
             variant={backAction.variant}
             onClick={backAction.onClick}
             {...(backAction.mode && { mode: backAction.mode })}
-            {...(backAction.startIcon && { startIcon: backAction.startIcon })}
+            {...(backAction.startIcon
+              ? { startIcon: backAction.startIcon }
+              : { startIcon: <FaArrowLeft /> })}
           >
             {backAction.label}
           </Button>
@@ -39,12 +42,14 @@ const CardDetails: React.FC<CardDetailsProps> = (props) => {
     <div className="card_details__container">
       {backAction && (
         <Button
-          variant={backAction.variant}
+          variant="curve"
           onClick={backAction.onClick}
           {...(backAction.mode && { mode: backAction.mode })}
-          {...(backAction.startIcon && { startIcon: backAction.startIcon })}
+          {...(backAction.startIcon
+            ? { startIcon: backAction.startIcon }
+            : { startIcon: <FaArrowLeft /> })}
         >
-          {backAction.label}
+          <></>
         </Button>
       )}
       <section className="card_details__header">
