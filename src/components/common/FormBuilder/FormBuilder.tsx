@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useCallback, useEffect, useState } from "react";
+import { useBlocker, useNavigate } from "react-router";
 
 import { AlertDialog, Button } from "@/components/common";
 import {
@@ -24,13 +24,21 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
     fields,
     onSubmit,
     actionBtnLabel = "Submit",
+    isSuccess,
+    onSuccess,
   } = props;
   const navigate = useNavigate();
-  const [isLeaving, setIsLeaving] = useState<boolean>(false);
   const [formState, setFormState] = useState<FormStateType>(defaultValues);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
   const [errorState, setErrorState] = useState<FormErrorStateType>(
     initializeErrorState(fields)
   );
+  let blocker = useBlocker(useCallback(() => isDirty, [isDirty]));
+
+  useEffect(() => {
+    if (!isSuccess) return;
+    isDirty ? setIsDirty(false) : onSuccess?.();
+  }, [isSuccess, isDirty]);
 
   useEffect(() => {
     setFormState(values);
@@ -39,6 +47,7 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
   const handleChange = (field: FieldConfig, value: any) => {
     setFormState((prev) => ({ ...prev, [field.name]: value }));
     setErrorState(updateErrorState(field, value));
+    !isDirty && setIsDirty(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -51,10 +60,7 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
     onSubmit(formState);
   };
 
-  const toggleIsLeaving = () => {
-    setIsLeaving((isLeaving) => !isLeaving);
-  };
-  const onFormLeave = () => {
+  const performBackNavigation = () => {
     navigate(-1);
   };
 
@@ -65,28 +71,29 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
 
   return (
     <div className="from_wrapper__container">
-      <AlertDialog
-        isOpen={isLeaving}
-        onClose={toggleIsLeaving}
-        message="Do you really want to leave from here?"
-        actions={[
-          {
-            label: "Yes",
-            onClick: onFormLeave,
-          },
-          {
-            label: "Cancel",
-            variant: "text",
-            onClick: toggleIsLeaving,
-          },
-        ]}
-      />
-
-      <div className="from_wrapper__header">
-        <Button onClick={toggleIsLeaving}>Back</Button>
-        <h4>{title}</h4>
-      </div>
       <form onSubmit={handleSubmit} className="form__container">
+        {blocker.state === "blocked" && (
+          <AlertDialog
+            isOpen={true}
+            onClose={() => blocker.reset()}
+            message="You have unsaved changes. Are you sure you want to leave?"
+            actions={[
+              {
+                label: "Yes",
+                onClick: () => blocker.proceed(),
+              },
+              {
+                label: "Cancel",
+                variant: "text",
+                onClick: () => blocker.reset(),
+              },
+            ]}
+          />
+        )}
+        <div className="from_wrapper__header">
+          <Button onClick={performBackNavigation}>Back</Button>
+          <h4>{title}</h4>
+        </div>
         <div className="form__inputs">
           {fields.map((field) => (
             <FormField

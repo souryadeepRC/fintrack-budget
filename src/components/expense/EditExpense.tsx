@@ -1,6 +1,6 @@
 import { RootState } from "@/store";
 import { selectExpense } from "@/store/expenseReducer/expenseSelectors";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { useMutation } from "@tanstack/react-query";
@@ -35,19 +35,20 @@ const initialState = {
 };
 const EditExpense = () => {
   const dispatch = useDispatch();
-  const { mutate } = useMutation({
+  const { mutate, isSuccess } = useMutation({
     mutationFn: (expense: ExpenseState) =>
       expenseDBService.storeExpense(expense),
     onSuccess: function (response: ExpenseState) {
       dispatch(editExpense(response));
       toast.success(`Expense added under Category: ${response.category}`);
-      setTimeout(() => navigate("/expense"), 0);
     },
     onError: function () {
       toast.error(`Failed to add expense`);
     },
   });
-
+  const onSuccess = useCallback(() => {
+    setTimeout(() => navigate("/expense"), 0);
+  }, []);
   const options = useSettings();
   const [details, setDetails] = useState<ExpenseDetailsState>(initialState);
 
@@ -126,6 +127,8 @@ const EditExpense = () => {
       values={details}
       fields={formFields}
       onSubmit={onSave}
+      isSuccess={isSuccess}
+      onSuccess={onSuccess}
       actionBtnLabel={expenseId ? "Save" : "Create"}
     />
   );

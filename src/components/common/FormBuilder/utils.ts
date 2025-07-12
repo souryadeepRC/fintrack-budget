@@ -118,5 +118,36 @@ const validateForm = (
     isInValid: isUnknownState || validationMap.result.has(true),
   };
 };
-
-export { initializeErrorState, updateErrorState, validateForm, isFieldEmpty };
+/**
+ * Determines whether the given `record` form state differs from one or more baseline form states.
+ *
+ * This function compares a single form state (`record`) against one or more comparator states (`comparators`).
+ * It returns `true` if the `record` is considered altered (i.e., not equal to any of the comparator states),
+ * and `false` if it matches at least one of them.
+ *
+ * @param record - The current form state to evaluate.
+ * @param comparators - A non-empty array of baseline form states to compare against.
+ * @returns `true` if `record` is different from all comparators, otherwise `false`.
+ */
+const isFormAltered = (
+  record: FormStateType,
+  comparators: [FormStateType, ...FormStateType[]]
+): boolean => {
+  const compareRecord = (comparator: FormStateType): boolean => {
+    const allKeys = new Set([
+      ...Object.keys(comparator),
+      ...Object.keys(record),
+    ]);
+    return Array.from(allKeys).some((key) => comparator[key] !== record[key]);
+  };
+  return comparators.some((comparator) => {
+    return compareRecord(comparator);
+  });
+};
+export {
+  initializeErrorState,
+  updateErrorState,
+  validateForm,
+  isFieldEmpty,
+  isFormAltered,
+};

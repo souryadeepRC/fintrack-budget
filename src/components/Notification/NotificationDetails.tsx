@@ -12,7 +12,6 @@ const NotificationDetails = () => {
   const context: EntryContext = useOutletContext();
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const navigate = useNavigate();
-  console.log({ context });
 
   const toggleIsDelete = () => {
     setIsDelete((isDelete) => !isDelete);

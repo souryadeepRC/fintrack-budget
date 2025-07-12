@@ -34,11 +34,12 @@ const Button: React.FC<ButtonProps> = (props) => {
     children,
     endIcon,
     className = "",
+    type = "button",
     ...rest
   } = props;
   const classes = getClasses(className, variant, mode, rest.disabled);
   return (
-    <button className={classes} {...rest}>
+    <button className={classes} type={type} {...rest}>
       {startIcon && <>{startIcon}</>}
       {children}
       {endIcon && <>{endIcon}</>}
