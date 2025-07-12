@@ -15,7 +15,6 @@
   box-shadow: 0 5px 10px 0 $shadow-color;
   cursor: pointer;
   &:hover {
-    background-color: $secondary-hover-color;
     &::after {
       content: "See More >>>";
       position: absolute;
