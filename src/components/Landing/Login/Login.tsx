@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import styles from "./Login.module.scss";
 import { Button } from "@/components/common";
@@ -46,6 +46,7 @@ const Login: React.FC = () => {
             type="text"
             name="email"
             placeholder="Email"
+            autoComplete="user email"
             value={formData.email}
             onChange={handleChange}
           />
@@ -57,6 +58,7 @@ const Login: React.FC = () => {
             type="password"
             name="password"
             placeholder="Password"
+            autoComplete="new password"
             value={formData.password}
             onChange={handleChange}
           />
