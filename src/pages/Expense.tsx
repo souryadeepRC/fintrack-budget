@@ -38,7 +38,7 @@ const Expense: React.FC = () => {
     refetchOnWindowFocus: false,
     enabled: !isExpensesLoaded,
   });
-  const { mutate: modifyExpense, isSuccess: isModifySuccess } = useMutation({
+  const modifyMutation = useMutation({
     mutationFn: (expense: ExpenseState) => expenseService.storeExpense(expense),
     onSuccess: function (response: ExpenseState) {
       expenseId
@@ -83,13 +83,17 @@ const Expense: React.FC = () => {
     entries: expenses,
     activeEntry: activeExpense,
     actions: {
-      modify: (expense: any) => modifyExpense(expense),
+      modify: (expense: any) => modifyMutation.mutate(expense),
       delete: (expenseId: string) => deleteExpense(expenseId),
     },
     sideEffects: {
       modify: {
-        isSuccess: isModifySuccess,
-        success: () => setTimeout(() => navigate("/expense"), 0),
+        isSuccess: modifyMutation.isSuccess,
+        success: () =>
+          setTimeout(() => {
+            navigate("/expense");
+            modifyMutation.reset();
+          }, 0),
       },
     },
   };

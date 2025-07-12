@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useOutletContext, useParams } from "react-router";
+import { useOutletContext } from "react-router";
 
 import { useSettings } from "@/hooks";
 import { ExpenseState } from "@/types/expense";
@@ -29,7 +29,6 @@ const initialState = {
 };
 const EditExpense = () => {
   const context: EntryContext = useOutletContext();
-  const { expenseId } = useParams<{ expenseId: string }>();
   const expense = context.activeEntry as ExpenseState;
 
   const options = useSettings();
@@ -47,7 +46,7 @@ const EditExpense = () => {
 
   const onSave = (response: any) => {
     context.actions?.modify?.({
-      id: expenseId || "",
+      id: expense?.id || "",
       ...response,
       amount: Number(response.amount),
     });
@@ -99,14 +98,14 @@ const EditExpense = () => {
   ];
   return (
     <FormBuilder
-      title={`${expenseId ? "Edit" : "Add"} Expense`}
+      title={`${expense?.id ? "Edit" : "Add"} Expense`}
       defaultValues={initialState}
       values={details}
       fields={formFields}
       onSubmit={onSave}
       isSuccess={context.sideEffects?.modify?.isSuccess}
       onSuccess={context.sideEffects?.modify?.success}
-      actionBtnLabel={expenseId ? "Save" : "Create"}
+      actionBtnLabel={expense?.id ? "Save" : "Create"}
     />
   );
 };

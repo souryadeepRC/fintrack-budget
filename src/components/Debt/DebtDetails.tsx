@@ -8,9 +8,11 @@ import { AlertDialog, CardDetails } from "@/components/common";
 import { convertDate } from "@/utils";
 import { EntryContext } from "@/types";
 import { DebtCategory, DebtStatus } from "./DebtConfig";
+import { DebtState } from "@/types/debt";
 
 const DebtDetails = () => {
   const context: EntryContext = useOutletContext();
+  const debt = context.activeEntry as DebtState | undefined;
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -20,16 +22,17 @@ const DebtDetails = () => {
   const onBack = () => {
     navigate(-1);
   };
+  if (!debt) return <></>;
   const getDebtMessage = () => {
-    const isLend = context.activeEntry.category === DebtCategory.LEND;
+    const isLend = debt.category === DebtCategory.LEND;
     const actionVerb: string = isLend ? "collect" : "pay";
     const actionPrep: string = isLend ? "from" : "to";
-    const { amount, clearedAmount, name } = context.activeEntry || {};
+    const { amount, clearedAmount, name } = debt || {};
     return `You need to ${actionVerb} Rs. ${
       amount - clearedAmount
     } ${actionPrep} ${name}`;
   };
-  const isPaidDebt: boolean = context.activeEntry.status === DebtStatus.PAID;
+  const isPaidDebt: boolean = debt.status === DebtStatus.PAID;
   return (
     <>
       <AlertDialog
@@ -40,7 +43,7 @@ const DebtDetails = () => {
           {
             label: "Yes",
             mode: "error",
-            onClick: context.onDeleteEntry,
+            onClick: () => context.actions?.delete?.(debt.id),
           },
           {
             label: "Cancel",
@@ -57,7 +60,7 @@ const DebtDetails = () => {
           {
             label: "Edit",
             variant: "outlined",
-            onClick: context.onEditEntry,
+            onClick: context.navigation.editEntry,
             startIcon: <FaRegEdit />,
           },
 
@@ -71,11 +74,11 @@ const DebtDetails = () => {
         properties={[
           {
             variant: "heading",
-            value: context.activeEntry.title,
+            value: debt.title,
           },
           {
             variant: "chip",
-            value: context.activeEntry.status,
+            value: debt.status,
           },
           {
             label: "Category",
@@ -83,44 +86,41 @@ const DebtDetails = () => {
           },
           {
             label: "Total Amount",
-            value: `Rs. ${context.activeEntry.amount}`,
+            value: `Rs. ${debt.amount}`,
           },
           ...(!isPaidDebt
             ? [
                 {
                   label: "Cleared Amount",
-                  value: `Rs. ${context.activeEntry.clearedAmount}`,
+                  value: `Rs. ${debt.clearedAmount}`,
                 },
                 {
                   label: "Pending Amount",
-                  value: `Rs. ${
-                    context.activeEntry.amount -
-                    context.activeEntry.clearedAmount
-                  }`,
+                  value: `Rs. ${debt.amount - debt.clearedAmount}`,
                 },
               ]
             : []),
 
           {
             label: "Date",
-            value: convertDate(context.activeEntry.date),
+            value: convertDate(debt.date),
           },
           {
             label: "Due Date",
-            value: convertDate(context.activeEntry.dueDate),
+            value: convertDate(debt.dueDate || ""),
           },
-          ...(context.activeEntry.mode
+          ...(debt.mode
             ? [
                 {
                   label: "Payment Mode",
-                  value: context.activeEntry.mode,
+                  value: debt.mode,
                 },
               ]
             : []),
           {
             label: "Note",
             variant: "description",
-            value: context.activeEntry.note,
+            value: debt.note,
           },
         ]}
       />
