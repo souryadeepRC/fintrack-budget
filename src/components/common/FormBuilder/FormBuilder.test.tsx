@@ -3,6 +3,7 @@ import {
   initializeErrorState,
   isFieldEmpty,
   isFormAltered,
+  trimFormValues,
   updateErrorState,
   validateForm,
 } from "./utils";
@@ -225,5 +226,24 @@ describe("FormBuilder Util functions", () => {
         { ...filledRecord, category: "Others" },
       ])
     ).toEqual(true);
+  });
+  it("should trim leading and trailing whitespace from string values", () => {
+    const input = {
+      name: "  Alice  ",
+      email: " alice@example.com ",
+      age: 25,
+      notes: "  Hello world  ",
+      isActive: true,
+    };
+
+    const expected = {
+      name: "Alice",
+      email: "alice@example.com",
+      age: 25,
+      notes: "Hello world",
+      isActive: true,
+    };
+
+    expect(trimFormValues(input)).toEqual(expected);
   });
 });

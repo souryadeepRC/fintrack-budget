@@ -78,7 +78,7 @@ const EditDebt = () => {
       type: FormFieldType.TEXT,
       isRequired: true,
       validate: (title: string): string | undefined => {
-        if (title.length > 20) return "title can not be more than 20 letters";
+        if (title.length > 20) return "Title can not be more than 20 letters";
       },
     },
     {
@@ -112,7 +112,14 @@ const EditDebt = () => {
         if (!options.PaymentModeMap.get(mode)) return "Choose from the list";
       },
     },
-    { name: "name", label: "Name", type: FormFieldType.TEXT },
+    {
+      name: "name",
+      label: "Name",
+      type: FormFieldType.TEXT,
+      validate: (name: string): string | undefined => {
+        if (name.length > 25) return "Name can not be more than 25 letters";
+      },
+    },
     { name: "dueDate", label: "Due Date", type: FormFieldType.DATE },
     {
       name: "status",
@@ -130,7 +137,8 @@ const EditDebt = () => {
       type: FormFieldType.NUMBER,
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
-        if (!regex.test(amount)) return "Provide a valid amount";
+        if (amount.length > 0 && !regex.test(amount))
+          return "Provide a valid amount";
       },
     },
     {

@@ -10,6 +10,7 @@ import {
 } from "@/components/common/FormBuilder/FormConfig";
 import {
   initializeErrorState,
+  trimFormValues,
   updateErrorState,
   validateForm,
 } from "@/components/common/FormBuilder/utils";
@@ -57,7 +58,7 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
     if (result.isInValid) {
       return;
     }
-    onSubmit(formState);
+    onSubmit(trimFormValues(formState));
   };
 
   const performBackNavigation = () => {

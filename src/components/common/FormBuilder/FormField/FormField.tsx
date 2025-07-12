@@ -9,6 +9,7 @@ import {
   FormSelect,
   FormCheckbox,
   FormText,
+  FormDate,
 } from "@/components/common/FormBuilder/FormField";
 import { FormFieldProps } from "@/components/common/FormBuilder/FormField/types";
 import "./FormField.scss";
@@ -41,9 +42,11 @@ const FormFieldInput: React.FC<FormFieldProps> = (props) => {
   if (field.type === FormFieldType.CHECKBOX) {
     return <FormCheckbox commonProps={commonProps} />;
   }
+  if (field.type === FormFieldType.DATE) {
+    return <FormDate commonProps={commonProps} />;
+  }
   if (
     field.type === FormFieldType.TEXT ||
-    field.type === FormFieldType.DATE ||
     field.type === FormFieldType.NUMBER
   ) {
     return (

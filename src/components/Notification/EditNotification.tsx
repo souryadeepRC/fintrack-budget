@@ -62,7 +62,7 @@ const EditNotification = () => {
       type: FormFieldType.TEXT,
       isRequired: true,
       validate: (title: string): string | undefined => {
-        if (title.length > 20) return "title can not be more than 20 letters";
+        if (title.length > 20) return "Title can not be more than 20 letters";
       },
     },
     {
@@ -78,10 +78,9 @@ const EditNotification = () => {
       name: "amount",
       label: "Amount",
       type: FormFieldType.NUMBER,
-      isRequired: true,
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
-        if (!regex.test(amount)) return "Provide a valid amount";
+        if (amount.length > 0 && !regex.test(amount)) return "Provide a valid amount";
       },
     },
     {
@@ -100,6 +99,10 @@ const EditNotification = () => {
       name: "documentLocation",
       label: "Document Location",
       type: FormFieldType.TEXTAREA,
+      validate: (location: string): string | undefined => {
+        if (location.length > 150)
+          return "Location can not be more than 150 letters";
+      },
     },
   ];
   return (

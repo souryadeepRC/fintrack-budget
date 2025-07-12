@@ -59,7 +59,7 @@ const EditExpense = () => {
       type: FormFieldType.TEXT,
       isRequired: true,
       validate: (title: string): string | undefined => {
-        if (title.length > 20) return "title can not be more than 20 letters";
+        if (title.length > 20) return "Title can not be more than 20 letters";
       },
     },
     {

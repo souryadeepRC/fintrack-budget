@@ -90,10 +90,6 @@ const validateForm = (
   const validationMap: FieldValidationMap = fields.reduce(
     (acc: FieldValidationMap, field: FieldConfig) => {
       const { name = "" } = field;
-      /* if (!Object.prototype.hasOwnProperty.call(formState, name)) {
-        acc.result.set(true, name);
-        return acc;
-      } */
 
       const modifiedErrorState = updateErrorState(
         field,
@@ -144,10 +140,53 @@ const isFormAltered = (
     return compareRecord(comparator);
   });
 };
+/**
+ * Trims leading and trailing whitespace from all string values in the given form state.
+ *
+ * This utility function iterates through each key-value pair in the form state object.
+ * If the value is a string, it applies `String.prototype.trim()` to remove any extra
+ * spaces from the beginning and end. Non-string values are returned unchanged.
+ *
+ * @param formState - An object representing form field values, where each key maps to a value of any type.
+ * @returns A new object with the same structure as `formState`, but with all string values trimmed.
+ *
+ * @example
+ * const form = {
+ *   name: "  Alice ",
+ *   age: 25,
+ *   comment: " Hello! "
+ * };
+ *
+ * const trimmed = trimFormValues(form);
+ * // Result:
+ * // {
+ * //   name: "Alice",
+ * //   age: 25,
+ * //   comment: "Hello!"
+ * // }
+ */
+const trimFormValues = (
+  formState: Record<string, FormFieldValue>
+): Record<string, FormFieldValue> => {
+  const trimmedState: Record<string, FormFieldValue> = {};
+
+  for (const key in formState) {
+    const value = formState[key];
+
+    if (typeof value === "string") {
+      trimmedState[key] = value.trim();
+    } else {
+      trimmedState[key] = value;
+    }
+  }
+
+  return trimmedState;
+};
 export {
   initializeErrorState,
   updateErrorState,
   validateForm,
   isFieldEmpty,
   isFormAltered,
+  trimFormValues,
 };
