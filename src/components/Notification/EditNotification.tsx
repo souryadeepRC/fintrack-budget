@@ -1,20 +1,14 @@
-import { RootState } from "@/store";
-import { selectNotification } from "@/store/notificationReducer/notificationSelectors";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useOutletContext } from "react-router";
 
-import notificationDBService from "@/service/Notification";
 import { NotificationState } from "@/types/notification";
-import { toast } from "sonner";
-import { editNotification } from "@/store/notificationReducer/notificationReducer";
 import { formatIsoToDate } from "@/utils";
 import FormBuilder from "@/components/common/FormBuilder/FormBuilder";
 import {
   FieldConfig,
   FormFieldType,
 } from "@/components/common/FormBuilder/FormConfig";
+import { EntryContext } from "@/types";
 
 type NotificationDetailsState = {
   title: string;
@@ -35,28 +29,11 @@ const initialState = {
   documentLocation: "",
 };
 const EditNotification = () => {
-  const dispatch = useDispatch();
-  const { notificationId } = useParams<{ notificationId: string }>();
-  const notification = useSelector((state: RootState) =>
-    notificationId ? selectNotification(state, notificationId) : undefined
-  );
-  const { mutate } = useMutation({
-    mutationFn: (notification: NotificationState) =>
-      notificationDBService.storeNotification(notification),
-    onSuccess: function (response: NotificationState) {
-      dispatch(editNotification(response));
-      toast.success(`Notification added for: ${response.title}`);
-      setTimeout(() => navigate("/notification"), 0);
-    },
-    onError: function () {
-      toast.error(`Failed to add notification`);
-    },
-  });
+  const context: EntryContext = useOutletContext();
+  const notification = context.activeEntry as NotificationState;
 
   const [details, setDetails] =
     useState<NotificationDetailsState>(initialState);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!notification) return;
@@ -71,8 +48,8 @@ const EditNotification = () => {
   }, [notification]);
 
   const onSave = (response: any) => {
-    mutate({
-      id: notificationId,
+    context.actions?.modify?.({
+      id: notification?.id || "",
       ...response,
       amount: Number(response.amount),
     });
@@ -124,12 +101,14 @@ const EditNotification = () => {
   ];
   return (
     <FormBuilder
-      title={`${notificationId ? "Edit" : "Add"} Notification`}
+      title={`${notification?.id ? "Edit" : "Add"} Notification`}
       defaultValues={initialState}
       values={details}
       fields={formFields}
       onSubmit={onSave}
-      actionBtnLabel={notificationId ? "Save" : "Create"}
+      isSuccess={context.sideEffects?.modify?.isSuccess}
+      onSuccess={context.sideEffects?.modify?.success}
+      actionBtnLabel={notification?.id ? "Save" : "Create"}
     />
   );
 };

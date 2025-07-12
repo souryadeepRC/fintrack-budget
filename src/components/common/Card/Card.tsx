@@ -5,7 +5,7 @@ import "./Card.scss";
 interface CardProps {
   onClick?: () => void;
   details: {
-    chip?: string;
+    chip: string;
     title: string;
     amount: string | number;
     date: string;
@@ -19,11 +19,13 @@ const Card: React.FC<CardProps> = (props) => {
     <div onClick={onClick} className="card__item">
       {chip && <p className="card__category">{chip}</p>}
       <h4 className="card__title">{title}</h4>
-      <p className="card__amount">Rs.&nbsp;{amount}</p>
-      <p className="card__date">
-        <CiCalendarDate />
-        {convertDate(date)}
-      </p>
+      {Boolean(amount) && <p className="card__amount">Rs.&nbsp;{amount}</p>}
+      {date && (
+        <p className="card__date">
+          <CiCalendarDate />
+          {convertDate(date)}
+        </p>
+      )}
     </div>
   );
 };

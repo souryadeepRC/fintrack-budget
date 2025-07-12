@@ -24,7 +24,7 @@ const expenseSlice = createSlice({
     addExpense: (state, action: PayloadAction<ExpenseState>) => {
       return {
         ...state,
-        expenses: [...state.expenses, action.payload],
+        expenses: [action.payload, ...state.expenses],
       };
     },
     editExpense: (state, action: PayloadAction<ExpenseState>) => {

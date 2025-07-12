@@ -25,7 +25,7 @@ const debtSlice = createSlice({
     addDebt: (state, action: PayloadAction<DebtState>) => {
       return {
         ...state,
-        debts: [...state.debts, action.payload],
+        debts: [action.payload, ...state.debts],
       };
     },
     editDebt: (state, action: PayloadAction<DebtState>) => {

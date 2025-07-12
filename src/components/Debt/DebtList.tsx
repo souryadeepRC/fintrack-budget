@@ -20,7 +20,12 @@ const DebtList = () => {
       <CardListView
         onCardClick={context.navigation.showAll}
         itemList={context.entries}
-        chipProperty="status"
+        property={{
+          TITLE: "title",
+          AMOUNT: "amount",
+          DATE: "date",
+          CHIP: "status",
+        }}
       />
     </DashboardView>
   );

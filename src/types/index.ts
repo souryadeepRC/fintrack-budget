@@ -18,7 +18,7 @@ export type ActionButtonType = {
   onClick: () => void;
   startIcon?: React.ReactNode;
 };
-type EntryState = Partial<ExpenseState | DebtState | NotificationState>;
+export type EntryState = Partial<ExpenseState | DebtState | NotificationState>;
 type EntryActionType = "create" | "edit" | "delete" | "modify";
 type EntrySideEffectAction = {
   isSuccess?: boolean;

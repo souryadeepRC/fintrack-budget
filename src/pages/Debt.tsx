@@ -75,8 +75,6 @@ const debt: React.FC = () => {
     navigation: {
       addEntry: () => navigate(`/debt/add-debt`),
       editEntry: () => {
-        console.log("towards Edit");
-
         navigate(`/debt/${debtId}/edit`);
       },
       showAll: (debtId: string) => navigate(`/debt/${debtId}`),

@@ -20,7 +20,12 @@ const ExpenseList = () => {
       <CardListView
         onCardClick={context.navigation.showAll}
         itemList={context.entries}
-        chipProperty="category"
+        property={{
+          TITLE: "title",
+          AMOUNT: "amount",
+          DATE: "date",
+          CHIP: "category",
+        }}
       />
     </DashboardView>
   );
