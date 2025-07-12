@@ -1,21 +1,15 @@
-import { RootState } from "@/store";
-import { selectExpense } from "@/store/expenseReducer/expenseSelectors";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useOutletContext, useParams } from "react-router";
 
-import expenseDBService from "@/service/Expense";
 import { useSettings } from "@/hooks";
 import { ExpenseState } from "@/types/expense";
-import { toast } from "sonner";
-import { editExpense } from "@/store/expenseReducer/expenseReducer";
 import { formatIsoToDate } from "@/utils";
 import FormBuilder from "@/components/common/FormBuilder/FormBuilder";
 import {
   FieldConfig,
   FormFieldType,
 } from "@/components/common/FormBuilder/FormConfig";
+import { EntryContext } from "@/types";
 
 type ExpenseDetailsState = {
   title: string;
@@ -34,29 +28,12 @@ const initialState = {
   note: "",
 };
 const EditExpense = () => {
-  const dispatch = useDispatch();
-  const { mutate, isSuccess } = useMutation({
-    mutationFn: (expense: ExpenseState) =>
-      expenseDBService.storeExpense(expense),
-    onSuccess: function (response: ExpenseState) {
-      dispatch(editExpense(response));
-      toast.success(`Expense added under Category: ${response.category}`);
-    },
-    onError: function () {
-      toast.error(`Failed to add expense`);
-    },
-  });
-  const onSuccess = useCallback(() => {
-    setTimeout(() => navigate("/expense"), 0);
-  }, []);
+  const context: EntryContext = useOutletContext();
+  const { expenseId } = useParams<{ expenseId: string }>();
+  const expense = context.activeEntry as ExpenseState;
+
   const options = useSettings();
   const [details, setDetails] = useState<ExpenseDetailsState>(initialState);
-
-  const { expenseId } = useParams<{ expenseId: string }>();
-  const expense = useSelector((state: RootState) =>
-    expenseId ? selectExpense(state, expenseId) : undefined
-  );
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!expense) return;
@@ -69,8 +46,8 @@ const EditExpense = () => {
   }, [expense]);
 
   const onSave = (response: any) => {
-    mutate({
-      id: expenseId,
+    context.actions?.modify?.({
+      id: expenseId || "",
       ...response,
       amount: Number(response.amount),
     });
@@ -127,8 +104,8 @@ const EditExpense = () => {
       values={details}
       fields={formFields}
       onSubmit={onSave}
-      isSuccess={isSuccess}
-      onSuccess={onSuccess}
+      isSuccess={context.sideEffects?.modify?.isSuccess}
+      onSuccess={context.sideEffects?.modify?.success}
       actionBtnLabel={expenseId ? "Save" : "Create"}
     />
   );
