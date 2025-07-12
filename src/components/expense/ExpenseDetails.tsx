@@ -69,7 +69,8 @@ const ExpenseDetails = () => {
           },
           {
             label: "Amount",
-            value: `Rs. ${expense.amount}`,
+            variant: "amount",
+            value: expense.amount,
           },
           {
             label: "Date",

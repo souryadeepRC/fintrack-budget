@@ -2,7 +2,7 @@ export const mockExpenses = [
   {
     id: "c4a1e8df-917b-4d80-a54f-73a13e0dfc92",
     title: "Grocery shopping at Walmart",
-    amount: 76.45,
+    amount: 34576.45,
     category: "Food",
     date: "2025-07-05T14:30:00.000Z",
     mode: "creditCard",

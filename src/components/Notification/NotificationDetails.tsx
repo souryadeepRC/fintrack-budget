@@ -75,7 +75,8 @@ const NotificationDetails = () => {
             ? [
                 {
                   label: "Total Amount",
-                  value: `Rs. ${notification.amount}`,
+                  variant: "amount" as any,
+                  value: notification.amount,
                 },
               ]
             : []),

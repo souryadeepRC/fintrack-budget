@@ -70,6 +70,8 @@ const EditExpense = () => {
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (!regex.test(amount)) return "Provide a valid amount";
+        if (amount.length > 10)
+          return "Too much money! Please check the amount";
       },
     },
     { name: "date", label: "Date", type: FormFieldType.DATE, isRequired: true },

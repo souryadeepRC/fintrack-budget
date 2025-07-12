@@ -1,5 +1,5 @@
 import { CiCalendarDate } from "react-icons/ci";
-import { convertDate } from "@/utils";
+import { convertDate, formatToINR } from "@/utils";
 import "./Card.scss";
 
 interface CardProps {
@@ -19,7 +19,9 @@ const Card: React.FC<CardProps> = (props) => {
     <div onClick={onClick} className="card__item">
       {chip && <p className="card__category">{chip}</p>}
       <h4 className="card__title">{title}</h4>
-      {Boolean(amount) && <p className="card__amount">Rs.&nbsp;{amount}</p>}
+      {Boolean(amount) && (
+        <p className="card__amount">Rs.&nbsp;{formatToINR(+amount)}</p>
+      )}
       {date && (
         <p className="card__date">
           <CiCalendarDate />

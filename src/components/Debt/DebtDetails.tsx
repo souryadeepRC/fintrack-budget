@@ -86,17 +86,20 @@ const DebtDetails = () => {
           },
           {
             label: "Total Amount",
-            value: `Rs. ${debt.amount}`,
+            variant: "amount",
+            value: debt.amount,
           },
           ...(!isPaidDebt
             ? [
                 {
                   label: "Cleared Amount",
-                  value: `Rs. ${debt.clearedAmount}`,
+                  value: debt.clearedAmount,
+                  variant: "amount" as any,
                 },
                 {
                   label: "Pending Amount",
-                  value: `Rs. ${debt.amount - debt.clearedAmount}`,
+                  variant: "amount" as any,
+                  value: debt.amount - debt.clearedAmount,
                 },
               ]
             : []),

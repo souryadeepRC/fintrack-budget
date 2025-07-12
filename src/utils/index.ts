@@ -26,3 +26,12 @@ export const formatIsoToDate = (isoDate: string): string => {
     return "";
   }
 };
+export const formatToINR = (amount: number): string => {
+  const formatter = new Intl.NumberFormat("en-IN", {
+    currency: "INR",
+    minimumFractionDigits: amount % 1 === 0 ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+
+  return formatter.format(amount);
+};

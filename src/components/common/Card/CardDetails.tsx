@@ -1,11 +1,12 @@
 import { Button } from "@/components/common";
 import { ActionButtonType } from "@/types";
 import "./CardDetails.scss";
+import { formatToINR } from "@/utils";
 
 type CardPropertyType = {
   label?: string;
   value: string | number;
-  variant?: "default" | "heading" | "chip" | "description";
+  variant?: "default" | "heading" | "chip" | "description" | "amount";
 };
 interface CardDetailsProps {
   type: string;
@@ -79,6 +80,13 @@ const CardDetails: React.FC<CardDetailsProps> = (props) => {
             return (
               <p key={index} className="card__chip">
                 {property.value}
+              </p>
+            );
+          } else if (property.variant === "amount") {
+            return (
+              <p key={index}>
+                <strong>{property.label}:&nbsp;</strong>
+                Rs.&nbsp;{formatToINR(Number(property.value))}
               </p>
             );
           } else if (property.variant === "description") {

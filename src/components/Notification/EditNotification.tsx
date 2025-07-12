@@ -80,7 +80,10 @@ const EditNotification = () => {
       type: FormFieldType.NUMBER,
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
-        if (amount.length > 0 && !regex.test(amount)) return "Provide a valid amount";
+        if (amount.length > 0 && !regex.test(amount))
+          return "Provide a valid amount";
+        if (amount.length > 10)
+          return "Too much money! Please check the amount";
       },
     },
     {
