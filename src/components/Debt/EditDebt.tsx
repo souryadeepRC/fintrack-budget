@@ -1,15 +1,8 @@
-import { RootState } from "@/store";
-import { selectDebt } from "@/store/debtReducer/debtSelectors";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useOutletContext } from "react-router";
 
-import debtDBService from "@/service/Debt";
 import { useSettings } from "@/hooks";
 import { DebtCategoryType, DebtState, DebtStatusType } from "@/types/debt";
-import { toast } from "sonner";
-import { editDebt } from "@/store/debtReducer/debtReducer";
 import { formatIsoToDate } from "@/utils";
 import FormBuilder from "@/components/common/FormBuilder/FormBuilder";
 import {
@@ -17,11 +10,14 @@ import {
   FormFieldType,
 } from "@/components/common/FormBuilder/FormConfig";
 import {
+  DebtCategory,
   DebtCategoryMap,
   debtCategoryOptions,
+  DebtStatus,
   DebtStatusMap,
   debtStatusOptions,
 } from "./DebtConfig";
+import { EntryContext } from "@/types";
 
 type DebtDetailsState = {
   title: string;
@@ -30,41 +26,29 @@ type DebtDetailsState = {
   date: string;
   mode: string; // Payment Mode e.g. creditCard, cash
   note: string;
+  name: string;
+  dueDate?: string;
+  status: DebtStatusType;
+  clearedAmount: string;
 };
 const initialState = {
   title: "",
   amount: "",
-  category: "Miscellaneous",
+  category: DebtCategory.LEND,
   date: "",
   mode: "Gpay",
-  status: "Unpaid",
+  status: DebtStatus.UNPAID,
   clearedAmount: "",
   name: "",
   dueDate: "",
   note: "",
 };
 const EditDebt = () => {
-  const dispatch = useDispatch();
-  const { mutate } = useMutation({
-    mutationFn: (debt: DebtState) => debtDBService.storeDebt(debt),
-    onSuccess: function (response: DebtState) {
-      dispatch(editDebt(response));
-      toast.success(`Debt added under Category: ${response.category}`);
-      setTimeout(() => navigate("/debt"), 0);
-    },
-    onError: function () {
-      toast.error(`Failed to add debt`);
-    },
-  });
+  const context: EntryContext = useOutletContext();
+  const debt = context.activeEntry as DebtState;
 
   const options = useSettings();
   const [details, setDetails] = useState<DebtDetailsState>(initialState);
-
-  const { debtId } = useParams<{ debtId: string }>();
-  const debt = useSelector((state: RootState) =>
-    debtId ? selectDebt(state, debtId) : undefined
-  );
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!debt) return;
@@ -72,13 +56,15 @@ const EditDebt = () => {
     setDetails({
       ...restDebt,
       amount: `${debt.amount}`,
+      clearedAmount: `${debt.clearedAmount}`,
       date: formatIsoToDate(debt.date),
+      dueDate: formatIsoToDate(debt.dueDate || ""),
     });
   }, [debt]);
 
   const onSave = (response: any) => {
-    mutate({
-      id: debtId,
+    context.actions?.modify?.({
+      id: debt?.id || "",
       ...response,
       amount: Number(response.amount),
       clearedAmount: Number(response.clearedAmount),
@@ -92,7 +78,7 @@ const EditDebt = () => {
       type: FormFieldType.TEXT,
       isRequired: true,
       validate: (title: string): string | undefined => {
-        if (title.length > 20) return "title can not be more than 20 letters";
+        if (title.length > 20) return "Title can not be more than 20 letters";
       },
     },
     {
@@ -103,6 +89,8 @@ const EditDebt = () => {
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (!regex.test(amount)) return "Provide a valid amount";
+        if (amount.length > 10)
+          return "Too much money! Please check the amount";
       },
     },
     {
@@ -126,7 +114,14 @@ const EditDebt = () => {
         if (!options.PaymentModeMap.get(mode)) return "Choose from the list";
       },
     },
-    { name: "name", label: "Name", type: FormFieldType.TEXT },
+    {
+      name: "name",
+      label: "Name",
+      type: FormFieldType.TEXT,
+      validate: (name: string): string | undefined => {
+        if (name.length > 25) return "Name can not be more than 25 letters";
+      },
+    },
     { name: "dueDate", label: "Due Date", type: FormFieldType.DATE },
     {
       name: "status",
@@ -144,19 +139,31 @@ const EditDebt = () => {
       type: FormFieldType.NUMBER,
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
-        if (!regex.test(amount)) return "Provide a valid amount";
+        if (amount.length > 0 && !regex.test(amount))
+          return "Provide a valid amount";
+        if (amount.length > 10)
+          return "Too much money! Please check the amount";
       },
     },
-    { name: "note", label: "Note", type: FormFieldType.TEXTAREA },
+    {
+      name: "note",
+      label: "Note",
+      type: FormFieldType.TEXTAREA,
+      validate: (note: string): string | undefined => {
+        if (note.length > 150) return "Note can not be more than 150 letters";
+      },
+    },
   ];
   return (
     <FormBuilder
-      title={`${debtId ? "Edit" : "Add"} Debt`}
+      title={`${debt?.id ? "Edit" : "Add"} Debt`}
       defaultValues={initialState}
       values={details}
       fields={formFields}
       onSubmit={onSave}
-      actionBtnLabel={debtId ? "Save" : "Create"}
+      isSuccess={context.sideEffects?.modify?.isSuccess}
+      onSuccess={context.sideEffects?.modify?.success}
+      actionBtnLabel={debt?.id ? "Save" : "Create"}
     />
   );
 };

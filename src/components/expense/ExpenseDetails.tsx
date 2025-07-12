@@ -7,19 +7,20 @@ import { AlertDialog, CardDetails } from "@/components/common";
 
 import { convertDate } from "@/utils";
 import { EntryContext } from "@/types";
+import { ExpenseState } from "@/types/expense";
 
 const ExpenseDetails = () => {
   const context: EntryContext = useOutletContext();
+  const expense = context.activeEntry as ExpenseState | undefined;
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const navigate = useNavigate();
-
   const toggleIsDelete = () => {
     setIsDelete((isDelete) => !isDelete);
   };
   const onBack = () => {
     navigate(-1);
   };
-
+  if (!expense) return <></>;
   return (
     <>
       <AlertDialog
@@ -30,7 +31,7 @@ const ExpenseDetails = () => {
           {
             label: "Yes",
             mode: "error",
-            onClick: context.onDeleteEntry,
+            onClick: () => context.actions?.delete?.(expense.id),
           },
           {
             label: "Cancel",
@@ -47,7 +48,7 @@ const ExpenseDetails = () => {
           {
             label: "Edit",
             variant: "outlined",
-            onClick: context.onEditEntry,
+            onClick: context.navigation.editEntry,
             startIcon: <FaRegEdit />,
           },
           {
@@ -60,28 +61,29 @@ const ExpenseDetails = () => {
         properties={[
           {
             variant: "heading",
-            value: context.activeEntry.title,
+            value: expense.title,
           },
           {
             variant: "chip",
-            value: context.activeEntry.category,
+            value: expense.category,
           },
           {
             label: "Amount",
-            value: `Rs. ${context.activeEntry.amount}`,
+            variant: "amount",
+            value: expense.amount,
           },
           {
             label: "Date",
-            value: convertDate(context.activeEntry.date),
+            value: convertDate(expense.date),
           },
           {
             label: "Payment Mode",
-            value: context.activeEntry.mode,
+            value: expense.mode,
           },
           {
             label: "Note",
             variant: "description",
-            value: context.activeEntry.note,
+            value: expense.note,
           },
         ]}
       />

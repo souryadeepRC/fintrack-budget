@@ -41,6 +41,8 @@ export interface FormBuilderProps {
   defaultValues?: Record<string, any>;
   values?: Record<string, any>;
   actionBtnLabel?: string;
+  isSuccess?: boolean;
+  onSuccess?: () => void;
 }
 export type FormFieldValue = string | number | boolean;
 export type FormErrorStateType = Record<string, string>;

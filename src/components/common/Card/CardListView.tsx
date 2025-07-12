@@ -1,28 +1,31 @@
 import Card from "./Card";
 import "./Card.scss";
 
+type CardPropertyState = "Chip" | "Title" | "Amount" | "Date";
+export type CardPropertyType = Partial<
+  Record<Uppercase<CardPropertyState>, string>
+>;
 interface CardListViewProps {
   onCardClick?: (itemId: string) => void;
   itemList: any[];
-  chipProperty?: string;
+  property: CardPropertyType;
 }
 
 const CardListView: React.FC<CardListViewProps> = (props) => {
-  const { onCardClick, chipProperty, itemList } = props;
+  const { onCardClick, property, itemList } = props;
 
   return (
     <section className="card__list">
       {itemList.map((item) => {
-        const { title, amount, date } = item;
         return (
           <Card
             key={item.id}
             {...(onCardClick && { onClick: () => onCardClick(item.id) })}
             details={{
-              ...(chipProperty ? { chip: item[chipProperty] } : {}),
-              title,
-              amount,
-              date,
+              chip: (property.CHIP && item?.[property.CHIP]) || "",
+              title: (property.TITLE && item?.[property.TITLE]) || "",
+              amount: (property.AMOUNT && item?.[property.AMOUNT]) || "",
+              date: (property.DATE && item?.[property.DATE]) || "",
             }}
           />
         );

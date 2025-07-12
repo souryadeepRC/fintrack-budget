@@ -2,6 +2,8 @@ import { FieldConfig, FormErrorStateType, FormStateType } from "./FormConfig";
 import {
   initializeErrorState,
   isFieldEmpty,
+  isFormAltered,
+  trimFormValues,
   updateErrorState,
   validateForm,
 } from "./utils";
@@ -189,5 +191,59 @@ describe("FormBuilder Util functions", () => {
     expect(isFieldEmpty("Hello")).toBe(false);
     expect(isFieldEmpty(0)).toBe(false);
     expect(isFieldEmpty(123)).toBe(false);
+  });
+  it("validate isFormAltered method", () => {
+    const emptyRecord = {
+      title: "",
+      description: "",
+      amount: 0,
+    };
+    const filledRecord = {
+      title: "Test",
+      description: "",
+      amount: 0,
+    };
+    const formValue = {
+      title: "Test",
+      description: "Sample",
+      amount: 100,
+    };
+
+    expect(isFormAltered(formValue, [emptyRecord])).toEqual(true);
+    expect(isFormAltered(formValue, [emptyRecord, filledRecord])).toEqual(true);
+    expect(isFormAltered(emptyRecord, [emptyRecord])).toEqual(false);
+    expect(isFormAltered(formValue, [filledRecord])).toEqual(true);
+
+    expect(
+      isFormAltered({ ...formValue, category: "Others" }, [filledRecord])
+    ).toEqual(true);
+    expect(
+      isFormAltered(formValue, [{ ...filledRecord, category: "Others" }])
+    ).toEqual(true);
+    expect(
+      isFormAltered(formValue, [
+        emptyRecord,
+        { ...filledRecord, category: "Others" },
+      ])
+    ).toEqual(true);
+  });
+  it("should trim leading and trailing whitespace from string values", () => {
+    const input = {
+      name: "  Alice  ",
+      email: " alice@example.com ",
+      age: 25,
+      notes: "  Hello world  ",
+      isActive: true,
+    };
+
+    const expected = {
+      name: "Alice",
+      email: "alice@example.com",
+      age: 25,
+      notes: "Hello world",
+      isActive: true,
+    };
+
+    expect(trimFormValues(input)).toEqual(expected);
   });
 });

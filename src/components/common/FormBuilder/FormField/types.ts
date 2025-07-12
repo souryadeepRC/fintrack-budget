@@ -26,3 +26,4 @@ export interface FormTextAreaProps extends FormFieldElementProps {}
 export interface FormTextProps extends FormFieldElementProps {
   type: TextFieldType;
 }
+export interface FormDateProps extends FormFieldElementProps {}

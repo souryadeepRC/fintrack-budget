@@ -24,6 +24,7 @@ class ExpenseService {
     if (data?.id) {
       return this.updateExpense(data);
     }
+    if (data.title == "Error") throw new Error("Test Error ");
     return this.addExpense(data);
   }
   async deleteExpense(_documentId: string) {

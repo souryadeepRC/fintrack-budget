@@ -1,21 +1,15 @@
-import { RootState } from "@/store";
-import { selectExpense } from "@/store/expenseReducer/expenseSelectors";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useOutletContext } from "react-router";
 
-import expenseDBService from "@/service/Expense";
 import { useSettings } from "@/hooks";
 import { ExpenseState } from "@/types/expense";
-import { toast } from "sonner";
-import { editExpense } from "@/store/expenseReducer/expenseReducer";
 import { formatIsoToDate } from "@/utils";
 import FormBuilder from "@/components/common/FormBuilder/FormBuilder";
 import {
   FieldConfig,
   FormFieldType,
 } from "@/components/common/FormBuilder/FormConfig";
+import { EntryContext } from "@/types";
 
 type ExpenseDetailsState = {
   title: string;
@@ -34,28 +28,11 @@ const initialState = {
   note: "",
 };
 const EditExpense = () => {
-  const dispatch = useDispatch();
-  const { mutate } = useMutation({
-    mutationFn: (expense: ExpenseState) =>
-      expenseDBService.storeExpense(expense),
-    onSuccess: function (response: ExpenseState) {
-      dispatch(editExpense(response));
-      toast.success(`Expense added under Category: ${response.category}`);
-      setTimeout(() => navigate("/expense"), 0);
-    },
-    onError: function () {
-      toast.error(`Failed to add expense`);
-    },
-  });
+  const context: EntryContext = useOutletContext();
+  const expense = context.activeEntry as ExpenseState;
 
   const options = useSettings();
   const [details, setDetails] = useState<ExpenseDetailsState>(initialState);
-
-  const { expenseId } = useParams<{ expenseId: string }>();
-  const expense = useSelector((state: RootState) =>
-    expenseId ? selectExpense(state, expenseId) : undefined
-  );
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!expense) return;
@@ -68,8 +45,8 @@ const EditExpense = () => {
   }, [expense]);
 
   const onSave = (response: any) => {
-    mutate({
-      id: expenseId,
+    context.actions?.modify?.({
+      id: expense?.id || "",
       ...response,
       amount: Number(response.amount),
     });
@@ -82,7 +59,7 @@ const EditExpense = () => {
       type: FormFieldType.TEXT,
       isRequired: true,
       validate: (title: string): string | undefined => {
-        if (title.length > 20) return "title can not be more than 20 letters";
+        if (title.length > 20) return "Title can not be more than 20 letters";
       },
     },
     {
@@ -93,6 +70,8 @@ const EditExpense = () => {
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (!regex.test(amount)) return "Provide a valid amount";
+        if (amount.length > 10)
+          return "Too much money! Please check the amount";
       },
     },
     { name: "date", label: "Date", type: FormFieldType.DATE, isRequired: true },
@@ -117,16 +96,25 @@ const EditExpense = () => {
         if (!options.PaymentModeMap.get(mode)) return "Choose from the list";
       },
     },
-    { name: "note", label: "Note", type: FormFieldType.TEXTAREA },
+    {
+      name: "note",
+      label: "Note",
+      type: FormFieldType.TEXTAREA,
+      validate: (note: string): string | undefined => {
+        if (note.length > 150) return "Note can not be more than 150 letters";
+      },
+    },
   ];
   return (
     <FormBuilder
-      title={`${expenseId ? "Edit" : "Add"} Expense`}
+      title={`${expense?.id ? "Edit" : "Add"} Expense`}
       defaultValues={initialState}
       values={details}
       fields={formFields}
       onSubmit={onSave}
-      actionBtnLabel={expenseId ? "Save" : "Create"}
+      isSuccess={context.sideEffects?.modify?.isSuccess}
+      onSuccess={context.sideEffects?.modify?.success}
+      actionBtnLabel={expense?.id ? "Save" : "Create"}
     />
   );
 };

@@ -1,0 +1,19 @@
+.error_page__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  color: $primary-color;
+  .error__heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .error__message {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+}

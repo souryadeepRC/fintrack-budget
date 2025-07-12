@@ -7,12 +7,13 @@ import { AlertDialog, CardDetails } from "@/components/common";
 
 import { convertDate } from "@/utils";
 import { EntryContext } from "@/types";
+import { NotificationState } from "@/types/notification";
 
 const NotificationDetails = () => {
   const context: EntryContext = useOutletContext();
+  const notification = context.activeEntry as NotificationState | undefined;
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const navigate = useNavigate();
-  console.log({ context });
 
   const toggleIsDelete = () => {
     setIsDelete((isDelete) => !isDelete);
@@ -21,6 +22,7 @@ const NotificationDetails = () => {
     navigate(-1);
   };
 
+  if (!notification) return <></>;
   return (
     <>
       <AlertDialog
@@ -31,7 +33,7 @@ const NotificationDetails = () => {
           {
             label: "Yes",
             mode: "error",
-            onClick: context.onDeleteEntry,
+            onClick: () => context.actions?.delete?.(notification.id),
           },
           {
             label: "Cancel",
@@ -41,14 +43,14 @@ const NotificationDetails = () => {
         ]}
       />
       <CardDetails
-        isEmpty={!context.activeEntry}
+        isEmpty={!notification}
         type={context.type}
         backAction={{ label: "Back", onClick: onBack }}
         actions={[
           {
             label: "Edit",
             variant: "outlined",
-            onClick: context.onEditEntry,
+            onClick: context.navigation.editEntry,
             startIcon: <FaRegEdit />,
           },
 
@@ -62,34 +64,51 @@ const NotificationDetails = () => {
         properties={[
           {
             variant: "heading",
-            value: context.activeEntry.title,
+            value: notification.title,
           },
           {
             label: "Note",
             variant: "description",
-            value: context.activeEntry.note,
+            value: notification.note,
           },
-          context.activeEntry.amount && {
-            label: "Total Amount",
-            value: `Rs. ${context.activeEntry.amount}`,
-          },
+          ...(notification.amount === 0
+            ? [
+                {
+                  label: "Total Amount",
+                  variant: "amount" as any,
+                  value: notification.amount,
+                },
+              ]
+            : []),
           {
-            label: "Date",
-            value: convertDate(context.activeEntry.registerDate),
+            label: "Total Amount",
+            value: `Rs. ${notification.registerDate}`,
           },
-          context.activeEntry.lastAlertDate && {
-            label: "Last Alert Date",
-            value: convertDate(context.activeEntry.lastAlertDate),
-          },
-          context.activeEntry.expiryDate && {
-            label: "Expiry Date",
-            value: convertDate(context.activeEntry.expiryDate),
-          },
-          context.activeEntry.documentLocation && {
-            label: "Document Location",
-            variant: "description",
-            value: context.activeEntry.documentLocation,
-          },
+          ...(notification.lastAlertDate
+            ? [
+                {
+                  label: "Total Amount",
+                  value: `Rs. ${notification.lastAlertDate}`,
+                },
+              ]
+            : []),
+          ...(notification.expiryDate
+            ? [
+                {
+                  label: "Expiry Date",
+                  value: convertDate(notification.expiryDate),
+                },
+              ]
+            : []),
+          ...(notification.documentLocation
+            ? [
+                {
+                  label: "Document Location",
+                  variant: "description" as any,
+                  value: notification.documentLocation,
+                },
+              ]
+            : []),
         ]}
       />
     </>

@@ -5,6 +5,7 @@ import expenseRouter from "./expenseRouter";
 import Landing from "@/components/Landing/Landing";
 import debtRouter from "./debtRouter";
 import notificationRouter from "./notificationRouter";
+import { ReRoute } from "@/components/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -22,11 +23,11 @@ const router = createBrowserRouter([
         path: "/settings",
         Component: Settings,
       },
+      {
+        path: "*",
+        Component: ReRoute,
+      },
     ],
-  },
-  {
-    path: "*",
-    Component: App,
   },
 ]);
 

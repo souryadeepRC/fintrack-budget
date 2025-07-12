@@ -13,14 +13,19 @@ const ExpenseList = () => {
       headerActions={[
         {
           label: `Add ${context.type}`,
-          onClick: context.onAddEntry,
+          onClick: context.navigation.addEntry,
         },
       ]}
     >
       <CardListView
-        onCardClick={context.showEntryDetails}
+        onCardClick={context.navigation.showAll}
         itemList={context.entries}
-        chipProperty="category"
+        property={{
+          TITLE: "title",
+          AMOUNT: "amount",
+          DATE: "date",
+          CHIP: "category",
+        }}
       />
     </DashboardView>
   );
