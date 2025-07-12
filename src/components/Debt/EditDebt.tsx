@@ -133,7 +133,14 @@ const EditDebt = () => {
         if (!regex.test(amount)) return "Provide a valid amount";
       },
     },
-    { name: "note", label: "Note", type: FormFieldType.TEXTAREA },
+    {
+      name: "note",
+      label: "Note",
+      type: FormFieldType.TEXTAREA,
+      validate: (note: string): string | undefined => {
+        if (note.length > 150) return "Note can not be more than 150 letters";
+      },
+    },
   ];
   return (
     <FormBuilder

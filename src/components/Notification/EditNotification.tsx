@@ -70,6 +70,9 @@ const EditNotification = () => {
       label: "Note",
       isRequired: true,
       type: FormFieldType.TEXTAREA,
+      validate: (note: string): string | undefined => {
+        if (note.length > 150) return "Note can not be more than 150 letters";
+      },
     },
     {
       name: "amount",

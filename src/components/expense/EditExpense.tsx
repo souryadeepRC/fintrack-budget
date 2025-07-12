@@ -94,7 +94,14 @@ const EditExpense = () => {
         if (!options.PaymentModeMap.get(mode)) return "Choose from the list";
       },
     },
-    { name: "note", label: "Note", type: FormFieldType.TEXTAREA },
+    {
+      name: "note",
+      label: "Note",
+      type: FormFieldType.TEXTAREA,
+      validate: (note: string): string | undefined => {
+        if (note.length > 150) return "Note can not be more than 150 letters";
+      },
+    },
   ];
   return (
     <FormBuilder
