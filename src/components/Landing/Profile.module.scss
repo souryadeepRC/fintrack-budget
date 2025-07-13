@@ -1,0 +1,24 @@
+.profile__container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  color: $primary-color;
+}
+.profile__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid $primary-color;
+  &__title {
+    display: flex;
+    gap: 0.5rem;
+    svg {
+      font-size: 2rem;
+    }
+  }
+}
+.user__name {
+  font-size: 1.2rem;
+  text-align: right;
+}

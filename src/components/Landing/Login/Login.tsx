@@ -1,15 +1,21 @@
 import { useState } from "react";
+import { toast } from "sonner";
+import { useDispatch } from "react-redux";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import styles from "./Login.module.scss";
+import { GiTakeMyMoney } from "react-icons/gi";
+
 import { Button } from "@/components/common";
 import { useMutation } from "@tanstack/react-query";
 import AuthService from "@/service/Auth";
-import { toast } from "sonner";
+import { setUserDetails } from "@/store/appReducer/appReducer";
+import classes from "./Login.module.scss";
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
   const { mutate } = useMutation({
     mutationFn: (data: any) => AuthService.login(data),
-    onSuccess: function () {
+    onSuccess: function (response: any) {
+      dispatch(setUserDetails(response.name));
       toast.success(`Logged In successfully`);
     },
     onError: function () {
@@ -36,12 +42,18 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <h2 className={styles.title}>Login</h2>
-
-        <div className={styles.inputGroup}>
-          <FaUserAlt className={styles.icon} />
+    <div className={classes.login__container}>
+      <div className={classes.login__header}>
+        <h2 className={classes.login__header__title}>
+          <GiTakeMyMoney /> FinTrack
+        </h2>
+        <h2 className={classes.login__header__description}>
+          Smart Budget & Expense Tracker
+        </h2>
+      </div>
+      <form className={classes.login__form} onSubmit={handleSubmit}>
+        <div className={classes.login__input_group}>
+          <FaUserAlt className={classes.icon} />
           <input
             type="text"
             name="email"
@@ -52,8 +64,8 @@ const Login: React.FC = () => {
           />
         </div>
 
-        <div className={styles.inputGroup}>
-          <FaLock className={styles.icon} />
+        <div className={classes.login__input_group}>
+          <FaLock className={classes.icon} />
           <input
             type="password"
             name="password"
@@ -64,10 +76,13 @@ const Login: React.FC = () => {
           />
         </div>
 
-        {error && <p className={styles.error}>{error}</p>}
-
-        <Button type="submit" className={styles.button}>
-          Log In
+        {error && <p className={classes.login__error}>{error}</p>}
+        <Button
+          variant="contained"
+          type="submit"
+          className={classes.login__button}
+        >
+          Login to Continue
         </Button>
       </form>
     </div>

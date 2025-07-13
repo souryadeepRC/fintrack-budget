@@ -6,6 +6,7 @@ import AppProvider from "@/components/Application/AppProvider";
 import "./App.scss";
 
 function App() {
+
   return (
     <AppProvider>
       <Toaster richColors position="top-right" />

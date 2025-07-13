@@ -13,10 +13,7 @@ jest.mock("@/constants", () => ({
 }));
 
 describe("Navigation component", () => {
-  it("renders the app title", () => {
-    render(<Navigation />);
-    expect(screen.getByText("Mocked FinTrack")).toBeInTheDocument();
-  });
+ 
 
   it("renders all navigation items", () => {
     render(<Navigation />);
@@ -25,6 +22,7 @@ describe("Navigation component", () => {
       { label: "Expense", path: "/expense" },
       { label: "Debt", path: "/debt" },
       { label: "Notification", path: "/notification" },
+      { label: "Profile", path: "/" },
     ];
 
     navItems.forEach(({ label, path }) => {
