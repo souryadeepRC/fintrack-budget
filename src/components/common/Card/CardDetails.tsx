@@ -1,7 +1,6 @@
 import { Button } from "@/components/common";
 import { ActionButtonType } from "@/types";
 import "./CardDetails.scss";
-import { formatToINR } from "@/utils";
 import { FaArrowLeft } from "react-icons/fa";
 
 type CardPropertyType = {
@@ -18,7 +17,7 @@ interface CardDetailsProps {
   children?: React.ReactNode;
 }
 const CardDetails: React.FC<CardDetailsProps> = (props) => {
-  const { type, isEmpty, backAction, actions, properties, children } = props;
+  const { type, isEmpty, backAction, actions, children } = props;
 
   if (isEmpty) {
     return (
@@ -74,44 +73,6 @@ const CardDetails: React.FC<CardDetailsProps> = (props) => {
           </div>
         )}
       </section>
-      {properties?.length && (
-        <section className="card__details">
-          {properties?.map((property, index) => {
-            if (property.variant === "heading") {
-              return (
-                <h5 key={index} className="card__heading">
-                  {property.value}
-                </h5>
-              );
-            } else if (property.variant === "chip") {
-              return (
-                <p key={index} className="card__chip">
-                  {property.value}
-                </p>
-              );
-            } else if (property.variant === "amount") {
-              return (
-                <p key={index}>
-                  <strong>{property.label}:&nbsp;</strong>
-                  Rs.&nbsp;{formatToINR(Number(property.value))}
-                </p>
-              );
-            } else if (property.variant === "description") {
-              return (
-                <p key={index} className="card__description">
-                  <strong>{property.label}:&nbsp;</strong>
-                  <em>{property.value}</em>
-                </p>
-              );
-            }
-            return (
-              <p key={index}>
-                <strong>{property.label}:&nbsp;</strong>&nbsp;{property.value}
-              </p>
-            );
-          })}
-        </section>
-      )}
       {children}
     </div>
   );
