@@ -5,18 +5,16 @@ import {
   selectIsExpenseLoaded,
 } from "@/store/expenseReducer/expenseSelectors";
 import expenseService from "@/service/Expense";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import {
   addExpense,
   editExpense,
-  loadExpenses,
   removeExpense,
 } from "@/store/expenseReducer/expenseReducer";
 import { ExpenseState } from "@/types/expense";
-import { useEffect } from "react";
 import { EntryContext } from "@/types";
 
 const Expense: React.FC = () => {
@@ -32,12 +30,6 @@ const Expense: React.FC = () => {
     expenseId ? selectExpense(state, expenseId) : undefined
   );
 
-  const { isLoading, data = undefined } = useQuery({
-    queryKey: ["expense-list"],
-    queryFn: () => expenseService.getAllExpenses(),
-    refetchOnWindowFocus: false,
-    enabled: !isExpensesLoaded,
-  });
   const modifyMutation = useMutation({
     mutationFn: (expense: ExpenseState) => expenseService.storeExpense(expense),
     onSuccess: function (response: ExpenseState) {
@@ -66,11 +58,6 @@ const Expense: React.FC = () => {
       toast.error(`Failed to remove expense`);
     },
   });
-
-  useEffect(() => {
-    if (isLoading || !data || isExpensesLoaded) return;
-    dispatch(loadExpenses(data || []));
-  }, [data]);
 
   const expenseContext: EntryContext = {
     type: "Expense",

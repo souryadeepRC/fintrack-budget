@@ -8,6 +8,21 @@ import { selectIsLoggedIn } from "@/store/appReducer/appSelectors";
 // service
 import authService from "@/service/Auth";
 
+import expenseService from "@/service/Expense";
+import debtService from "@/service/Debt";
+import notificationService from "@/service/Notification";
+import { loadExpenses } from "@/store/expenseReducer/expenseReducer";
+import { loadDebts } from "@/store/debtReducer/debtReducer";
+import { loadNotifications } from "@/store/notificationReducer/notificationReducer";
+
+function fetchRecords() {
+  const expensePromise = expenseService.getAllExpenses();
+  const debtPromise = debtService.getAllDebts();
+  const notificationPromise = notificationService.getAllNotifications();
+
+  return Promise.allSettled([expensePromise, debtPromise, notificationPromise]);
+}
+
 const useUserExistence = (): { isLoading: boolean; isUserExist: boolean } => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +39,19 @@ const useUserExistence = (): { isLoading: boolean; isUserExist: boolean } => {
     if (isSuccess && data) {
       dispatch(setUserDetails(data?.name || ""));
     }
-    setIsLoading(false);
+    fetchRecords()
+      .then((response) => {
+        const [expense, debt, notification]: any = response;
+        dispatch(loadExpenses(expense?.value || []));
+        dispatch(loadDebts(debt?.value || []));
+        dispatch(loadNotifications(notification?.value || []));
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [isFetched, isSuccess, data]);
 
   return { isLoading, isUserExist: isSuccess && !!data };

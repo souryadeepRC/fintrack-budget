@@ -9,6 +9,8 @@ import AuthService from "@/service/Auth";
 import { selectUsername } from "@/store/appReducer/appSelectors";
 import { logoutUser } from "@/store/appReducer/appReducer";
 import classes from "./Profile.module.scss";
+import { ExpenseAnalytics } from "./Analytics";
+import DebtAnalytics from "./Analytics/DebtAnalytics";
 
 const Profile: React.FC = () => {
   const username: string = useSelector(selectUsername);
@@ -64,6 +66,10 @@ const Profile: React.FC = () => {
         </Button>
       </div>
       <h2 className={classes.user__name}> {username}</h2>
+      <div className={classes.profile__analytics}>
+        <ExpenseAnalytics />
+        <DebtAnalytics />
+      </div>
     </div>
   );
 };

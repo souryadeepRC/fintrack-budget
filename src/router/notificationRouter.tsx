@@ -1,3 +1,4 @@
+import AuthLayout from "@/components/AuthLayout/AuthLayout";
 import {
   NotificationDetails,
   NotificationList,
@@ -6,7 +7,11 @@ import {
 import { Notification } from "@/pages";
 const notificationRouter = {
   path: "/notification",
-  Component: Notification,
+  Component: () => (
+    <AuthLayout>
+      <Notification />
+    </AuthLayout>
+  ),
   children: [
     {
       index: true,

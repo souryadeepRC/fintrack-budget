@@ -18,6 +18,7 @@ import {
   debtStatusOptions,
 } from "./DebtConfig";
 import { EntryContext } from "@/types";
+import { toast } from "sonner";
 
 type DebtDetailsState = {
   title: string;
@@ -56,7 +57,7 @@ const EditDebt = () => {
     setDetails({
       ...restDebt,
       amount: `${debt.amount}`,
-      clearedAmount: `${debt.clearedAmount}`,
+      clearedAmount: `${debt.clearedAmount === 0 ? "" : debt.clearedAmount}`,
       date: formatIsoToDate(debt.date),
       dueDate: formatIsoToDate(debt.dueDate || ""),
     });
@@ -67,7 +68,10 @@ const EditDebt = () => {
       id: debt?.id || "",
       ...response,
       amount: Number(response.amount),
-      clearedAmount: Number(response.clearedAmount),
+      clearedAmount:
+        response.status === DebtStatus.PAID
+          ? Number(response.amount)
+          : Number(response.clearedAmount),
     });
   };
 
@@ -89,6 +93,7 @@ const EditDebt = () => {
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (!regex.test(amount)) return "Provide a valid amount";
+        if (Number(amount) <= 0) return "Amount cannot be zero";
         if (amount.length > 10)
           return "Too much money! Please check the amount";
       },
@@ -141,6 +146,8 @@ const EditDebt = () => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (amount.length > 0 && !regex.test(amount))
           return "Provide a valid amount";
+        if (amount.length > 0 && Number(amount) <= 0)
+          return "Amount cannot be zero";
         if (amount.length > 10)
           return "Too much money! Please check the amount";
       },
