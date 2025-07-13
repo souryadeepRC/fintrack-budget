@@ -5,10 +5,10 @@ import {
 import { useSelector } from "react-redux";
 import { RouterProvider } from "react-router";
 import { useEffect, useRef, useState } from "react";
-import { Loader } from "@/components/common";
 import defaultRouter from "./defaultRouter";
 import { useAuth, useFetchAllRecords } from "@/hooks";
 import router from ".";
+import SkeletonLoader from "@/components/common/Loader/SkeletonLoader";
 
 const AppRoutes = () => {
   const isAppDataLoaded = useSelector(selectIsAppDataLoaded);
@@ -38,8 +38,7 @@ const AppRoutes = () => {
     });
   }, [isLoggedIn, isAppDataLoaded]);
 
-  if (isLoading && isLoggedIn) return <Loader />;
-  if (isLoading) return <Loader />;
+  if (isLoading) return <SkeletonLoader />;
 
   return <RouterProvider router={isAppDataLoaded ? router : defaultRouter} />;
 };
