@@ -57,7 +57,9 @@ const EditExpense = () => {
       name: "title",
       label: "Title",
       type: FormFieldType.TEXT,
+      isNonEditable: true,
       isRequired: true,
+      ...(expense?.id && { isDisabled: true }),
       validate: (title: string): string | undefined => {
         if (title.length > 20) return "Title can not be more than 20 letters";
       },

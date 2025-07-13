@@ -17,6 +17,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  .form__notes {
+    font-size: 0.6rem;
+    text-align: left;
+    width: 90%;
+    margin: 0 auto;
+  }
   .form__inputs {
     margin: 1rem 0;
     padding: 0 1rem;

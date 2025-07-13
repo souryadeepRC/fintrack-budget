@@ -33,7 +33,7 @@ button {
     color: $secondary-color;
   }
   &.disabled {
-    background-color: $shadow-color;
+    background-color: $disabled-color;
     cursor: not-allowed;
   }
 }

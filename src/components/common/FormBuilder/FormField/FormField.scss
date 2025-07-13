@@ -6,6 +6,12 @@
     font-size: 1rem;
     color: $primary-color;
     font-weight: 500;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    .lock__icon {
+      font-size: 0.6rem;
+    }
     &.required {
       &::after {
         content: " *";
@@ -21,6 +27,13 @@
     width: 100%;
     &.field__error {
       border-color: $error-color;
+    }
+    &.disabled {
+      background-color: $disabled-color;
+      cursor: not-allowed;
+      opacity: 0.8;
+      font-style: italic;
+      border-style: dashed;
     }
   }
 

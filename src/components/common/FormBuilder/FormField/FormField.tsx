@@ -11,6 +11,7 @@ import {
   FormText,
   FormDate,
 } from "@/components/common/FormBuilder/FormField";
+import { FaLock } from "react-icons/fa";
 import { FormFieldProps } from "@/components/common/FormBuilder/FormField/types";
 import "./FormField.scss";
 
@@ -30,8 +31,11 @@ const FormFieldInput: React.FC<FormFieldProps> = (props) => {
     ...(isCheckbox && {
       checked: !!value,
     }),
+    ...(field?.isDisabled && { disabled: true }),
     placeholder: field.placeholder,
-    className: `form__field ${isError ? "field__error" : ""}`,
+    className: `form__field ${isError ? "field__error" : ""} ${
+      field?.isDisabled ? "disabled" : ""
+    }`,
   };
   if (field.type === FormFieldType.SELECT) {
     return <FormSelect commonProps={commonProps} options={field.options} />;
@@ -64,6 +68,7 @@ const FormField: React.FC<FormFieldProps> = (props) => {
         className={`form__label ${props.field.isRequired ? "required" : ""}`}
       >
         {props.field.label}
+        {props.field.isNonEditable && <FaLock className="lock__icon" />}
       </label>
       <FormFieldInput {...inputProps} />
       {errorMessage && <p className="error__msg">{errorMessage}</p>}

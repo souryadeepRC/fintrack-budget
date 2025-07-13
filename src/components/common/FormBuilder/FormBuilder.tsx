@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useBlocker, useNavigate } from "react-router";
 
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaLock } from "react-icons/fa";
 import { AlertDialog, Button } from "@/components/common";
 import {
   FieldConfig,
@@ -71,6 +71,10 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
     setFormState(defaultValues);
   };
 
+  const hasMandatoryField: boolean = fields.some((field) => field.isRequired);
+  const hasNonEditableField: boolean = fields.some(
+    (field) => field.isNonEditable
+  );
   return (
     <div className="from_wrapper__container">
       <form onSubmit={handleSubmit} className="form__container">
@@ -101,6 +105,15 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
             <></>
           </Button>
           <h4>{title}</h4>
+        </div>
+        <div className="form__notes">
+          {hasNonEditableField && (
+            <p>
+              Fields marked with&nbsp;<FaLock style={{ verticalAlign: "middle" }} />&nbsp;
+              are not editable after submission
+            </p>
+          )}
+          {hasMandatoryField && <p>Fields marked with * are mandatory</p>}
         </div>
         <div className="form__inputs">
           {fields.map((field) => (
