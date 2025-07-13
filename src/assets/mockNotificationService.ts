@@ -11,9 +11,9 @@ class NotificationService {
     );
   }
   async getAllNotifications(): Promise<NotificationState[]> {
-    return new Promise((resolve, reject) =>
+    return new Promise((resolve) =>
       setTimeout(() => {
-        reject(undefined);
+        resolve(mockNotifications);
       }, 3000)
     );
   }

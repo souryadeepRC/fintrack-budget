@@ -18,7 +18,6 @@ import {
   debtStatusOptions,
 } from "./DebtConfig";
 import { EntryContext } from "@/types";
-import { toast } from "sonner";
 
 type DebtDetailsState = {
   title: string;
