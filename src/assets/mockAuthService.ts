@@ -16,10 +16,10 @@ class MockAuthService {
   }
 
   async getCurrentUser() {
-    return new Promise((resolve) =>
+    return new Promise((resolve,reject) =>
       setTimeout(
         () =>
-          resolve({
+          reject({
             email: "mockeduser@example.com",
             name: "Mock User",
           }),

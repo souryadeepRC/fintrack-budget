@@ -38,9 +38,10 @@ const AppRoutes = () => {
     });
   }, [isLoggedIn, isAppDataLoaded]);
 
+  if (isLoading && isLoggedIn) return <Loader />;
   if (isLoading) return <Loader />;
-  if (!isAppDataLoaded) return <RouterProvider router={defaultRouter} />;
-  return <RouterProvider router={router} />;
+
+  return <RouterProvider router={isAppDataLoaded ? router : defaultRouter} />;
 };
 
 export default AppRoutes;

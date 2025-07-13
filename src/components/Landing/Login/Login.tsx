@@ -13,7 +13,7 @@ import classes from "./Login.module.scss";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
-  const { mutate } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: (data: any) => AuthService.login(data),
     onSuccess: function (response: any) {
       dispatch(setUserDetails(response.name));
@@ -81,10 +81,13 @@ const Login: React.FC = () => {
         <Button
           variant="contained"
           type="submit"
+          disabled={isPending}
           startIcon={<MdLogin />}
-          className={classes.login__button}
+          className={`${classes.login__button} ${
+            isPending ? classes.disabled : ""
+          }`}
         >
-          Login to Continue
+          {isPending ? "Logging In.." : "Login to Continue"}
         </Button>
       </form>
     </div>

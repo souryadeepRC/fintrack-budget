@@ -1,5 +1,6 @@
 import { DebtDetails, DebtList, EditDebt } from "@/components/Debt";
 import { Debt } from "@/pages";
+import { Navigate } from "react-router";
 
 const debtRouter = {
   path: "/debt",
@@ -7,6 +8,10 @@ const debtRouter = {
   children: [
     {
       index: true,
+      Component: () => <Navigate to="/debt/all" />,
+    },
+    {
+      path: "/debt/all",
       Component: DebtList,
     },
     {

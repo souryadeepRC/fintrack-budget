@@ -1,5 +1,4 @@
 import { Outlet } from "react-router";
-import { Toaster } from "sonner";
 
 import Navigation from "@/components/navigation/Navigation";
 import "./App.scss";
@@ -7,7 +6,6 @@ import "./App.scss";
 function App() {
   return (
     <>
-      <Toaster richColors position="top-right" />
       <Navigation />
       <Outlet />
     </>
