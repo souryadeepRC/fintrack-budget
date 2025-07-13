@@ -71,7 +71,7 @@ const debt: React.FC = () => {
   }, [data]);
 
   const debtContext: EntryContext = {
-    type: "debt",
+    type: "Debt",
     navigation: {
       addEntry: () => navigate(`/debt/add-debt`),
       editEntry: () => {

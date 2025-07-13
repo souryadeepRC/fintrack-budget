@@ -1,4 +1,4 @@
-import { Button } from "@/components/common";
+import { Button, Loader } from "@/components/common";
 import { ActionButtonType } from "@/types";
 import "./Card.scss";
 
@@ -12,7 +12,7 @@ interface DashboardViewProps {
 const DashboardView: React.FC<DashboardViewProps> = (props) => {
   const { isLoading, type, headerActions, children } = props;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   return (
     <div className="dashboard__container">
       {headerActions && (

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useBlocker, useNavigate } from "react-router";
 
+import { FaArrowLeft } from "react-icons/fa";
 import { AlertDialog, Button } from "@/components/common";
 import {
   FieldConfig,
@@ -92,7 +93,13 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
           />
         )}
         <div className="from_wrapper__header">
-          <Button onClick={performBackNavigation}>Back</Button>
+          <Button
+            onClick={performBackNavigation}
+            variant="curve"
+            startIcon={<FaArrowLeft />}
+          >
+            <></>
+          </Button>
           <h4>{title}</h4>
         </div>
         <div className="form__inputs">

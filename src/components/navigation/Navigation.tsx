@@ -1,7 +1,7 @@
 import { SiExpensify } from "react-icons/si";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { AiFillNotification } from "react-icons/ai";
-import { FiSettings } from "react-icons/fi";
+/* import { FiSettings } from "react-icons/fi"; */
 import { NavLink } from "react-router";
 
 import APP_CONSTANTS from "@/constants";
@@ -28,11 +28,11 @@ const NAVIGATION_LIST: NavigationItem[] = [
     label: "Notification",
     Icon: AiFillNotification,
   },
-  {
+  /* {
     path: "/settings",
     label: "Settings",
     Icon: FiSettings,
-  },
+  }, */
 ];
 const Navigation: React.FC = () => {
   return (

@@ -92,12 +92,12 @@ const EditNotification = () => {
       type: FormFieldType.DATE,
       isRequired: true,
     },
+    { name: "expiryDate", label: "Expiry Date", type: FormFieldType.DATE },
     {
       name: "lastAlertDate",
       label: "Last Alert Date",
       type: FormFieldType.DATE,
     },
-    { name: "expiryDate", label: "Expiry Date", type: FormFieldType.DATE },
     {
       name: "documentLocation",
       label: "Document Location",

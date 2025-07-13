@@ -6,6 +6,7 @@ import CardListView from "./Card/CardListView";
 import DashboardView from "./Card/DashboardView";
 import CardDetails from "./Card/CardDetails";
 import AlertDialog from "./Card/AlertDialog";
+import Loader from "./Loader/Loader";
 
 export {
   Button,
@@ -16,4 +17,5 @@ export {
   DashboardView,
   CardDetails,
   AlertDialog,
+  Loader,
 };

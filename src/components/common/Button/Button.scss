@@ -29,6 +29,8 @@ button {
   }
   &.alert {
     background-color: $error-color;
+    border-color: $error-color;
+    color: $secondary-color;
   }
   &.disabled {
     background-color: $shadow-color;

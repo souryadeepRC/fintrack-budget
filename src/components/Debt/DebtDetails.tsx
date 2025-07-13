@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEdit, FaWallet } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 
 import { AlertDialog, CardDetails } from "@/components/common";
 
-import { convertDate } from "@/utils";
+import { convertDate, formatToINR } from "@/utils";
 import { EntryContext } from "@/types";
+import AppConstants from "@/constants";
 import { DebtCategory, DebtStatus } from "./DebtConfig";
 import { DebtState } from "@/types/debt";
+
+import classes from "./Debt.module.scss";
 
 const DebtDetails = () => {
   const context: EntryContext = useOutletContext();
@@ -23,16 +26,52 @@ const DebtDetails = () => {
     navigate(-1);
   };
   if (!debt) return <></>;
-  const getDebtMessage = () => {
-    const isLend = debt.category === DebtCategory.LEND;
-    const actionVerb: string = isLend ? "collect" : "pay";
-    const actionPrep: string = isLend ? "from" : "to";
-    const { amount, clearedAmount, name } = debt || {};
-    return `You need to ${actionVerb} Rs. ${
-      amount - clearedAmount
-    } ${actionPrep} ${name}`;
-  };
+
+  const PaymentModeIcon: any =
+    AppConstants.paymentMode.get(debt.mode)?.Icon || FaWallet;
+
   const isPaidDebt: boolean = debt.status === DebtStatus.PAID;
+  const isLendDebt: boolean = debt.category === DebtCategory.LEND;
+
+  const getDebtMessage = () => {
+    const actionVerb: string = isLendDebt ? "Collect" : "Pay";
+    const actionPrep: string = isLendDebt ? "from" : "to";
+    return (
+      <>
+        <strong>{actionVerb}</strong> {actionPrep}
+        <strong>{debt.name}</strong>
+      </>
+    );
+  };
+  const getDebtAmount = () => {
+    const { amount, clearedAmount } = debt || {};
+
+    if (isPaidDebt || !Boolean(clearedAmount)) {
+      return <strong>Rs.&nbsp;{formatToINR(Number(amount))}</strong>;
+    }
+    const pendingAmount = amount - clearedAmount;
+    return (
+      <p className={classes.debt__amount__partial_paid}>
+        <strong>Rs.&nbsp;{formatToINR(Number(pendingAmount))}</strong>
+        <del>Rs.&nbsp;{formatToINR(Number(amount))}</del>
+      </p>
+    );
+  };
+  const getDebtStatus = () => {
+    const status = AppConstants.debtStatus.get(debt.status);
+    if (!status) return <p className={classes.debt__status}>Others</p>;
+
+    return (
+      <p
+        className={`${classes.debt__status} ${
+          !isPaidDebt ? classes.debt__unpaid : ""
+        }`}
+      >
+        {<status.Icon />}
+        {status.value}
+      </p>
+    );
+  };
   return (
     <>
       <AlertDialog
@@ -58,75 +97,35 @@ const DebtDetails = () => {
         backAction={{ label: "Back", onClick: onBack }}
         actions={[
           {
-            label: "Edit",
-            variant: "outlined",
+            variant: "curve",
             onClick: context.navigation.editEntry,
             startIcon: <FaRegEdit />,
           },
 
           {
-            label: "Remove",
+            variant: "curve",
             mode: "alert",
             onClick: toggleIsDelete,
             startIcon: <AiOutlineDelete />,
           },
         ]}
-        properties={[
-          {
-            variant: "heading",
-            value: debt.title,
-          },
-          {
-            variant: "chip",
-            value: debt.status,
-          },
-          {
-            label: "Category",
-            value: getDebtMessage(),
-          },
-          {
-            label: "Total Amount",
-            variant: "amount",
-            value: debt.amount,
-          },
-          ...(!isPaidDebt
-            ? [
-                {
-                  label: "Cleared Amount",
-                  value: debt.clearedAmount,
-                  variant: "amount" as any,
-                },
-                {
-                  label: "Pending Amount",
-                  variant: "amount" as any,
-                  value: debt.amount - debt.clearedAmount,
-                },
-              ]
-            : []),
-
-          {
-            label: "Date",
-            value: convertDate(debt.date),
-          },
-          {
-            label: "Due Date",
-            value: convertDate(debt.dueDate || ""),
-          },
-          ...(debt.mode
-            ? [
-                {
-                  label: "Payment Mode",
-                  value: debt.mode,
-                },
-              ]
-            : []),
-          {
-            label: "Note",
-            variant: "description",
-            value: debt.note,
-          },
-        ]}
-      />
+      >
+        <div className={classes.debt}>
+          <h5 className={classes.debt__heading}>{debt.title}</h5>
+          {getDebtStatus()}
+          <div className={classes.debt__details}>
+            <div className={classes.debt__amount}>{getDebtAmount()}</div>
+            <p className={classes.debt__date}>{convertDate(debt.date)}</p>
+          </div>
+          <p className={classes.debt__message}>{getDebtMessage()}</p>
+          <p className={classes.debt__mode}>
+            {isLendDebt ? "Paid" : "Collected"} by <PaymentModeIcon />
+            &nbsp;
+            {debt.mode}
+          </p>
+          <em className={classes.debt__note}>{debt.note}</em>
+        </div>
+      </CardDetails>
     </>
   );
 };
