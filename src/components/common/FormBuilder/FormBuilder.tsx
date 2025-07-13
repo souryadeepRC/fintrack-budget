@@ -78,7 +78,7 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
           <AlertDialog
             isOpen={true}
             onClose={() => blocker.reset()}
-            message="You have unsaved changes. Are you sure you want to leave?"
+            message="Are you sure you want to leave?"
             actions={[
               {
                 label: "Yes",

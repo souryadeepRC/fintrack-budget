@@ -24,8 +24,7 @@ describe("Navigation component", () => {
     const navItems = [
       { label: "Expense", path: "/expense" },
       { label: "Debt", path: "/debt" },
-      { label: "Notification", path: "/auto-pay" },
-      { label: "Settings", path: "/settings" },
+      { label: "Notification", path: "/notification" },
     ];
 
     navItems.forEach(({ label, path }) => {
