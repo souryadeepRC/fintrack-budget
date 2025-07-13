@@ -45,10 +45,18 @@ const expenseSlice = createSlice({
         ),
       };
     },
+    resetExpense: () => {
+      return initialState;
+    },
   },
 });
 
-export const { loadExpenses, addExpense, editExpense, removeExpense } =
-  expenseSlice.actions;
+export const {
+  loadExpenses,
+  addExpense,
+  editExpense,
+  removeExpense,
+  resetExpense,
+} = expenseSlice.actions;
 
 export default expenseSlice.reducer;

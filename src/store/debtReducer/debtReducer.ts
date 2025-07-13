@@ -45,9 +45,13 @@ const debtSlice = createSlice({
         ),
       };
     },
+    resetDebt: () => {
+      return initialState;
+    },
   },
 });
 
-export const { loadDebts, addDebt, editDebt, removeDebt } = debtSlice.actions;
+export const { loadDebts, addDebt, editDebt, removeDebt, resetDebt } =
+  debtSlice.actions;
 
 export default debtSlice.reducer;

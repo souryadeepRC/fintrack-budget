@@ -49,6 +49,9 @@ const notificationSlice = createSlice({
         ),
       };
     },
+    resetNotification: () => {
+      return initialState;
+    },
   },
 });
 
@@ -57,6 +60,7 @@ export const {
   addNotification,
   editNotification,
   removeNotification,
+  resetNotification,
 } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

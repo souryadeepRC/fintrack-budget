@@ -1,16 +1,17 @@
-import AuthLayout from "@/components/AuthLayout/AuthLayout";
 import { DebtDetails, DebtList, EditDebt } from "@/components/Debt";
 import { Debt } from "@/pages";
+import { Navigate } from "react-router";
+
 const debtRouter = {
   path: "/debt",
-  Component: () => (
-    <AuthLayout>
-      <Debt />
-    </AuthLayout>
-  ),
+  Component: Debt,
   children: [
     {
       index: true,
+      Component: () => <Navigate to="/debt/all" />,
+    },
+    {
+      path: "/debt/all",
       Component: DebtList,
     },
     {

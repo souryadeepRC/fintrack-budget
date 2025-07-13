@@ -7,10 +7,13 @@ import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { AlertDialog, Button } from "@/components/common";
 import AuthService from "@/service/Auth";
 import { selectUsername } from "@/store/appReducer/appSelectors";
-import { logoutUser } from "@/store/appReducer/appReducer";
-import classes from "./Profile.module.scss";
+import { resetApp } from "@/store/appReducer/appReducer";
+import { resetDebt } from "@/store/debtReducer/debtReducer";
 import { ExpenseAnalytics } from "./Analytics";
 import DebtAnalytics from "./Analytics/DebtAnalytics";
+import { resetExpense } from "@/store/expenseReducer/expenseReducer";
+import { resetNotification } from "@/store/notificationReducer/notificationReducer";
+import classes from "./Profile.module.scss";
 
 const Profile: React.FC = () => {
   const username: string = useSelector(selectUsername);
@@ -23,7 +26,10 @@ const Profile: React.FC = () => {
   const { mutate: onLogout } = useMutation({
     mutationFn: () => AuthService.logout(),
     onSuccess: function () {
-      dispatch(logoutUser());
+      dispatch(resetApp());
+      dispatch(resetExpense());
+      dispatch(resetDebt());
+      dispatch(resetNotification());
       toast.error("You are Logged out from Fintrack");
     },
     onError: function () {

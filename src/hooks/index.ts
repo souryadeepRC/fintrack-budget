@@ -1,3 +1,3 @@
-import useUserExistence from "./useUserExistence/useUserExistence";
-
-export { useUserExistence };
+import useFetchAllRecords from "./useFetchAllRecords";
+import useAuth from "./useAuth";
+export { useAuth, useFetchAllRecords };

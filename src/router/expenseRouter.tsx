@@ -1,16 +1,17 @@
-import AuthLayout from "@/components/AuthLayout/AuthLayout";
 import { EditExpense, ExpenseDetails, ExpenseList } from "@/components/expense";
 import { Expense } from "@/pages";
+import { Navigate } from "react-router";
+
 const expenseRouter = {
   path: "/expense",
-  Component: () => (
-    <AuthLayout>
-      <Expense />
-    </AuthLayout>
-  ),
+  Component: Expense,
   children: [
     {
       index: true,
+      Component: () => <Navigate to="/expense/all" />,
+    },
+    {
+      path: "/expense/all",
       Component: ExpenseList,
     },
     {
@@ -28,6 +29,13 @@ const expenseRouter = {
     {
       path: "/expense/:expenseId/edit",
       Component: EditExpense,
+    },
+    {
+      path: "*",
+      Component: () => {
+        console.log("re route");
+        return <Navigate to="/expense" />;
+      },
     },
   ],
 };
