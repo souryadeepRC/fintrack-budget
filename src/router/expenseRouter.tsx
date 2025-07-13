@@ -1,13 +1,9 @@
-import { AuthLayout } from "@/components/Layout";
 import { EditExpense, ExpenseDetails, ExpenseList } from "@/components/expense";
 import { Expense } from "@/pages";
+
 const expenseRouter = {
   path: "/expense",
-  Component: () => (
-    <AuthLayout>
-      <Expense />
-    </AuthLayout>
-  ),
+  Component: Expense,
   children: [
     {
       index: true,

@@ -11,14 +11,18 @@ class MockAuthService {
 
   async login({ email }: any) {
     return new Promise((resolve) =>
-      setTimeout(() => resolve({ email, name: "Souryadeep Roy Chowdhury" }), 1000)
+      setTimeout(() => resolve({ email, name: "Mock User" }), 1000)
     ); // Mocking user data
   }
 
   async getCurrentUser() {
     return new Promise((resolve) =>
       setTimeout(
-        () => resolve({ email: "mockeduser@example.com", name: "Souryadeep Roy Chowdhury" }),
+        () =>
+          resolve({
+            email: "mockeduser@example.com",
+            name: "Mock User",
+          }),
         1000
       )
     );

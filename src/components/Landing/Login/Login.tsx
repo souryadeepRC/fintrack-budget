@@ -8,6 +8,7 @@ import { Button } from "@/components/common";
 import { useMutation } from "@tanstack/react-query";
 import AuthService from "@/service/Auth";
 import { setUserDetails } from "@/store/appReducer/appReducer";
+import { MdLogin } from "react-icons/md";
 import classes from "./Login.module.scss";
 
 const Login: React.FC = () => {
@@ -80,6 +81,7 @@ const Login: React.FC = () => {
         <Button
           variant="contained"
           type="submit"
+          startIcon={<MdLogin />}
           className={classes.login__button}
         >
           Login to Continue
