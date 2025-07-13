@@ -1,5 +1,4 @@
 import Button from "./Button/Button";
-import FormField from "./FormField/FormField";
 import Modal from "./Modal/Modal";
 import Card from "./Card/Card";
 import CardListView from "./Card/CardListView";
@@ -10,7 +9,6 @@ import Loader from "./Loader/Loader";
 
 export {
   Button,
-  FormField,
   Modal,
   Card,
   CardListView,
