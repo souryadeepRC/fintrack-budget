@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 
-import { useSettings } from "@/hooks";
 import { DebtCategoryType, DebtState, DebtStatusType } from "@/types/debt";
 import { formatIsoToDate } from "@/utils";
 import FormBuilder from "@/components/common/FormBuilder/FormBuilder";
@@ -17,6 +16,7 @@ import {
   DebtStatusMap,
   debtStatusOptions,
 } from "./DebtConfig";
+import AppConstants from "@/constants";
 import { EntryContext } from "@/types";
 
 type DebtDetailsState = {
@@ -45,13 +45,17 @@ const initialState = {
 };
 const EditDebt = () => {
   const context: EntryContext = useOutletContext();
+  const navigate = useNavigate();
   const debt = context.activeEntry as DebtState;
 
-  const options = useSettings();
   const [details, setDetails] = useState<DebtDetailsState>(initialState);
 
   useEffect(() => {
     if (!debt) return;
+    if (debt.status === DebtStatus.PAID) {
+      navigate("/debt");
+    }
+
     const { id, ...restDebt } = debt;
     setDetails({
       ...restDebt,
@@ -80,6 +84,8 @@ const EditDebt = () => {
       label: "Title",
       type: FormFieldType.TEXT,
       isRequired: true,
+      isNonEditable: true,
+      ...(debt?.id && { isDisabled: true }),
       validate: (title: string): string | undefined => {
         if (title.length > 20) return "Title can not be more than 20 letters";
       },
@@ -89,6 +95,8 @@ const EditDebt = () => {
       label: "Amount",
       type: FormFieldType.NUMBER,
       isRequired: true,
+      isNonEditable: true,
+      ...(debt?.id && { isDisabled: true }),
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (!regex.test(amount)) return "Provide a valid amount";
@@ -102,20 +110,31 @@ const EditDebt = () => {
       label: "Category",
       type: FormFieldType.SELECT,
       isRequired: true,
+      isNonEditable: true,
+      ...(debt?.id && { isDisabled: true }),
       options: debtCategoryOptions,
       validate: (category: DebtCategoryType): string | undefined => {
         if (!DebtCategoryMap.get(category)) return "Choose from the list";
       },
     },
-    { name: "date", label: "Date", type: FormFieldType.DATE, isRequired: true },
+    {
+      name: "date",
+      label: "Date",
+      type: FormFieldType.DATE,
+      isRequired: true,
+      isNonEditable: true,
+      ...(debt?.id && { isDisabled: true }),
+    },
     {
       name: "mode",
       label: "Payment Mode",
       type: FormFieldType.SELECT,
       isRequired: true,
-      options: options.paymentModes,
+      isNonEditable: true,
+      ...(debt?.id && { isDisabled: true }),
+      options: AppConstants.paymentOptions,
       validate: (mode: string): string | undefined => {
-        if (!options.PaymentModeMap.get(mode)) return "Choose from the list";
+        if (!AppConstants.paymentMode.get(mode)) return "Choose from the list";
       },
     },
     {

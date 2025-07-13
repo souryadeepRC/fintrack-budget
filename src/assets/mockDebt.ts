@@ -14,7 +14,7 @@ export const mockDebts: any = [
   },
   {
     id: "d9e8f7a6-b5c4-3210-9876-abcdefabcdef",
-    title: "Netflix monthly subscription",
+    title: "Netflix subscription",
     amount: 15.99,
     category: "Borrow",
     date: "2025-07-01T00:00:00.000Z",

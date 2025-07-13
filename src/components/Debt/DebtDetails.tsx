@@ -6,7 +6,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { AlertDialog, CardDetails } from "@/components/common";
 
 import { convertDate, formatToINR } from "@/utils";
-import { EntryContext } from "@/types";
+import { ActionButtonType, EntryContext } from "@/types";
 import AppConstants from "@/constants";
 import { DebtCategory, DebtStatus } from "./DebtConfig";
 import { DebtState } from "@/types/debt";
@@ -72,6 +72,17 @@ const DebtDetails = () => {
       </p>
     );
   };
+  const deleteAction: ActionButtonType = {
+    variant: "curve",
+    mode: "alert",
+    onClick: toggleIsDelete,
+    startIcon: <AiOutlineDelete />,
+  };
+  const editAction: ActionButtonType = {
+    variant: "curve",
+    onClick: context.navigation.editEntry,
+    startIcon: <FaRegEdit />,
+  };
   return (
     <>
       <AlertDialog
@@ -95,20 +106,11 @@ const DebtDetails = () => {
         isEmpty={!context.activeEntry}
         type={context.type}
         backAction={{ label: "Back", onClick: onBack }}
-        actions={[
-          {
-            variant: "curve",
-            onClick: context.navigation.editEntry,
-            startIcon: <FaRegEdit />,
-          },
-
-          {
-            variant: "curve",
-            mode: "alert",
-            onClick: toggleIsDelete,
-            startIcon: <AiOutlineDelete />,
-          },
-        ]}
+        actions={
+          debt.status === DebtStatus.PAID
+            ? [deleteAction]
+            : [editAction, deleteAction]
+        }
       >
         <div className={classes.debt}>
           <h5 className={classes.debt__heading}>{debt.title}</h5>

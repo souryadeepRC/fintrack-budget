@@ -31,9 +31,31 @@ const DebtStatusMap = new Map([
   ["Paid", { value: "Paid", Icon: FaCheckCircle }],
   ["Unpaid", { value: "Unpaid", Icon: CiNoWaitingSign }],
 ]);
+
+export const paymentOptions = [
+  { label: "Cash", value: "Cash" },
+  { label: "GPay", value: "GPay" },
+  { label: "PhonePe", value: "PhonePe" },
+  { label: "Debit Card", value: "ATM Card" },
+  { label: "Credit Card", value: "Credit Card" },
+  { label: "Others", value: "Others" },
+];
+export const expenseCategories = [
+  { label: "EMI", value: "EMI" },
+  { label: "Groceries & Food", value: "Groceries & Food" },
+  { label: "Transport", value: "Transport" },
+  { label: "Medical", value: "Medical" },
+  { label: "Utilities", value: "Utilities" },
+  { label: "Entertainment", value: "Entertainment" },
+  { label: "Shopping", value: "Shopping" },
+  { label: "Gifts", value: "Gifts" },
+  { label: "Miscellaneous", value: "Miscellaneous" },
+];
 export default {
   title: appTitle,
   paymentMode: PaymentModeMap,
+  paymentOptions,
   expenseCategory: ExpenseCategoryMap,
+  expenseCategories,
   debtStatus: DebtStatusMap,
 };

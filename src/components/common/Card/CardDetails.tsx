@@ -56,10 +56,10 @@ const CardDetails: React.FC<CardDetailsProps> = (props) => {
         <h2>{type}</h2>
         {actions && (
           <div className="card_details__actions">
-            {actions.map((action) => {
+            {actions.map((action, index) => {
               return (
                 <Button
-                  key={action.label}
+                  key={index}
                   data-testid={`${type}-${action.label}-btn`}
                   onClick={action.onClick}
                   variant={action.variant}

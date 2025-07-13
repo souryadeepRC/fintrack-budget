@@ -8,7 +8,7 @@ import { MdOutlinePendingActions } from "react-icons/md";
 import { AiFillNotification } from "react-icons/ai";
 
 import APP_CONSTANTS from "@/constants";
-import { selectIsLoggedIn } from "@/store/appReducer/appSelectors";
+import { selectIsAppDataLoaded } from "@/store/appReducer/appSelectors";
 import classes from "./Navigation.module.scss";
 
 type NavigationItem = {
@@ -39,8 +39,8 @@ const NAVIGATION_LIST: NavigationItem[] = [
   },
 ];
 const Navigation: React.FC = () => {
-  const isLoggedIn: boolean = useSelector(selectIsLoggedIn);
-  if (!isLoggedIn) return <></>;
+  const isAppDataLoaded: boolean = useSelector(selectIsAppDataLoaded);
+  if (!isAppDataLoaded) return <></>;
   return (
     <header className={classes.header__container}>
       <h1>

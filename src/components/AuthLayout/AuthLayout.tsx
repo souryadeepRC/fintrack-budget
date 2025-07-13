@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "@/store/appReducer/appSelectors";
+import { selectIsAppDataLoaded } from "@/store/appReducer/appSelectors";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useUserExistence } from "@/hooks";
@@ -12,14 +12,14 @@ interface AuthLayoutProps {
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { isLoading } = useUserExistence();
-  const isLoggedIn: boolean = useSelector(selectIsLoggedIn);
+  const isAppDataLoaded: boolean = useSelector(selectIsAppDataLoaded);
 
   useEffect(() => {
-    if (isLoading || isLoggedIn) return;
+    if (isLoading || isAppDataLoaded) return;
     navigate("/");
-  }, [isLoggedIn]);
+  }, [isAppDataLoaded]);
 
-  if (isLoggedIn) return <>{children}</>;
+  if (isAppDataLoaded) return <>{children}</>;
   if (isLoading) return <Loader />;
 };
 export default AuthLayout;
