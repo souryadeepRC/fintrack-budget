@@ -48,6 +48,9 @@ const appSlice = createSlice({
         isAppDataLoaded: true,
       };
     },
+    resetApp: () => {
+      return initialState;
+    },
   },
 });
 
@@ -57,6 +60,7 @@ export const {
   setUserDetails,
   logoutUser,
   dataLoadingComplete,
+  resetApp,
 } = appSlice.actions;
 
 export default appSlice.reducer;
