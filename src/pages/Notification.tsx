@@ -5,18 +5,16 @@ import {
   selectIsNotificationLoaded,
 } from "@/store/notificationReducer/notificationSelectors";
 import notificationService from "@/service/Notification";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import {
   addNotification,
   editNotification,
-  loadNotifications,
   removeNotification,
 } from "@/store/notificationReducer/notificationReducer";
 import { NotificationState } from "@/types/notification";
-import { useEffect } from "react";
 import { EntryContext } from "@/types";
 
 const Notification: React.FC = () => {
@@ -36,12 +34,6 @@ const Notification: React.FC = () => {
     notificationId ? selectNotification(state, notificationId) : undefined
   );
 
-  const { isLoading, data = undefined } = useQuery({
-    queryKey: ["notification-list"],
-    queryFn: () => notificationService.getAllNotifications(),
-    refetchOnWindowFocus: false,
-    enabled: !isNotificationsLoaded,
-  });
   const modifyMutation = useMutation({
     mutationFn: (notification: NotificationState) =>
       notificationService.storeNotification(notification),
@@ -71,11 +63,6 @@ const Notification: React.FC = () => {
       toast.error(`Failed to remove notification`);
     },
   });
-
-  useEffect(() => {
-    if (isLoading || !data || isNotificationsLoaded) return;
-    dispatch(loadNotifications(data || []));
-  }, [data]);
 
   const notificationContext: EntryContext = {
     type: "Notification",

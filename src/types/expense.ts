@@ -7,3 +7,9 @@ export type ExpenseState = {
   mode: string; // Payment Mode e.g. creditCard, cash
   note: string;
 };
+export type MonthlyExpenseReport = {
+  currentMonthTotal: number;
+  lastMonthTotal: number;
+  differencePercent: string;
+  trend: "Extra" | "Less" | "Same" | "";
+};

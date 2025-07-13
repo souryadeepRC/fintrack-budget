@@ -40,7 +40,7 @@ const EditNotification = () => {
     const { id, ...restNotification } = notification;
     setDetails({
       ...restNotification,
-      amount: `${notification.amount}`,
+      amount: `${notification.amount === 0 ? "" : notification.amount}`,
       registerDate: formatIsoToDate(notification.registerDate),
       lastAlertDate: formatIsoToDate(notification.lastAlertDate),
       expiryDate: formatIsoToDate(notification.expiryDate),
@@ -61,6 +61,8 @@ const EditNotification = () => {
       label: "Title",
       type: FormFieldType.TEXT,
       isRequired: true,
+      isNonEditable: true,
+      ...(notification?.id && { isDisabled: true }),
       validate: (title: string): string | undefined => {
         if (title.length > 20) return "Title can not be more than 20 letters";
       },
@@ -82,6 +84,8 @@ const EditNotification = () => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (amount.length > 0 && !regex.test(amount))
           return "Provide a valid amount";
+        if (amount.length > 0 && Number(amount) <= 0)
+          return "Amount cannot be zero";
         if (amount.length > 10)
           return "Too much money! Please check the amount";
       },
@@ -92,12 +96,12 @@ const EditNotification = () => {
       type: FormFieldType.DATE,
       isRequired: true,
     },
+    { name: "expiryDate", label: "Expiry Date", type: FormFieldType.DATE },
     {
       name: "lastAlertDate",
       label: "Last Alert Date",
       type: FormFieldType.DATE,
     },
-    { name: "expiryDate", label: "Expiry Date", type: FormFieldType.DATE },
     {
       name: "documentLocation",
       label: "Document Location",

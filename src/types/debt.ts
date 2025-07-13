@@ -15,3 +15,9 @@ export type DebtState = {
   clearedAmount: number;
 };
 export type DebtCategoryState = "Lend" | "Borrow";
+export type DebtAnalyticsReport = {
+  totalActiveLend: number;
+  totalActiveBorrow: number;
+  topLenders: { name: string; value: number }[];
+  topBorrowers: { name: string; value: number }[];
+};

@@ -5,9 +5,10 @@ import { AiOutlineDelete } from "react-icons/ai";
 
 import { AlertDialog, CardDetails } from "@/components/common";
 
-import { convertDate } from "@/utils";
+import { convertDate, formatToINR } from "@/utils";
 import { EntryContext } from "@/types";
 import { NotificationState } from "@/types/notification";
+import classes from "./Notification.module.scss";
 
 const NotificationDetails = () => {
   const context: EntryContext = useOutletContext();
@@ -23,6 +24,31 @@ const NotificationDetails = () => {
   };
 
   if (!notification) return <></>;
+  const getExpiryMessage = (): string | null => {
+    const now = new Date();
+    const expiryDate = new Date(notification.expiryDate);
+    const diffMs = expiryDate.getTime() - now.getTime();
+
+    if (diffMs <= 0) {
+      return "Already expired";
+    }
+
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffMonths = Math.floor(diffDays / 30);
+
+    if (diffMonths > 6) {
+      return null;
+    }
+
+    if (diffMonths >= 1) {
+      return `Going to expire in ${diffMonths} month${
+        diffMonths > 1 ? "s" : ""
+      }`;
+    }
+
+    return `Going to expire in ${diffDays} day${diffDays > 1 ? "s" : ""}`;
+  };
+
   return (
     <>
       <AlertDialog
@@ -32,7 +58,7 @@ const NotificationDetails = () => {
         actions={[
           {
             label: "Yes",
-            mode: "error",
+            mode: "alert",
             onClick: () => context.actions?.delete?.(notification.id),
           },
           {
@@ -48,69 +74,45 @@ const NotificationDetails = () => {
         backAction={{ label: "Back", onClick: onBack }}
         actions={[
           {
-            label: "Edit",
-            variant: "outlined",
+            variant: "curve",
             onClick: context.navigation.editEntry,
             startIcon: <FaRegEdit />,
           },
 
           {
-            label: "Remove",
-            mode: "error",
+            mode: "alert",
+            variant: "curve",
             onClick: toggleIsDelete,
             startIcon: <AiOutlineDelete />,
           },
         ]}
-        properties={[
-          {
-            variant: "heading",
-            value: notification.title,
-          },
-          {
-            label: "Note",
-            variant: "description",
-            value: notification.note,
-          },
-          ...(notification.amount === 0
-            ? [
-                {
-                  label: "Total Amount",
-                  variant: "amount" as any,
-                  value: notification.amount,
-                },
-              ]
-            : []),
-          {
-            label: "Total Amount",
-            value: `Rs. ${notification.registerDate}`,
-          },
-          ...(notification.lastAlertDate
-            ? [
-                {
-                  label: "Total Amount",
-                  value: `Rs. ${notification.lastAlertDate}`,
-                },
-              ]
-            : []),
-          ...(notification.expiryDate
-            ? [
-                {
-                  label: "Expiry Date",
-                  value: convertDate(notification.expiryDate),
-                },
-              ]
-            : []),
-          ...(notification.documentLocation
-            ? [
-                {
-                  label: "Document Location",
-                  variant: "description" as any,
-                  value: notification.documentLocation,
-                },
-              ]
-            : []),
-        ]}
-      />
+      >
+        <div className={classes.notification}>
+          <h5 className={classes.notification__heading}>
+            {notification.title}
+          </h5>
+          <p className={classes.notification__message}>{getExpiryMessage()}</p>
+          <em className={classes.notification__note}>{notification.note}</em>
+          <div className={classes.notification__details}>
+            <div className={classes.notification__period}>
+              <p>Expire on</p>
+              <strong className={classes.notification__period__date}>
+                {convertDate(notification.expiryDate)}
+              </strong>
+            </div>
+            <div className={classes.notification__period}>
+              <p>Registered on</p>
+              <strong className={classes.notification__period__date}>
+                {convertDate(notification.registerDate)}
+              </strong>
+            </div>
+          </div>
+          <p>
+            Amount:&nbsp;
+            <strong>Rs.&nbsp;{formatToINR(Number(notification.amount))}</strong>
+          </p>
+        </div>
+      </CardDetails>
     </>
   );
 };

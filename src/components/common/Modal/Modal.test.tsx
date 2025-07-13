@@ -53,7 +53,7 @@ describe("Modal", () => {
 
   it("calls onClose when close button is clicked", () => {
     render(
-      <Modal isOpen={true} onClose={onCloseMock}>
+      <Modal isOpen={true} showCloseIcon={true} onClose={onCloseMock}>
         <p>Closing</p>
       </Modal>
     );

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router";
 
-import { useSettings } from "@/hooks";
 import { ExpenseState } from "@/types/expense";
 import { formatIsoToDate } from "@/utils";
 import FormBuilder from "@/components/common/FormBuilder/FormBuilder";
@@ -10,6 +9,7 @@ import {
   FormFieldType,
 } from "@/components/common/FormBuilder/FormConfig";
 import { EntryContext } from "@/types";
+import AppConstants from "@/constants";
 
 type ExpenseDetailsState = {
   title: string;
@@ -31,7 +31,6 @@ const EditExpense = () => {
   const context: EntryContext = useOutletContext();
   const expense = context.activeEntry as ExpenseState;
 
-  const options = useSettings();
   const [details, setDetails] = useState<ExpenseDetailsState>(initialState);
 
   useEffect(() => {
@@ -58,6 +57,8 @@ const EditExpense = () => {
       label: "Title",
       type: FormFieldType.TEXT,
       isRequired: true,
+      isNonEditable: true,
+      ...(expense?.id && { isDisabled: true }),
       validate: (title: string): string | undefined => {
         if (title.length > 20) return "Title can not be more than 20 letters";
       },
@@ -70,6 +71,7 @@ const EditExpense = () => {
       validate: (amount: string): string | undefined => {
         const regex = /^\d+(\.\d{1,2})?$/;
         if (!regex.test(amount)) return "Provide a valid amount";
+        if (Number(amount) <= 0) return "Amount cannot be zero";
         if (amount.length > 10)
           return "Too much money! Please check the amount";
       },
@@ -80,9 +82,9 @@ const EditExpense = () => {
       label: "Category",
       type: FormFieldType.SELECT,
       isRequired: true,
-      options: options.expenseCategories,
+      options: AppConstants.expenseCategories,
       validate: (category: string): string | undefined => {
-        if (!options.ExpenseCategoryMap.get(category))
+        if (!AppConstants.expenseCategory.get(category))
           return "Choose from the list";
       },
     },
@@ -91,9 +93,9 @@ const EditExpense = () => {
       label: "Payment Mode",
       type: FormFieldType.SELECT,
       isRequired: true,
-      options: options.paymentModes,
+      options: AppConstants.paymentOptions,
       validate: (mode: string): string | undefined => {
-        if (!options.PaymentModeMap.get(mode)) return "Choose from the list";
+        if (!AppConstants.paymentMode.get(mode)) return "Choose from the list";
       },
     },
     {

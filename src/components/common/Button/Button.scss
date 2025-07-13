@@ -20,18 +20,27 @@ button {
     background-color: inherit;
     color: $primary-color;
   }
-  &.error {
+  &.curve {
+    background-color: inherit;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    border-radius: 1rem;
+    padding: 0.5rem 1.5rem;
+  }
+  &.alert {
     background-color: $error-color;
+    border-color: $error-color;
+    color: $secondary-color;
   }
   &.disabled {
-    background-color: $shadow-color;
+    background-color: $disabled-color;
     cursor: not-allowed;
   }
 }
 
 @media screen and (max-width: $mobile-max-width) {
   button {
-    padding: 0.5rem 1.5rem;
+    padding: 0.35rem 1rem;
     font-size: 0.8rem;
   }
 }

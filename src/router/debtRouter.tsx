@@ -1,8 +1,13 @@
+import AuthLayout from "@/components/AuthLayout/AuthLayout";
 import { DebtDetails, DebtList, EditDebt } from "@/components/Debt";
 import { Debt } from "@/pages";
 const debtRouter = {
   path: "/debt",
-  Component: Debt,
+  Component: () => (
+    <AuthLayout>
+      <Debt />
+    </AuthLayout>
+  ),
   children: [
     {
       index: true,

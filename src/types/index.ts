@@ -8,11 +8,11 @@ export type CategoryOption = {
   value: string;
 };
 
-export type ButtonVariant = "outlined" | "contained" | "text";
-export type ButtonMode = "info" | "warning" | "error";
+export type ButtonVariant = "outlined" | "contained" | "text" | "curve";
+export type ButtonMode = "info" | "warning" | "alert";
 
 export type ActionButtonType = {
-  label: string;
+  label?: string;
   mode?: ButtonMode;
   variant?: ButtonVariant;
   onClick: () => void;

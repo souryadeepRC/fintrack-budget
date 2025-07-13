@@ -28,7 +28,9 @@ export interface FieldConfig {
   name: string;
   label: string;
   type: FieldType;
+  isNonEditable?: boolean;
   isRequired?: boolean;
+  isDisabled?: boolean;
   placeholder?: string;
   validate?: (value: any) => string | undefined;
   options?: FormSelectOption[]; // for select
@@ -58,5 +60,6 @@ export interface FormFieldCommonProps {
   onChange: (e: React.ChangeEvent<FormElement>) => void;
   placeholder?: string;
   className?: string;
+  disabled?: boolean;
   checked?: boolean; // Only applicable for checkboxes
 }

@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import App from "@/App";
-import { Settings } from "@/pages";
 import expenseRouter from "./expenseRouter";
 import Landing from "@/components/Landing/Landing";
 import debtRouter from "./debtRouter";
 import notificationRouter from "./notificationRouter";
 import { ReRoute } from "@/components/ErrorPage";
+import AuthLayout from "@/components/AuthLayout/AuthLayout";
 
 const router = createBrowserRouter([
   {
@@ -14,15 +14,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Landing,
+        Component: () => (
+          <AuthLayout>
+            <Landing />
+          </AuthLayout>
+        ),
       },
       expenseRouter,
       debtRouter,
       notificationRouter,
-      {
-        path: "/settings",
-        Component: Settings,
-      },
       {
         path: "*",
         Component: ReRoute,

@@ -9,6 +9,15 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    minify: "terser", // Switch to Terser
+    terserOptions: {
+      compress: {
+        drop_console: true, // ✅ Removes all console.*
+        drop_debugger: true, // ✅ Removes debugger statements
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {

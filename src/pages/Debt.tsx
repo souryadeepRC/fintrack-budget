@@ -5,18 +5,12 @@ import {
   selectIsDebtLoaded,
 } from "@/store/debtReducer/debtSelectors";
 import debtService from "@/service/Debt";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
-import {
-  addDebt,
-  editDebt,
-  loadDebts,
-  removeDebt,
-} from "@/store/debtReducer/debtReducer";
+import { addDebt, editDebt, removeDebt } from "@/store/debtReducer/debtReducer";
 import { DebtState } from "@/types/debt";
-import { useEffect } from "react";
 import { EntryContext } from "@/types";
 
 const debt: React.FC = () => {
@@ -32,12 +26,6 @@ const debt: React.FC = () => {
     debtId ? selectDebt(state, debtId) : undefined
   );
 
-  const { isLoading, data = undefined } = useQuery({
-    queryKey: ["debt-list"],
-    queryFn: () => debtService.getAllDebts(),
-    refetchOnWindowFocus: false,
-    enabled: !isDebtsLoaded,
-  });
   const modifyMutation = useMutation({
     mutationFn: (debt: DebtState) => debtService.storeDebt(debt),
     onSuccess: function (response: DebtState) {
@@ -65,13 +53,8 @@ const debt: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    if (isLoading || !data || isDebtsLoaded) return;
-    dispatch(loadDebts(data || []));
-  }, [data]);
-
   const debtContext: EntryContext = {
-    type: "debt",
+    type: "Debt",
     navigation: {
       addEntry: () => navigate(`/debt/add-debt`),
       editEntry: () => {

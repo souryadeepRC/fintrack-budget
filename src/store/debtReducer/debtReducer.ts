@@ -1,4 +1,3 @@
-import { mockDebts } from "@/assets/mockDebt";
 import { DebtState } from "@/types/debt";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -9,7 +8,7 @@ interface expenseState {
 
 const initialState: expenseState = {
   isLoaded: false,
-  debts: mockDebts,
+  debts: [],
 };
 const debtSlice = createSlice({
   name: "debt",

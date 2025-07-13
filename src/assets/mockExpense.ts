@@ -2,10 +2,10 @@ export const mockExpenses = [
   {
     id: "c4a1e8df-917b-4d80-a54f-73a13e0dfc92",
     title: "Grocery shopping at Walmart",
-    amount: 34576.45,
+    amount: 0,
     category: "Food",
     date: "2025-07-05T14:30:00.000Z",
-    mode: "creditCard",
+    mode: "others", //"Credit Card",
     note: "Sample file",
   },
   {
@@ -15,7 +15,7 @@ export const mockExpenses = [
     amount: 15.99,
     category: "Entertainment",
     date: "2025-07-01T08:00:00.000Z",
-    mode: "creditCard",
+    mode: "GPay",
     note: "Sample file",
   },
   {
@@ -24,7 +24,7 @@ export const mockExpenses = [
     amount: 48.25,
     category: "Food",
     date: "2025-07-06T19:45:00.000Z",
-    mode: "debitCard",
+    mode: "Debit Card",
     note: "",
   },
   {
@@ -33,7 +33,7 @@ export const mockExpenses = [
     amount: 60.0,
     category: "Transport",
     date: "2025-07-03T12:15:00.000Z",
-    mode: "cash",
+    mode: "PhonePe",
     note: "Sample file",
   },
   {
@@ -42,7 +42,7 @@ export const mockExpenses = [
     amount: 30.0,
     category: "Entertainment",
     date: "2025-07-08T20:00:00.000Z",
-    mode: "creditCard",
+    mode: "Others",
     note: "Sample file",
   },
   {
@@ -51,7 +51,7 @@ export const mockExpenses = [
     amount: 120.5,
     category: "Utilities",
     date: "2025-07-02T09:00:00.000Z",
-    mode: "bankTransfer",
+    mode: "Others",
     note: "Sample file",
   },
   {
@@ -60,7 +60,34 @@ export const mockExpenses = [
     amount: 6.75,
     category: "Food",
     date: "2025-07-09T10:20:00.000Z",
-    mode: "cash",
+    mode: "Cash",
+    note: "Sample file",
+  },
+  {
+    id: "7a92c8bc-5d5e-4708-84f3-6a7bdb0f3624",
+    title: "Coffee at Starbucks",
+    amount: 6.75,
+    category: "Food",
+    date: "2025-07-09T10:20:00.000Z",
+    mode: "Cash",
+    note: "Sample file",
+  },
+  {
+    id: "7a92c8bc-5d5e-4708-84f3-6a7bdb0f3329",
+    title: "Coffee at Starbucks",
+    amount: 6.75,
+    category: "Food",
+    date: "2025-07-09T10:20:00.000Z",
+    mode: "Cash",
+    note: "Sample file",
+  },
+  {
+    id: "7a92c8bc-5d5e-4708-84f3-6a7vdb0f3629",
+    title: "Coffee at Starbucks",
+    amount: 6.75,
+    category: "Food",
+    date: "2025-07-09T10:20:00.000Z",
+    mode: "Cash",
     note: "Sample file",
   },
 ];
