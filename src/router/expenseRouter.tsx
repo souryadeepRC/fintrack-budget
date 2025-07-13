@@ -1,4 +1,4 @@
-import AuthLayout from "@/components/AuthLayout/AuthLayout";
+import { AuthLayout } from "@/components/Layout";
 import { EditExpense, ExpenseDetails, ExpenseList } from "@/components/expense";
 import { Expense } from "@/pages";
 const expenseRouter = {

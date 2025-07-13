@@ -1,4 +1,4 @@
-import AuthLayout from "@/components/AuthLayout/AuthLayout";
+import { AuthLayout } from "@/components/Layout";
 import { DebtDetails, DebtList, EditDebt } from "@/components/Debt";
 import { Debt } from "@/pages";
 const debtRouter = {
