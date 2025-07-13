@@ -11,14 +11,13 @@ export function getDebtAnalytics(debts: DebtState[]): DebtAnalyticsReport {
   debts.forEach((debt) => {
     const isActive = debt.status !== DebtStatus.PAID;
     const outstanding = debt.amount - (debt.clearedAmount || 0);
-
+    if (!isActive) return;
     // Accumulate active debts
-    if (isActive) {
-      if (debt.category === DebtCategory.LEND) {
-        totalActiveLend += outstanding;
-      } else if (debt.category === DebtCategory.BORROW) {
-        totalActiveBorrow += outstanding;
-      }
+
+    if (debt.category === DebtCategory.LEND) {
+      totalActiveLend += outstanding;
+    } else if (debt.category === DebtCategory.BORROW) {
+      totalActiveBorrow += outstanding;
     }
 
     // Map totals by name

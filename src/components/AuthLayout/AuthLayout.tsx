@@ -9,7 +9,6 @@ interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { isLoading } = useUserExistence();
@@ -20,7 +19,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     navigate("/");
   }, [isLoggedIn]);
 
-  if (isLoading) return <Loader />;
   if (isLoggedIn) return <>{children}</>;
+  if (isLoading) return <Loader />;
 };
 export default AuthLayout;

@@ -3,12 +3,14 @@ interface AppState {
   isMobile: boolean;
   isLoggedIn: boolean;
   username: string;
+  isAppDataLoaded: boolean;
 }
 
 const initialState: AppState = {
   isMobile: false,
   isLoggedIn: false,
   username: "",
+  isAppDataLoaded: false,
 };
 const appSlice = createSlice({
   name: "app",
@@ -40,10 +42,21 @@ const appSlice = createSlice({
         username: "",
       };
     },
+    dataLoadingComplete: (state) => {
+      return {
+        ...state,
+        isAppDataLoaded: true,
+      };
+    },
   },
 });
 
-export const { setIsMobile, loginUser, setUserDetails, logoutUser } =
-  appSlice.actions;
+export const {
+  setIsMobile,
+  loginUser,
+  setUserDetails,
+  logoutUser,
+  dataLoadingComplete,
+} = appSlice.actions;
 
 export default appSlice.reducer;
