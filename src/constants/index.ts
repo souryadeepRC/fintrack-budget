@@ -11,7 +11,7 @@ const PaymentModeMap = new Map([
   ["Cash", { value: "Cash", Icon: FaMoneyBillWave }],
   ["GPay", { value: "GPay", Icon: FaGooglePay }],
   ["PhonePe", { value: "PhonePe", Icon: SiPhonepe }],
-  ["Debit Card", { value: "ATM Card", Icon: MdCreditCard }],
+  ["Debit Card", { value: "Debit Card", Icon: MdCreditCard }],
   ["Credit Card", { value: "Credit Card", Icon: FaCreditCard }],
   ["Others", { value: "Others", Icon: FaWallet }],
 ]);
@@ -36,7 +36,7 @@ export const paymentOptions = [
   { label: "Cash", value: "Cash" },
   { label: "GPay", value: "GPay" },
   { label: "PhonePe", value: "PhonePe" },
-  { label: "Debit Card", value: "ATM Card" },
+  { label: "Debit Card", value: "Debit Card" },
   { label: "Credit Card", value: "Credit Card" },
   { label: "Others", value: "Others" },
 ];
