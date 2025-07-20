@@ -17,7 +17,20 @@
   color: $primary-color;
   cursor: pointer;
   border-bottom: 1px solid $shadow-color;
-
+  &.Paid {
+    opacity: 0.5;
+    .card__title::after {
+      content: "Paid";
+      font-size: 0.5rem;
+      background-color: $primary-color;
+      color: $secondary-color;
+      padding: 0 0.5rem;
+      border-radius: 1rem;
+      position: absolute;
+      margin-left: 0.5rem;
+      top: 0.2rem;
+    }
+  }
   .card__title {
     max-width: 60vw;
     white-space: nowrap;

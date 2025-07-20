@@ -13,9 +13,9 @@ interface CardProps {
 }
 const Card: React.FC<CardProps> = (props) => {
   const { onClick, details } = props;
-  const { title, amount, date } = details;
+  const { title, amount, date, chip } = details;
   return (
-    <div onClick={onClick} className="card__item">
+    <div onClick={onClick} className={`card__item ${chip}`}>
       <h4 className="card__title">{title}</h4>
       <div className="card__info">
         {date && (

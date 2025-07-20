@@ -1,4 +1,4 @@
-import { Client, ID, Databases } from "appwrite";
+import { Client, ID, Databases, Query } from "appwrite";
 import APIConfig from "./api-config";
 import { DebtState } from "@/types/debt";
 // utils
@@ -40,7 +40,7 @@ class DebtService {
     const debts = await this.database.listDocuments(
       APIConfig.databaseId,
       APIConfig.collectionId.debts,
-      []
+      [Query.orderDesc("status")]
     );
     return debts.documents.map((debt) => {
       return {
