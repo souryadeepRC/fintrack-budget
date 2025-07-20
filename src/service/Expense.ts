@@ -1,4 +1,4 @@
-import { Client, ID, Databases } from "appwrite";
+import { Client, ID, Databases, Query } from "appwrite";
 import APIConfig from "./api-config";
 import { ExpenseState } from "@/types/expense";
 // utils
@@ -35,7 +35,7 @@ class ExpenseService {
     const expenses = await this.database.listDocuments(
       APIConfig.databaseId,
       APIConfig.collectionId.expenses,
-      []
+      [Query.limit(100), Query.offset(0), Query.orderDesc("date")]
     );
     return expenses.documents.map((expense) => {
       return {

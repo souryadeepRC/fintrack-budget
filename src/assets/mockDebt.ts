@@ -11,6 +11,7 @@ export const mockDebts: any = [
     status: "Paid",
     note: "Split dinner with friends",
     clearedAmount: 45.3,
+    clearanceDate: "2025-07-02T19:45:00.000Z",
   },
   {
     id: "d9e8f7a6-b5c4-3210-9876-abcdefabcdef",
@@ -24,6 +25,7 @@ export const mockDebts: any = [
     status: "Unpaid",
     note: "Auto payment",
     clearedAmount: 5.99,
+    clearanceDate: "",
   },
   {
     id: "123e4567-e89b-12d3-a456-426614174000",
@@ -34,9 +36,10 @@ export const mockDebts: any = [
     mode: "Others",
     name: "Liam Nguyen",
     dueDate: "2025-07-07T00:00:00.000Z",
-    status: "Partially Paid",
+    status: "Unpaid",
     note: "Need to pay balance next week",
     clearedAmount: 30.0,
+    clearanceDate: "",
   },
   {
     id: "789abc12-3456-def0-1234-56789abcdef0",
@@ -50,6 +53,7 @@ export const mockDebts: any = [
     status: "Unpaid",
     note: "Bought smartwatch",
     clearedAmount: 0,
+    clearanceDate: "",
   },
   {
     id: "456def78-90ab-cdef-1234-567890abcdef",
@@ -60,8 +64,9 @@ export const mockDebts: any = [
     mode: "Others",
     name: "Emily Davis",
     dueDate: "2025-07-15T00:00:00.000Z",
-    status: "Settled",
+    status: "Paid",
     note: "Monthly auto-debit",
     clearedAmount: 350.0,
+    clearanceDate: "2025-07-05T09:00:00.000Z",
   },
 ];

@@ -40,6 +40,7 @@ export interface FormBuilderProps {
   title: string;
   fields: FieldConfig[];
   onSubmit: (data: Record<string, any>) => void;
+  onValidSubmit?: (data: Record<string, any>) => boolean;
   defaultValues?: Record<string, any>;
   values?: Record<string, any>;
   actionBtnLabel?: string;

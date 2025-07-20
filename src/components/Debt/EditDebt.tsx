@@ -18,6 +18,7 @@ import {
 } from "./DebtConfig";
 import AppConstants from "@/constants";
 import { EntryContext } from "@/types";
+import { toast } from "sonner";
 
 type DebtDetailsState = {
   title: string;
@@ -28,6 +29,7 @@ type DebtDetailsState = {
   note: string;
   name: string;
   dueDate?: string;
+  clearanceDate?: string;
   status: DebtStatusType;
   clearedAmount: string;
 };
@@ -36,11 +38,12 @@ const initialState = {
   amount: "",
   category: DebtCategory.LEND,
   date: "",
-  mode: "Gpay",
+  mode: "GPay",
   status: DebtStatus.UNPAID,
   clearedAmount: "",
   name: "",
   dueDate: "",
+  clearanceDate: "",
   note: "",
 };
 const EditDebt = () => {
@@ -63,6 +66,7 @@ const EditDebt = () => {
       clearedAmount: `${debt.clearedAmount === 0 ? "" : debt.clearedAmount}`,
       date: formatIsoToDate(debt.date),
       dueDate: formatIsoToDate(debt.dueDate || ""),
+      clearanceDate: formatIsoToDate(debt.clearanceDate || ""),
     });
   }, [debt]);
 
@@ -77,7 +81,13 @@ const EditDebt = () => {
           : Number(response.clearedAmount),
     });
   };
-
+  const onValidDebt = (response: any): boolean => {
+    if (response.status === DebtStatus.PAID && response.clearanceDate === "") {
+      toast.error("Please provide the clearance Date");
+      return false;
+    }
+    return true;
+  };
   const formFields: FieldConfig[] = [
     {
       name: "title",
@@ -156,6 +166,7 @@ const EditDebt = () => {
         if (!DebtStatusMap.get(status)) return "Choose from the list";
       },
     },
+    { name: "clearanceDate", label: "Cleared on", type: FormFieldType.DATE },
     {
       name: "clearedAmount",
       label: "Cleared Amount",
@@ -186,6 +197,7 @@ const EditDebt = () => {
       values={details}
       fields={formFields}
       onSubmit={onSave}
+      onValidSubmit={onValidDebt}
       isSuccess={context.sideEffects?.modify?.isSuccess}
       onSuccess={context.sideEffects?.modify?.success}
       actionBtnLabel={debt?.id ? "Save" : "Create"}

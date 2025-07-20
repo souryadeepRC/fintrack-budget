@@ -25,6 +25,7 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
     title,
     fields,
     onSubmit,
+    onValidSubmit,
     actionBtnLabel = "Submit",
     isSuccess,
     onSuccess,
@@ -57,6 +58,9 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
     const result = validateForm(fields, formState, errorState);
     setErrorState(result.errorState);
     if (result.isInValid) {
+      return;
+    }
+    if (onValidSubmit && !onValidSubmit(formState)) {
       return;
     }
     onSubmit(trimFormValues(formState));
@@ -109,8 +113,9 @@ const FormBuilder: React.FC<FormBuilderProps> = (props) => {
         <div className="form__notes">
           {hasNonEditableField && (
             <p>
-              Fields marked with&nbsp;<FaLock style={{ verticalAlign: "middle" }} />&nbsp;
-              are not editable after submission
+              Fields marked with&nbsp;
+              <FaLock style={{ verticalAlign: "middle" }} />
+              &nbsp; are not editable after submission
             </p>
           )}
           {hasMandatoryField && <p>Fields marked with * are mandatory</p>}

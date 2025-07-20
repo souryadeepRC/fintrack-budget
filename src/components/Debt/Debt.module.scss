@@ -56,6 +56,11 @@
     display: flex;
     gap: 0.5rem;
   }
+  &__paid__msg {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
   &__mode {
     display: flex;
     align-items: center;

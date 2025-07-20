@@ -12,6 +12,7 @@ export type DebtState = {
   dueDate?: string;
   status: DebtStatusType;
   note: string;
+  clearanceDate?: string;
   clearedAmount: number;
 };
 export type DebtCategoryState = "Lend" | "Borrow";

@@ -37,10 +37,25 @@ const DebtDetails = () => {
     const actionVerb: string = isLendDebt ? "Collect" : "Pay";
     const actionPrep: string = isLendDebt ? "from" : "to";
     return (
-      <>
+      <p className={classes.debt__message}>
         <strong>{actionVerb}</strong> {actionPrep}
         <strong>{debt.name}</strong>
-      </>
+      </p>
+    );
+  };
+  const getClearedMessage = () => {
+    const actionVerb: string = isLendDebt ? "Collected" : "Paid";
+    const actionPrep: string = isLendDebt ? "from" : "to";
+    return (
+      <div className={classes.debt__paid__msg}>
+        <p>
+          <strong>{actionVerb}</strong>&nbsp;{actionPrep}&nbsp;
+          <strong>{debt.name}</strong>
+        </p>
+        <p>
+          on&nbsp;<strong>{convertDate(debt.clearanceDate || "")}</strong>
+        </p>
+      </div>
     );
   };
   const getDebtAmount = () => {
@@ -119,7 +134,9 @@ const DebtDetails = () => {
             <div className={classes.debt__amount}>{getDebtAmount()}</div>
             <p className={classes.debt__date}>{convertDate(debt.date)}</p>
           </div>
-          <p className={classes.debt__message}>{getDebtMessage()}</p>
+
+          {isPaidDebt ? getClearedMessage() : getDebtMessage()}
+
           <p className={classes.debt__mode}>
             {isLendDebt ? "Paid" : "Collected"} by <PaymentModeIcon />
             &nbsp;

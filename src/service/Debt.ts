@@ -33,6 +33,7 @@ class DebtService {
       dueDate: debt.dueDate,
       status: debt.status,
       clearedAmount: debt.clearedAmount,
+      clearanceDate: debt.clearanceDate,
     };
   }
   async getAllDebts(): Promise<DebtState[]> {
@@ -54,6 +55,7 @@ class DebtService {
         dueDate: debt.dueDate,
         status: debt.status,
         clearedAmount: debt.clearedAmount,
+        clearanceDate: debt.clearanceDate,
       };
     });
   }
@@ -77,6 +79,7 @@ class DebtService {
       dueDate: debt.dueDate,
       status: debt.status,
       clearedAmount: debt.clearedAmount,
+      clearanceDate: debt.clearanceDate,
     };
   }
   async storeDebt(data: any): Promise<DebtState> {
