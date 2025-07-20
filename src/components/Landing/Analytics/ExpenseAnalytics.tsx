@@ -8,14 +8,20 @@ import MetricCard from "./MetricCard";
 import classes from "./Analytics.module.scss";
 import { selectAllExpenses } from "@/store/expenseReducer/expenseSelectors";
 import { getMonthlyExpenseAnalytics } from "@/utils/expenseAnalytics";
+import { useDownloadCSV } from "@/hooks";
+import { Button } from "@/components/common";
 
 const ExpenseAnalytics: React.FC = () => {
   const expenses = useSelector(selectAllExpenses);
   const report = useMemo(() => getMonthlyExpenseAnalytics(expenses), []);
+  const downloadCSV = useDownloadCSV("Expense");
 
   const navigate = useNavigate();
   const onAddExpense = () => {
     navigate("/expense");
+  };
+  const onDownloadExpense = () => {
+    downloadCSV(expenses);
   };
 
   return (
@@ -34,6 +40,9 @@ const ExpenseAnalytics: React.FC = () => {
           value={`${report.differencePercent} ${report.trend}`}
         />
       </div>
+      <Button variant="contained" onClick={onDownloadExpense}>
+        Download All Expenses
+      </Button>
     </Analytics>
   );
 };
