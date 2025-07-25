@@ -1,9 +1,20 @@
-import { FaMoneyBillWave, FaCreditCard, FaWallet } from "react-icons/fa";
-import { MdCreditCard } from "react-icons/md";
+import {
+  FaMoneyBillWave,
+  FaCreditCard,
+  FaWallet,
+  FaCar,
+  FaShoppingCart,
+} from "react-icons/fa";
+import { MdCreditCard, MdOutlineLocalGroceryStore } from "react-icons/md";
 import { FaGooglePay } from "react-icons/fa";
 import { SiPhonepe } from "react-icons/si";
 import { FaCheckCircle } from "react-icons/fa";
-import { CiNoWaitingSign } from "react-icons/ci";
+import { CiGift, CiNoWaitingSign } from "react-icons/ci";
+import { BsBank } from "react-icons/bs";
+import { GiMedicines, GiPartyPopper } from "react-icons/gi";
+import { TbGridDots } from "react-icons/tb";
+import { IoFastFoodSharp } from "react-icons/io5";
+import { RiBillLine } from "react-icons/ri";
 
 const appTitle: string = import.meta.env.VITE_APP_TITLE || "Financial Tracking";
 
@@ -17,15 +28,19 @@ const PaymentModeMap = new Map([
 ]);
 
 const ExpenseCategoryMap = new Map([
-  ["EMI", "EMI"],
-  ["Groceries & Food", "Groceries & Food"],
-  ["Transport", "Transport"],
-  ["Medical", "Medical"],
-  ["Utilities", "Utilities"],
-  ["Entertainment", "Entertainment"],
-  ["Shopping", "Shopping"],
-  ["Gifts", "Gifts"],
-  ["Miscellaneous", "Miscellaneous"],
+  ["EMI", { value: "EMI", Icon: BsBank }],
+  [
+    "Groceries & Food",
+    { value: "Groceries & Food", Icon: MdOutlineLocalGroceryStore },
+  ],
+  ["Food", { value: "Food", Icon: IoFastFoodSharp }],
+  ["Transport", { value: "Transport", Icon: FaCar }],
+  ["Medical", { value: "Medical", Icon: GiMedicines }],
+  ["Utilities", { value: "Utilities", Icon: RiBillLine }],
+  ["Entertainment", { value: "Entertainment", Icon: GiPartyPopper }],
+  ["Shopping", { value: "Shopping", Icon: FaShoppingCart }],
+  ["Gifts", { value: "Gifts", Icon: CiGift }],
+  ["Miscellaneous", { value: "Miscellaneous", Icon: TbGridDots }],
 ]);
 const DebtStatusMap = new Map([
   ["Paid", { value: "Paid", Icon: FaCheckCircle }],

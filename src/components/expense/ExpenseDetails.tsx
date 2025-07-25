@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-import { FaRegEdit } from "react-icons/fa";
-import { AiOutlineDelete } from "react-icons/ai";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { FaWallet } from "react-icons/fa";
 
 import { AlertDialog, CardDetails } from "@/components/common";
@@ -60,7 +59,7 @@ const ExpenseDetails = () => {
             mode: "alert",
             variant: "curve",
             onClick: toggleIsDelete,
-            startIcon: <AiOutlineDelete />,
+            startIcon: <FaRegTrashAlt />,
           },
         ]}
       >

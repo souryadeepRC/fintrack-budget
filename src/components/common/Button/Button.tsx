@@ -3,7 +3,7 @@ import "./Button.scss";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   startIcon?: React.ReactNode;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   endIcon?: React.ReactNode;
   variant?: ButtonVariant;
   mode?: ButtonMode;
@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     variant = "contained",
     mode,
     startIcon,
-    children,
+    children = <></>,
     endIcon,
     className = "",
     type = "button",

@@ -24,7 +24,7 @@ const initialState = {
   amount: "",
   category: "Miscellaneous",
   date: "",
-  mode: "Gpay",
+  mode: "GPay",
   note: "",
 };
 const EditExpense = () => {

@@ -2,13 +2,11 @@ export const convertDate = (date: string): string => {
   try {
     const modifiedDate = new Date(date);
     if (isNaN(modifiedDate.getTime())) throw new Error();
-    return modifiedDate
-      .toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })
-      .replace(/ /g, "-");
+    return modifiedDate.toLocaleDateString("en-US", {
+      month: "short", // "May"
+      day: "numeric", // "23"
+      year: "numeric", // "2025"
+    });
   } catch (error) {
     console.error("Invalid Date provided");
     return "";

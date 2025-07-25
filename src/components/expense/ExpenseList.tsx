@@ -1,6 +1,7 @@
 import { useOutletContext } from "react-router";
 
 import { CardListView, DashboardView } from "@/components/common";
+import AppConstants from "@/constants";
 import { EntryContext } from "@/types";
 
 const ExpenseList = () => {
@@ -24,8 +25,8 @@ const ExpenseList = () => {
           TITLE: "title",
           AMOUNT: "amount",
           DATE: "date",
-          CHIP: "category",
         }}
+        getChip={(item) => AppConstants.expenseCategory.get(item.category)}
       />
     </DashboardView>
   );

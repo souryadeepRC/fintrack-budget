@@ -16,7 +16,7 @@ export const mockNotifications: any = [
     amount: 15.99,
     registerDate: "2025-07-01T08:00:00.000Z",
     lastAlertDate: "2025-07-28T08:00:00.000Z",
-    expiryDate: "2025-08-01T08:00:00.000Z",
+    expiryDate: "",
     documentLocation: "/subscriptions/netflix_july.pdf",
   },
   {

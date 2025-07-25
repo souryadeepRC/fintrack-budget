@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-import { FaRegEdit, FaWallet } from "react-icons/fa";
-import { AiOutlineDelete } from "react-icons/ai";
+import { FaRegEdit, FaRegTrashAlt, FaWallet } from "react-icons/fa";
 
 import { AlertDialog, CardDetails } from "@/components/common";
 
@@ -91,7 +90,7 @@ const DebtDetails = () => {
     variant: "curve",
     mode: "alert",
     onClick: toggleIsDelete,
-    startIcon: <AiOutlineDelete />,
+    startIcon: <FaRegTrashAlt />,
   };
   const editAction: ActionButtonType = {
     variant: "curve",
