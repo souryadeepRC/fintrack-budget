@@ -14,7 +14,7 @@ class DebtService {
     return new Promise((resolve) =>
       setTimeout(() => {
         resolve(mockDebts);
-      }, 2000)
+      }, 200)
     );
   }
   async updateDebt(data: DebtState): Promise<DebtState> {

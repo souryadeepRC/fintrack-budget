@@ -14,7 +14,7 @@ class ExpenseService {
     return new Promise((resolve) =>
       setTimeout(() => {
         resolve(mockExpenses);
-      }, 1000)
+      }, 200)
     );
   }
   async updateExpense(data: ExpenseState): Promise<ExpenseState> {

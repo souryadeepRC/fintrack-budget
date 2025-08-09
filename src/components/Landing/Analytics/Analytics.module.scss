@@ -37,6 +37,19 @@
   &__metricValue {
     font-size: 1.4rem;
   }
+  &__download {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    flex-wrap: wrap;
+    border: 1px solid $border-color;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+  &__download_filter {
+    padding: 0.5rem;
+  }
 }
 .metricCard {
   border: 1px solid $border-color;

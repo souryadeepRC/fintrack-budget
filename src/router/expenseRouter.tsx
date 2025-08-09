@@ -1,6 +1,12 @@
-import { EditExpense, ExpenseDetails, ExpenseList } from "@/components/expense";
 import { Expense } from "@/pages";
 import { Navigate } from "react-router";
+import { lazy } from "react";
+
+const EditExpense = lazy(() => import("@/components/expense/EditExpense"));
+const ExpenseDetails = lazy(
+  () => import("@/components/expense/ExpenseDetails")
+);
+const ExpenseList = lazy(() => import("@/components/expense/ExpenseList"));
 
 const expenseRouter = {
   path: "/expense",
@@ -33,7 +39,6 @@ const expenseRouter = {
     {
       path: "*",
       Component: () => {
-        console.log("re route");
         return <Navigate to="/expense" />;
       },
     },

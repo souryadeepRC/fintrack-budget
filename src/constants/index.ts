@@ -13,7 +13,7 @@ import { CiGift, CiNoWaitingSign } from "react-icons/ci";
 import { BsBank } from "react-icons/bs";
 import { GiMedicines, GiPartyPopper } from "react-icons/gi";
 import { TbGridDots } from "react-icons/tb";
-import { IoFastFoodSharp } from "react-icons/io5";
+import { IoFastFoodOutline, IoFastFoodSharp } from "react-icons/io5";
 import { RiBillLine } from "react-icons/ri";
 
 const appTitle: string = import.meta.env.VITE_APP_TITLE || "Financial Tracking";
@@ -29,10 +29,7 @@ const PaymentModeMap = new Map([
 
 const ExpenseCategoryMap = new Map([
   ["EMI", { value: "EMI", Icon: BsBank }],
-  [
-    "Groceries & Food",
-    { value: "Groceries & Food", Icon: MdOutlineLocalGroceryStore },
-  ],
+  ["Groceries & Food", { value: "Groceries & Food", Icon: IoFastFoodOutline }],
   ["Food", { value: "Food", Icon: IoFastFoodSharp }],
   ["Transport", { value: "Transport", Icon: FaCar }],
   ["Medical", { value: "Medical", Icon: GiMedicines }],
@@ -56,7 +53,7 @@ export const paymentOptions = [
   { label: "Others", value: "Others" },
 ];
 export const expenseCategories = [
-  { label: "EMI", value: "EMI" },
+  { label: "EMI", value: "EMI", Icon: BsBank },
   { label: "Groceries & Food", value: "Groceries & Food" },
   { label: "Transport", value: "Transport" },
   { label: "Medical", value: "Medical" },
@@ -64,7 +61,7 @@ export const expenseCategories = [
   { label: "Entertainment", value: "Entertainment" },
   { label: "Shopping", value: "Shopping" },
   { label: "Gifts", value: "Gifts" },
-  { label: "Miscellaneous", value: "Miscellaneous" },
+  { label: "Miscellaneous", value: "Miscellaneous", Icon: TbGridDots },
 ];
 export default {
   title: appTitle,

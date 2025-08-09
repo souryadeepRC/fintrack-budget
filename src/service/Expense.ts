@@ -31,11 +31,26 @@ class ExpenseService {
       note: expense.note,
     };
   }
-  async getAllExpenses(): Promise<ExpenseState[]> {
+  async getAllExpenses(expenseDate?: Date): Promise<ExpenseState[]> {
+    const now = expenseDate ? expenseDate : new Date();
+
+    const startOfMonth = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)
+    );
+
+    const startOfNextMonth = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)
+    );
     const expenses = await this.database.listDocuments(
       APIConfig.databaseId,
       APIConfig.collectionId.expenses,
-      [Query.limit(100), Query.offset(0), Query.orderDesc("date")]
+      [
+        Query.greaterThanEqual("date", startOfMonth.toISOString()),
+        Query.lessThan("date", startOfNextMonth.toISOString()),
+        Query.limit(100),
+        Query.offset(0),
+        Query.orderDesc("date"),
+      ]
     );
     return expenses.documents.map((expense) => {
       return {

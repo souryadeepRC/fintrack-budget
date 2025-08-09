@@ -10,7 +10,7 @@ const useDownloadCSV = (type: string) => {
       return sentence.charAt(0).toUpperCase() + sentence.slice(1).toLowerCase();
     });
   }
-  const downloadCSV = (entries: any) => {
+  const downloadCSV = (entries: any, entriesFilter: string) => {
     const csvRows = [];
 
     // Extract headers
@@ -33,7 +33,7 @@ const useDownloadCSV = (type: string) => {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = `All_${type}s.csv`;
+    a.download = `All_${type}s_${entriesFilter}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };

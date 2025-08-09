@@ -1,3 +1,5 @@
+import { IconType } from "react-icons";
+
 export type FieldType =
   | "text"
   | "number"
@@ -23,7 +25,11 @@ export const FormFieldType: Record<Uppercase<FieldType>, FieldType> = {
   TEXTAREA: "textarea",
   CHECKBOX: "checkbox",
 };
-export type FormSelectOption = { label: string; value: string | number };
+export type FormSelectOption = {
+  label: string;
+  value: string | number;
+  Icon?: IconType;
+};
 export interface FieldConfig {
   name: string;
   label: string;

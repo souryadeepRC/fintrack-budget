@@ -14,7 +14,7 @@ class NotificationService {
     return new Promise((resolve) =>
       setTimeout(() => {
         resolve(mockNotifications);
-      }, 3000)
+      }, 200)
     );
   }
   async updateNotification(

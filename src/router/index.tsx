@@ -1,7 +1,8 @@
+import { lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import App from "@/App";
 import expenseRouter from "./expenseRouter";
-import Landing from "@/components/Landing/Landing";
+const Landing = lazy(() => import("@/components/Landing/Landing"));
 import debtRouter from "./debtRouter";
 import notificationRouter from "./notificationRouter";
 
