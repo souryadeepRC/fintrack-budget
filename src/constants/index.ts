@@ -5,7 +5,7 @@ import {
   FaCar,
   FaShoppingCart,
 } from "react-icons/fa";
-import { MdCreditCard, MdOutlineLocalGroceryStore } from "react-icons/md";
+import { MdCreditCard } from "react-icons/md";
 import { FaGooglePay } from "react-icons/fa";
 import { SiPhonepe } from "react-icons/si";
 import { FaCheckCircle } from "react-icons/fa";
