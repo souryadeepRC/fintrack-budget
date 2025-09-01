@@ -28,11 +28,10 @@ const NotificationList = () => {
         property={{
           TITLE: "title",
           AMOUNT: "amount",
-          DATE: "registerDate",
         }}
         getChip={(item) =>
           item.expiryDate && {
-            value: `Expire on ${convertDate(item.expiryDate)}`,
+            value: `Due date: ${convertDate(item.expiryDate)}`,
           }
         }
       />

@@ -182,6 +182,7 @@ const trimFormValues = (
 
   return trimmedState;
 };
+
 export {
   initializeErrorState,
   updateErrorState,

@@ -3,8 +3,8 @@ export type NotificationState = {
   title: string;
   note: string;
   amount?: number;
-  registerDate: string;
-  lastAlertDate: string;
+  category: string; // e.g. Food, entertainment
+  mode: string; // Payment Mode e.g. creditCard, cash
   expiryDate: string;
-  documentLocation: string;
+  period: number;
 };

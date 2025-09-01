@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router";
 
 import { Button, DashboardView } from "@/components/common";
 import { EntryContext } from "@/types";
-import { convertDate, formatToINR } from "@/utils";
+import { convertDate, calculateDurationInDays } from "@/utils";
 import classes from "./Notification.module.scss";
 import { NotificationState } from "@/types/notification";
 
@@ -28,9 +28,6 @@ const addDays = (date: Date, days: number): Date => {
   result.setDate(result.getDate() + days);
   return result;
 };
-
-const calculateDurationInDays = (from: Date, to: Date): number =>
-  Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
 
 const getDurationLabel = (daysLeft: number): React.ReactNode => {
   if (daysLeft > 0) {
@@ -57,15 +54,15 @@ const UpcomingNotification: FC = () => {
 
   const upcomingNotifications = context.entries
     .filter((notification) => {
-      const lastAlertDate = new Date(
-        (notification as NotificationState).lastAlertDate
+      const expiryDate = new Date(
+        (notification as NotificationState).expiryDate
       );
-      return lastAlertDate <= limitDate;
+      return expiryDate <= limitDate;
     })
     .sort((a, b) => {
       return (
-        new Date((a as NotificationState).lastAlertDate).getTime() -
-        new Date((b as NotificationState).lastAlertDate).getTime()
+        new Date((a as NotificationState).expiryDate).getTime() -
+        new Date((b as NotificationState).expiryDate).getTime()
       );
     }) as NotificationState[];
   return (
@@ -97,23 +94,21 @@ const UpcomingNotification: FC = () => {
 
         <section>
           {upcomingNotifications.map((notification) => {
-            const lastAlertDate = new Date(notification.lastAlertDate);
-            const duration = calculateDurationInDays(now, lastAlertDate);
+            const expiryDate = new Date(notification.expiryDate);
+            const duration = calculateDurationInDays(now, expiryDate);
 
             return (
               <div
                 key={notification.id}
                 className={classes.upcoming__notification}
+                onClick={() => context.navigation.showEntry(notification.id)}
               >
                 <div>
                   <h2>{notification.title}</h2>
                   <p className={classes.card__date}>
-                    Due date: {convertDate(notification.lastAlertDate)}
+                    Due date: {convertDate(notification.expiryDate)}
                   </p>
                 </div>
-                <Button {...(duration < 0 && { mode: "alert" })}>
-                  Pay Rs.&nbsp;{formatToINR(Number(notification.amount))}
-                </Button>
                 {getDurationLabel(duration)}
               </div>
             );

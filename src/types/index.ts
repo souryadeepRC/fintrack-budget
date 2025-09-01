@@ -35,6 +35,7 @@ type EntryAction = Partial<{
   edit: (entry: EntryState) => void;
   modify: (entry: EntryState) => void;
   delete: (entryId: string) => void;
+  payAutoPayment: (entry: EntryState) => void;
 }>;
 
 export type EntryContext = {

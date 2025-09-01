@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { FaWallet } from "react-icons/fa";
 
-import { AlertDialog, CardDetails } from "@/components/common";
+import { AlertDialog, Button, CardDetails } from "@/components/common";
 
-import { convertDate, formatToINR } from "@/utils";
+import {
+  convertDate,
+  formatIsoToDate,
+  formatToINR,
+  calculateDurationInDays,
+} from "@/utils";
 import { EntryContext } from "@/types";
 import { NotificationState } from "@/types/notification";
+import AppConstants from "@/constants";
 import classes from "./Notification.module.scss";
 
 const NotificationDetails = () => {
@@ -23,16 +30,27 @@ const NotificationDetails = () => {
   };
 
   if (!notification) return <></>;
+
+  const payAutoPayment = () => {
+    context.actions?.payAutoPayment?.({
+      id: "",
+      title: notification.title,
+      amount: notification.amount || 0,
+      category: notification.category,
+      date: formatIsoToDate(new Date(Date.now()).toISOString()),
+      mode: notification.mode,
+      note: notification.note,
+    });
+  };
   const getExpiryMessage = (): string | null => {
     const now = new Date();
     const expiryDate = new Date(notification.expiryDate);
-    const diffMs = expiryDate.getTime() - now.getTime();
+    const diffDays = calculateDurationInDays(now, expiryDate);
 
-    if (diffMs <= 0) {
+    if (diffDays <= 0) {
       return "Already expired";
     }
 
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
     const diffMonths = Math.floor(diffDays / 30);
 
     if (diffMonths > 6) {
@@ -48,6 +66,8 @@ const NotificationDetails = () => {
     return `Going to expire in ${diffDays} day${diffDays > 1 ? "s" : ""}`;
   };
 
+  const PaymentModeIcon: any =
+    AppConstants.paymentMode.get(notification.mode)?.Icon || FaWallet;
   return (
     <>
       <AlertDialog
@@ -91,25 +111,26 @@ const NotificationDetails = () => {
             {notification.title}
           </h5>
           <p className={classes.notification__message}>{getExpiryMessage()}</p>
-          <em className={classes.notification__note}>{notification.note}</em>
-          <div className={classes.notification__details}>
-            <div className={classes.notification__period}>
-              <p>Expire on</p>
-              <strong className={classes.notification__period__date}>
-                {convertDate(notification.expiryDate)}
-              </strong>
-            </div>
-            <div className={classes.notification__period}>
-              <p>Registered on</p>
-              <strong className={classes.notification__period__date}>
-                {convertDate(notification.registerDate)}
-              </strong>
-            </div>
-          </div>
-          <p>
-            Amount:&nbsp;
-            <strong>Rs.&nbsp;{formatToINR(Number(notification.amount))}</strong>
+          <p className={classes.notification__category}>
+            {notification.category}
           </p>
+          <p className={classes.notification__mode}>
+            Need to Pay&nbsp;
+            <strong>Rs.&nbsp;{formatToINR(Number(notification.amount))}</strong>
+            &nbsp;using <PaymentModeIcon />
+            &nbsp;
+            {notification.mode}
+          </p>
+          <div className={classes.notification__period}>
+            <p>Next Payment Date</p>
+            <strong className={classes.notification__period__date}>
+              {convertDate(notification.expiryDate)}
+            </strong>
+          </div>
+          <em className={classes.notification__note}>{notification.note}</em>
+          <Button onClick={payAutoPayment}>
+            Pay Rs.&nbsp;{formatToINR(Number(notification.amount))}
+          </Button>
         </div>
       </CardDetails>
     </>
