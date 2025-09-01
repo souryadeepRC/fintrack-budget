@@ -35,6 +35,7 @@ type EntryAction = Partial<{
   edit: (entry: EntryState) => void;
   modify: (entry: EntryState) => void;
   delete: (entryId: string) => void;
+  payAutoPayment: (entry: EntryState) => void;
 }>;
 
 export type EntryContext = {
@@ -42,7 +43,9 @@ export type EntryContext = {
   navigation: {
     addEntry: () => void;
     editEntry: () => void;
-    showAll: (entryId: string) => void;
+    showEntry: (entryId: string) => void;
+    showAll?: () => void;
+    showUpcoming?: () => void;
   };
   isEntryLoaded: boolean;
   entries: EntryState[];

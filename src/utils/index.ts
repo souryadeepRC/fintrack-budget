@@ -33,3 +33,7 @@ export const formatToINR = (amount: number): string => {
 
   return formatter.format(amount);
 };
+
+export function calculateDurationInDays(from: Date, to: Date): number {
+  return Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
+}

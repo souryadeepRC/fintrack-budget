@@ -26,10 +26,11 @@ class NotificationService {
       title: notification.title,
       note: notification.note,
       amount: notification.amount,
-      registerDate: notification.registerDate,
-      lastAlertDate: notification.lastAlertDate,
       expiryDate: notification.expiryDate,
-      documentLocation: notification.documentLocation,
+      category: notification.category,
+      mode: notification.mode,
+      period: notification.period,
+      isMonthly: notification.isMonthly,
     };
   }
   async getAllNotifications(): Promise<NotificationState[]> {
@@ -44,10 +45,11 @@ class NotificationService {
         title: notification.title,
         note: notification.note,
         amount: notification.amount,
-        registerDate: notification.registerDate,
-        lastAlertDate: notification.lastAlertDate,
         expiryDate: notification.expiryDate,
-        documentLocation: notification.documentLocation,
+        category: notification.category,
+        mode: notification.mode,
+        period: notification.period,
+        isMonthly: notification.isMonthly,
       };
     });
   }
@@ -66,10 +68,11 @@ class NotificationService {
       title: notification.title,
       note: notification.note,
       amount: notification.amount,
-      registerDate: notification.registerDate,
-      lastAlertDate: notification.lastAlertDate,
       expiryDate: notification.expiryDate,
-      documentLocation: notification.documentLocation,
+      category: notification.category,
+      mode: notification.mode,
+      period: notification.period,
+      isMonthly: notification.isMonthly,
     };
   }
   async storeNotification(data: any): Promise<NotificationState> {

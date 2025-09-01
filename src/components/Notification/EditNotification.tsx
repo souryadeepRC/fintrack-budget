@@ -9,24 +9,25 @@ import {
   FormFieldType,
 } from "@/components/common/FormBuilder/FormConfig";
 import { EntryContext } from "@/types";
+import AppConstants from "@/constants";
 
 type NotificationDetailsState = {
   title: string;
   note: string;
   amount?: string;
-  registerDate: string;
-  lastAlertDate: string;
   expiryDate: string;
-  documentLocation: string;
+  category: string;
+  mode: string;
+  period: string;
 };
 const initialState = {
   title: "",
   note: "",
   amount: "",
-  registerDate: "",
-  lastAlertDate: "",
   expiryDate: "",
-  documentLocation: "",
+  category: "Miscellaneous",
+  mode: "GPay",
+  period: "",
 };
 const EditNotification = () => {
   const context: EntryContext = useOutletContext();
@@ -41,8 +42,9 @@ const EditNotification = () => {
     setDetails({
       ...restNotification,
       amount: `${notification.amount === 0 ? "" : notification.amount}`,
-      registerDate: formatIsoToDate(notification.registerDate),
-      lastAlertDate: formatIsoToDate(notification.lastAlertDate),
+      period: notification.period
+        ? `${notification.period === 0 ? "" : notification.period}`
+        : "",
       expiryDate: formatIsoToDate(notification.expiryDate),
     });
   }, [notification]);
@@ -52,6 +54,7 @@ const EditNotification = () => {
       id: notification?.id || "",
       ...response,
       amount: Number(response.amount),
+      period: Number(response.period),
     });
   };
 
@@ -70,7 +73,7 @@ const EditNotification = () => {
     {
       name: "note",
       label: "Note",
-      isRequired: true,
+      isRequired: false,
       type: FormFieldType.TEXTAREA,
       validate: (note: string): string | undefined => {
         if (note.length > 150) return "Note can not be more than 150 letters";
@@ -90,28 +93,49 @@ const EditNotification = () => {
           return "Too much money! Please check the amount";
       },
     },
-    {
-      name: "registerDate",
-      label: "Register Date",
-      type: FormFieldType.DATE,
-      isRequired: true,
-    },
     { name: "expiryDate", label: "Expiry Date", type: FormFieldType.DATE },
     {
-      name: "lastAlertDate",
-      label: "Last Alert Date",
-      type: FormFieldType.DATE,
+      name: "period",
+      label: "Notification Period (In Days)",
+      type: FormFieldType.NUMBER,
+      validate: (amount: string): string | undefined => {
+        const regex = /^\d{1,2}$/;
+        if (amount.length > 0 && !regex.test(amount))
+          return "Provide a valid amount";
+        if (amount.length > 0 && Number(amount) <= 0)
+          return "Amount cannot be zero";
+        if (amount.length > 10)
+          return "Too much money! Please check the amount";
+      },
     },
     {
-      name: "documentLocation",
-      label: "Document Location",
-      type: FormFieldType.TEXTAREA,
-      validate: (location: string): string | undefined => {
-        if (location.length > 150)
-          return "Location can not be more than 150 letters";
+      name: "isMonthly",
+      label: "Is Monthly Payment",
+      type: FormFieldType.CHECKBOX,
+    },
+    {
+      name: "category",
+      label: "Category",
+      type: FormFieldType.SELECT,
+      isRequired: true,
+      options: AppConstants.expenseCategories,
+      validate: (category: string): string | undefined => {
+        if (!AppConstants.expenseCategory.get(category))
+          return "Choose from the list";
+      },
+    },
+    {
+      name: "mode",
+      label: "Payment Mode",
+      type: FormFieldType.SELECT,
+      isRequired: true,
+      options: AppConstants.paymentOptions,
+      validate: (mode: string): string | undefined => {
+        if (!AppConstants.paymentMode.get(mode)) return "Choose from the list";
       },
     },
   ];
+
   return (
     <FormBuilder
       title={`${notification?.id ? "Edit" : "Add"} Notification`}

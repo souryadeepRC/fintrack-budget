@@ -16,6 +16,10 @@ import {
 } from "@/store/notificationReducer/notificationReducer";
 import { NotificationState } from "@/types/notification";
 import { EntryContext } from "@/types";
+import { ExpenseState } from "@/types/expense";
+import expenseService from "@/assets/mockExpenseService";
+import { addExpense } from "@/store/expenseReducer/expenseReducer";
+import { formatIsoToDate } from "@/utils";
 
 const Notification: React.FC = () => {
   const dispatch = useDispatch();
@@ -52,6 +56,34 @@ const Notification: React.FC = () => {
     },
   });
 
+  const payAutoPayment = useMutation({
+    mutationFn: (expense: ExpenseState) => expenseService.storeExpense(expense),
+    onSuccess: function (response: ExpenseState) {
+      dispatch(addExpense(response));
+      toast.success(`Auto Payment Paid successfully`);
+      if (activeNotification) {
+        const nextExpiryDate = new Date(activeNotification.expiryDate);
+
+        if (activeNotification.isMonthly) {
+          // Move to same date next month
+          nextExpiryDate.setMonth(nextExpiryDate.getMonth() + 1);
+        } else {
+          // Add period in days
+          nextExpiryDate.setDate(
+            nextExpiryDate.getDate() + activeNotification.period
+          );
+        }
+
+        modifyMutation.mutate({
+          ...activeNotification,
+          expiryDate: formatIsoToDate(nextExpiryDate.toISOString()),
+        });
+      }
+    },
+    onError: function () {
+      toast.error(`Failed to pay Auto Payment`);
+    },
+  });
   const { mutate: deleteNotification } = useMutation({
     mutationFn: (id: string) => notificationService.deleteNotification(id),
     onSuccess: function () {
@@ -69,8 +101,10 @@ const Notification: React.FC = () => {
     navigation: {
       addEntry: () => navigate(`/notification/add-notification`),
       editEntry: () => navigate(`/notification/${notificationId}/edit`),
-      showAll: (notificationId: string) =>
+      showEntry: (notificationId: string) =>
         navigate(`/notification/${notificationId}`),
+      showAll: () => navigate(`/notification/all`),
+      showUpcoming: () => navigate(`/notification/upcoming`),
     },
     isEntryLoaded: isNotificationsLoaded,
     entries: notifications,
@@ -78,6 +112,7 @@ const Notification: React.FC = () => {
     actions: {
       modify: (notification: any) => modifyMutation.mutate(notification),
       delete: (notificationId: string) => deleteNotification(notificationId),
+      payAutoPayment: (expense: any) => payAutoPayment.mutate(expense),
     },
     sideEffects: {
       modify: {

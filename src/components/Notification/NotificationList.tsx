@@ -13,22 +13,25 @@ const NotificationList = () => {
       type={context.type}
       headerActions={[
         {
+          label: `Upcoming ${context.type}`,
+          onClick: context.navigation.showUpcoming as () => void,
+        },
+        {
           label: `Add ${context.type}`,
           onClick: context.navigation.addEntry,
         },
       ]}
     >
       <CardListView
-        onCardClick={context.navigation.showAll}
+        onCardClick={context.navigation.showEntry}
         itemList={context.entries}
         property={{
           TITLE: "title",
           AMOUNT: "amount",
-          DATE: "registerDate",
         }}
         getChip={(item) =>
           item.expiryDate && {
-            value: `Expire on ${convertDate(item.expiryDate)}`,
+            value: `Due date: ${convertDate(item.expiryDate)}`,
           }
         }
       />
