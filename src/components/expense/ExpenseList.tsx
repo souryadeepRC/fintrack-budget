@@ -19,7 +19,7 @@ const ExpenseList = () => {
       ]}
     >
       <CardListView
-        onCardClick={context.navigation.showAll}
+        onCardClick={context.navigation.showEntry}
         itemList={context.entries}
         property={{
           TITLE: "title",

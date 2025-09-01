@@ -42,7 +42,9 @@ export type EntryContext = {
   navigation: {
     addEntry: () => void;
     editEntry: () => void;
-    showAll: (entryId: string) => void;
+    showEntry: (entryId: string) => void;
+    showAll?: () => void;
+    showUpcoming?: () => void;
   };
   isEntryLoaded: boolean;
   entries: EntryState[];

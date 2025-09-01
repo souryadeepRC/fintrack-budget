@@ -69,8 +69,10 @@ const Notification: React.FC = () => {
     navigation: {
       addEntry: () => navigate(`/notification/add-notification`),
       editEntry: () => navigate(`/notification/${notificationId}/edit`),
-      showAll: (notificationId: string) =>
+      showEntry: (notificationId: string) =>
         navigate(`/notification/${notificationId}`),
+      showAll: () => navigate(`/notification/all`),
+      showUpcoming: () => navigate(`/notification/upcoming`),
     },
     isEntryLoaded: isNotificationsLoaded,
     entries: notifications,

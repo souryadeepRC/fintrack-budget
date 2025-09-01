@@ -64,7 +64,7 @@ const Expense: React.FC = () => {
     navigation: {
       addEntry: () => navigate(`/expense/add-expense`),
       editEntry: () => navigate(`/expense/${expenseId}/edit`),
-      showAll: (expenseId: string) => navigate(`/expense/${expenseId}`),
+      showEntry: (expenseId: string) => navigate(`/expense/${expenseId}`),
     },
     isEntryLoaded: isExpensesLoaded,
     entries: expenses,

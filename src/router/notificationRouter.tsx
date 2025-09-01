@@ -1,17 +1,30 @@
-import {
-  NotificationDetails,
-  NotificationList,
-  EditNotification,
-} from "@/components/Notification";
 import { Notification } from "@/pages";
+import { lazy } from "react";
 import { Navigate } from "react-router";
+
+const EditNotification = lazy(
+  () => import("@/components/Notification/EditNotification")
+);
+const UpcomingNotification = lazy(
+  () => import("@/components/Notification/UpcomingNotification")
+);
+const NotificationDetails = lazy(
+  () => import("@/components/Notification/NotificationDetails")
+);
+const NotificationList = lazy(
+  () => import("@/components/Notification/NotificationList")
+);
 const notificationRouter = {
   path: "/notification",
   Component: Notification,
   children: [
     {
       index: true,
-      Component: () => <Navigate to="/notification/all" />,
+      Component: () => <Navigate to="/notification/upcoming" />,
+    },
+    {
+      path: "/notification/upcoming",
+      Component: UpcomingNotification,
     },
     {
       path: "/notification/all",

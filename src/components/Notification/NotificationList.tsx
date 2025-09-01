@@ -13,13 +13,17 @@ const NotificationList = () => {
       type={context.type}
       headerActions={[
         {
+          label: `Upcoming ${context.type}`,
+          onClick: context.navigation.showUpcoming as () => void,
+        },
+        {
           label: `Add ${context.type}`,
           onClick: context.navigation.addEntry,
         },
       ]}
     >
       <CardListView
-        onCardClick={context.navigation.showAll}
+        onCardClick={context.navigation.showEntry}
         itemList={context.entries}
         property={{
           TITLE: "title",

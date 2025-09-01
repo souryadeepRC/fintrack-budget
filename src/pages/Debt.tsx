@@ -60,7 +60,7 @@ const debt: React.FC = () => {
       editEntry: () => {
         navigate(`/debt/${debtId}/edit`);
       },
-      showAll: (debtId: string) => navigate(`/debt/${debtId}`),
+      showEntry: (debtId: string) => navigate(`/debt/${debtId}`),
     },
     isEntryLoaded: isDebtsLoaded,
     entries: debts,
