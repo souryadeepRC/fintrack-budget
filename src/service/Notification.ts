@@ -30,6 +30,7 @@ class NotificationService {
       category: notification.category,
       mode: notification.mode,
       period: notification.period,
+      isMonthly: notification.isMonthly,
     };
   }
   async getAllNotifications(): Promise<NotificationState[]> {
@@ -48,6 +49,7 @@ class NotificationService {
         category: notification.category,
         mode: notification.mode,
         period: notification.period,
+        isMonthly: notification.isMonthly,
       };
     });
   }
@@ -70,6 +72,7 @@ class NotificationService {
       category: notification.category,
       mode: notification.mode,
       period: notification.period,
+      isMonthly: notification.isMonthly,
     };
   }
   async storeNotification(data: any): Promise<NotificationState> {
