@@ -1,13 +1,14 @@
 export const mockNotifications: any = [
   {
     id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
-    title: "Dinner at Olive Garden",
+    title: "Mobile Recharge",
     note: "Split dinner with friends",
     amount: 45.3,
-    expiryDate: "2025-09-10T00:00:00.000Z",
-    category: "Food",
+    expiryDate: "2025-08-04T00:00:00.000Z",
+    category: "UTilities",
     mode: "GPay",
-    period: 30,
+    period: 28,
+    isMonthly: false,
   },
   {
     id: "b3d2c1e4-a9f8-4321-bbcd-2345678901cd",
@@ -17,7 +18,8 @@ export const mockNotifications: any = [
     expiryDate: "2025-09-18T08:00:00.000Z",
     category: "Entertainment",
     mode: "GPay",
-    period: 30,
+    period: null,
+    isMonthly: true,
   },
   {
     id: "c9f1e7d3-b6a3-48f9-9abf-3456789012ef",
@@ -27,7 +29,8 @@ export const mockNotifications: any = [
     expiryDate: "2025-09-05T00:00:00.000Z",
     category: "Transport",
     mode: "Credit Card",
-    period: 30,
+    period: null,
+    isMonthly: true,
   },
   {
     id: "d4e6a7b9-c2f0-47dc-89ac-4567890123ab",
@@ -38,6 +41,7 @@ export const mockNotifications: any = [
     category: "Food",
     mode: "Credit Card",
     period: 24,
+    isMonthly: false,
   },
   {
     id: "e8f9c3a6-b4d2-4af7-a9de-5678901234cd",
@@ -48,5 +52,6 @@ export const mockNotifications: any = [
     category: "Utilities",
     mode: "Credit Card",
     period: 22,
+    isMonthly: false,
   },
 ];

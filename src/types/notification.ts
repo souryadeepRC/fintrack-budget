@@ -7,4 +7,5 @@ export type NotificationState = {
   mode: string; // Payment Mode e.g. creditCard, cash
   expiryDate: string;
   period: number;
+  isMonthly: boolean;
 };

@@ -119,7 +119,7 @@ const NotificationDetails = () => {
             <strong>Rs.&nbsp;{formatToINR(Number(notification.amount))}</strong>
             &nbsp;using <PaymentModeIcon />
             &nbsp;
-            {notification.mode}
+            {notification.mode}{notification.isMonthly && <strong>&nbsp;Monthly</strong>}
           </p>
           <div className={classes.notification__period}>
             <p>Next Payment Date</p>

@@ -63,10 +63,17 @@ const Notification: React.FC = () => {
       toast.success(`Auto Payment Paid successfully`);
       if (activeNotification) {
         const nextExpiryDate = new Date(activeNotification.expiryDate);
-        nextExpiryDate.setDate(
-          nextExpiryDate.getDate() + activeNotification.period
-        );
-         
+
+        if (activeNotification.isMonthly) {
+          // Move to same date next month
+          nextExpiryDate.setMonth(nextExpiryDate.getMonth() + 1);
+        } else {
+          // Add period in days
+          nextExpiryDate.setDate(
+            nextExpiryDate.getDate() + activeNotification.period
+          );
+        }
+
         modifyMutation.mutate({
           ...activeNotification,
           expiryDate: formatIsoToDate(nextExpiryDate.toISOString()),

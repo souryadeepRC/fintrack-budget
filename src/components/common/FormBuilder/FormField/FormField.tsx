@@ -62,8 +62,9 @@ const FormFieldInput: React.FC<FormFieldProps> = (props) => {
 
 const FormField: React.FC<FormFieldProps> = (props) => {
   const { errorMessage = "", ...inputProps } = props;
+  const isCheckbox = inputProps.field.type === FormFieldType.CHECKBOX;
   return (
-    <div className="form_item__group">
+    <div className={`form_item__group ${isCheckbox ? "checkbox" : ""}`}>
       <label
         className={`form__label ${props.field.isRequired ? "required" : ""}`}
       >

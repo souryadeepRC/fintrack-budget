@@ -42,7 +42,9 @@ const EditNotification = () => {
     setDetails({
       ...restNotification,
       amount: `${notification.amount === 0 ? "" : notification.amount}`,
-      period: `${notification.period === 0 ? "" : notification.period}`,
+      period: notification.period
+        ? `${notification.period === 0 ? "" : notification.period}`
+        : "",
       expiryDate: formatIsoToDate(notification.expiryDate),
     });
   }, [notification]);
@@ -107,6 +109,11 @@ const EditNotification = () => {
       },
     },
     {
+      name: "isMonthly",
+      label: "Is Monthly Payment",
+      type: FormFieldType.CHECKBOX,
+    },
+    {
       name: "category",
       label: "Category",
       type: FormFieldType.SELECT,
@@ -128,6 +135,7 @@ const EditNotification = () => {
       },
     },
   ];
+
   return (
     <FormBuilder
       title={`${notification?.id ? "Edit" : "Add"} Notification`}

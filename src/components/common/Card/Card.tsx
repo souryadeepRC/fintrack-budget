@@ -32,7 +32,7 @@ const Card: React.FC<CardProps> = (props) => {
           <strong className="card__amount">
             Rs.&nbsp;{formatToINR(+amount)}
           </strong>
-          <p className="card__date">{convertDate(date)}</p>
+          {date && <p className="card__date">{convertDate(date)}</p>}
         </div>
       </div>
     </div>
