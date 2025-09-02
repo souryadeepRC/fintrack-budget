@@ -11,6 +11,7 @@ import { useDownloadCSV } from "@/hooks";
 import expenseService from "@/service/Expense";
 import { Button } from "@/components/common";
 import { FormSelect } from "@/components/common/FormBuilder/FormField";
+import { expenseLimit } from "@/constants";
 
 const MONTH_OPTIONS = [
   { value: 0, label: "Jan" },
@@ -65,13 +66,44 @@ const ExpenseAnalytics: React.FC = () => {
     (acc, expense) => acc + expense.amount,
     0
   );
+  const categoryExpense = expenses.reduce((acc, expense) => {
+    const { category, amount } = expense;
+
+    if (acc.has(category)) {
+      acc.set(category, (acc.get(category) as number) + amount);
+    } else {
+      acc.set(category, amount);
+    }
+
+    return acc;
+  }, new Map<string, number>());
+
+  console.log(categoryExpense.entries());
+  function getAnalyticsVariant(category: string, amount: number) {
+    if (amount >= expenseLimit?.[category].alert) return "alert";
+    if (amount >= expenseLimit?.[category].warning) return "warning";
+    return "default";
+  }
   return (
     <Analytics title="Expense" onAdd={onAddExpense}>
       <div className={classes.analytics__metrics}>
         <MetricCard
-          label="This Month"
+          label="Total Expenses"
+          variant={getAnalyticsVariant("Total", totalExpense)}
           value={`Rs. ${formatToINR(totalExpense)}`}
         />
+        <div className={classes.expense__breakup}>
+          {Array.from(categoryExpense.entries()).map(([category, amount]) => {
+            return (
+              <MetricCard
+                key={category}
+                label={category}
+                variant={getAnalyticsVariant(category, amount)}
+                value={`Rs. ${formatToINR(amount)}`}
+              />
+            );
+          })}
+        </div>
       </div>
       <div className={classes.analytics__download}>
         <FormSelect

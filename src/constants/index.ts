@@ -63,6 +63,19 @@ export const expenseCategories = [
   { label: "Gifts", value: "Gifts" },
   { label: "Miscellaneous", value: "Miscellaneous", Icon: TbGridDots },
 ];
+export const expenseLimit: Record<string, { warning: number; alert: number }> =
+  {
+    ["EMI"]: { warning: 49000, alert: 50000 },
+    ["Groceries & Food"]: { warning: 3000, alert: 5000 },
+    ["Transport"]: { warning: 1000, alert: 2000 },
+    ["Medical"]: { warning: 2500, alert: 3000 },
+    ["Utilities"]: { warning: 3000, alert: 4000 },
+    ["Entertainment"]: { warning: 600, alert: 1000 },
+    ["Shopping"]: { warning: 1000, alert: 2000 },
+    ["Gifts"]: { warning: 600, alert: 1000 },
+    ["Miscellaneous"]: { warning: 7000, alert: 8000 },
+    ["Total"]: { warning: 65000, alert: 75000 },
+  };
 export default {
   title: appTitle,
   paymentMode: PaymentModeMap,
@@ -70,4 +83,5 @@ export default {
   expenseCategory: ExpenseCategoryMap,
   expenseCategories,
   debtStatus: DebtStatusMap,
+  expenseLimit,
 };

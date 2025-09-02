@@ -36,6 +36,12 @@
 
   &__metricValue {
     font-size: 1.4rem;
+    &.warning {
+      color: $warning-color;
+    }
+    &.alert {
+      color: $error-color;
+    }
   }
   &__download {
     display: flex;
@@ -50,6 +56,11 @@
   &__download_filter {
     padding: 0.5rem;
   }
+}
+.expense__breakup {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 .metricCard {
   border: 1px solid $border-color;
