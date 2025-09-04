@@ -5,6 +5,7 @@ import {
   selectIsNotificationLoaded,
 } from "@/store/notificationReducer/notificationSelectors";
 import notificationService from "@/service/Notification";
+import expenseService from "@/service/Expense";
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router";
@@ -17,7 +18,6 @@ import {
 import { NotificationState } from "@/types/notification";
 import { EntryContext } from "@/types";
 import { ExpenseState } from "@/types/expense";
-import expenseService from "@/assets/mockExpenseService";
 import { addExpense } from "@/store/expenseReducer/expenseReducer";
 import { formatIsoToDate } from "@/utils";
 
@@ -119,7 +119,7 @@ const Notification: React.FC = () => {
         isSuccess: modifyMutation.isSuccess,
         success: () =>
           setTimeout(() => {
-            navigate("/notification");
+            navigate("/notification/all");
             modifyMutation.reset();
           }, 0),
       },
