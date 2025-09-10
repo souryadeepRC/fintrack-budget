@@ -78,7 +78,6 @@ const ExpenseAnalytics: React.FC = () => {
     return acc;
   }, new Map<string, number>());
 
-  console.log(categoryExpense.entries());
   function getAnalyticsVariant(category: string, amount: number) {
     if (amount >= expenseLimit?.[category].alert) return "alert";
     if (amount >= expenseLimit?.[category].warning) return "warning";
@@ -98,6 +97,9 @@ const ExpenseAnalytics: React.FC = () => {
               <MetricCard
                 key={category}
                 label={category}
+                title={`Alert: Rs. ${formatToINR(
+                  expenseLimit?.[category].alert
+                )}\nMax: Rs. ${formatToINR(expenseLimit?.[category].warning)}`}
                 variant={getAnalyticsVariant(category, amount)}
                 value={`Rs. ${formatToINR(amount)}`}
               />
