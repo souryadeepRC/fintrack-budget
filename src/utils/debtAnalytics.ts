@@ -22,7 +22,7 @@ export function getDebtAnalytics(debts: DebtState[]): DebtAnalyticsReport {
 
     // Map totals by name
     const name = debt.name;
-    const currentTotal = debt.amount;
+    const currentTotal = debt.amount - (debt.clearedAmount || 0);
 
     if (debt.category === DebtCategory.LEND) {
       lenderMap.set(name, (lenderMap.get(name) || 0) + currentTotal);
