@@ -125,7 +125,7 @@ const ExpenseAnalytics: React.FC = () => {
             className: classes.analytics__download_filter,
             onChange: (e: any) => handleChange("year", Number(e.target.value)),
           }}
-          options={[{ value: 2025, label: "2025" }]}
+          options={[{ value: 2025, label: "2025" },{ value: 2026, label: "2026" }]}
         />
         <Button variant="contained" onClick={onDownloadExpense}>
           Download All Expenses

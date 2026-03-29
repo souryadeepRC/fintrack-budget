@@ -40,7 +40,7 @@ class DebtService {
     const debts = await this.database.listDocuments(
       APIConfig.databaseId,
       APIConfig.collectionId.debts,
-      [Query.orderDesc("status")]
+      [Query.orderDesc("date")]
     );
     return debts.documents.map((debt) => {
       return {
