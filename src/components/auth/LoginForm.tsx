@@ -35,6 +35,7 @@ export function LoginForm() {
     onSubmit: async ({ value }) => {
       setIsLoading(true);
       try {
+        
         await auth.loginAsync(value.email, value.password);
         toast.success("Login successful!");
         router.push("/dashboard");

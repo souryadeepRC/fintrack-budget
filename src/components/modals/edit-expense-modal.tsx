@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
-import { getExpenseById, updateExpense } from "@/services/expense.service";
+import { updateExpense } from "@/services/expense.service";
 import { closeEditExpenseModal } from "@/store/slices/uiSlice";
 import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
@@ -48,22 +48,24 @@ export function EditExpenseModal() {
   const dispatch = useDispatch();
   const isOpen = useSelector((state: RootState) => state.ui.isEditExpenseModalOpen);
   const editingId = useSelector((state: RootState) => state.ui.editingExpenseId);
+  
+  // Get expense data from React Query cache
   const queryClient = useQueryClient();
-
-  const { data: expense, isLoading } = useQuery({
-    queryKey: ["expense", editingId],
-    queryFn: () => editingId ? getExpenseById(editingId) : null,
-    enabled: !!editingId && isOpen,
-  });
+  const expenseData = useMemo(() => {
+    if (!editingId) return null;
+    // Get all cached expenses and find the matching one
+    const cachedExpenses = queryClient.getQueryData<any[]>(["expenses"]);
+    return cachedExpenses?.find((exp) => exp.id === editingId) || null;
+  }, [editingId, queryClient]);
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: Partial<Omit<ExpenseFormData, 'amount'> & { amount: number }> }) =>
+    mutationFn: ({ id, updates }: { id: string; updates: any }) =>
       updateExpense(id, {
         title: updates.title,
         amount: updates.amount,
         category: updates.category,
         mode: updates.mode,
-        date: new Date(updates.date!).toISOString(),
+        date: new Date(updates.date).toISOString(),
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
@@ -86,7 +88,7 @@ export function EditExpenseModal() {
     } as ExpenseFormData,
     onSubmit: async ({ value }) => {
       if (!editingId) return;
-      
+
       const amount = parseFloat(value.amount);
       if (isNaN(amount) || amount <= 0) {
         toast.error("Amount must be a valid positive number");
@@ -106,37 +108,26 @@ export function EditExpenseModal() {
     },
   });
 
-  // Update form when expense data loads
+  // Update form values when expense data changes
   useEffect(() => {
-    if (expense) {
-      form.setFieldValue("title", expense.title);
-      form.setFieldValue("amount", expense.amount.toString());
-      form.setFieldValue("category", expense.category);
-      form.setFieldValue("mode", expense.mode);
-      form.setFieldValue("date", new Date(expense.date).toISOString().split("T")[0]);
+    if (expenseData) {
+      const expenseDate = new Date(expenseData.date);
+      form.setFieldValue("title", expenseData.title);
+      form.setFieldValue("amount", expenseData.amount.toString());
+      form.setFieldValue("category", expenseData.category);
+      form.setFieldValue("mode", expenseData.mode);
+      form.setFieldValue("date", expenseDate.toISOString().split("T")[0]);
     }
-  }, [expense, form]);
+  }, [expenseData, form]);
 
   const handleClose = () => {
     dispatch(closeEditExpenseModal());
     form.reset();
   };
 
-  if (isLoading) {
-    return (
-      <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-[500px]">
-          <div className="flex items-center justify-center py-8">
-            <p className="text-slate-600 font-medium">Loading expense...</p>
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="max-w-[300px] md:max-w-[500px] rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Edit Expense
@@ -261,13 +252,13 @@ export function EditExpenseModal() {
                   <Label htmlFor="category" className="text-sm font-semibold text-slate-700">
                     Category <span className="text-red-500">*</span>
                   </Label>
-                  <Select value={field.state.value} onValueChange={field.handleChange}>
+                  <Select  value={field.state.value} onValueChange={field.handleChange}>
                     <SelectTrigger
                       className={`border-emerald-200/50 bg-white/70 ${
                         field.state.meta.errors.length > 0 ? "border-red-500" : ""
                       }`}
                     >
-                      <SelectValue placeholder="Select" />
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
                       {CATEGORIES.map((category) => (
@@ -307,7 +298,7 @@ export function EditExpenseModal() {
                         field.state.meta.errors.length > 0 ? "border-red-500" : ""
                       }`}
                     >
-                      <SelectValue placeholder="Select" />
+                      <SelectValue placeholder="Select method" />
                     </SelectTrigger>
                     <SelectContent>
                       {PAYMENT_METHODS.map((method) => (

@@ -47,7 +47,7 @@ export default function GuestLanding() {
               <Link href="/auth/register">
                 <Button
                   size="lg"
-                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl"
+                  className="cursor-pointer px-10 w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl  h-15 text-xl"
                 >
                   Sign up for free <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -56,7 +56,7 @@ export default function GuestLanding() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto border-emerald-200 hover:bg-emerald-50"
+                  className="cursor-pointer px-10 w-full sm:w-auto border-emerald-200 hover:bg-emerald-50 h-15 text-xl"
                 >
                   Already a user? Login
                 </Button>

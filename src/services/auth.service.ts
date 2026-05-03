@@ -38,7 +38,7 @@ export async function registerUser(
       return await mockRegisterUser(email, password, fullName);
     }
     console.log(account);
-    
+
     // Create user account in Appwrite
     const response = await account.create({
       userId: "unique()",
@@ -77,6 +77,7 @@ export async function loginUser(
   password: string,
 ): Promise<User | null> {
   try {
+    console.log({ email, password, isDevMode });
     if (isDevMode) {
       return await mockLoginUser(email, password);
     }

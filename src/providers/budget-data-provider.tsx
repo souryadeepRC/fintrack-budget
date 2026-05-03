@@ -3,14 +3,15 @@
 import React, { createContext, useContext } from "react";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { getExpenses } from "@/services/expense.service";
+import { getDebts } from "@/services/debt.service";
 import { Expense, Debt } from "@/types";
 import {
   DEBT_QUERY_CONSTANTS,
   EXPENSE_QUERY_CONSTANTS,
   QUERY_CONFIG,
 } from "@/constants/query-constants";
-import { getDebts } from "@/services/debt.service";
 import { useAuth } from "./auth-provider";
+import { LoadingSpinner } from "@/components/loader/LoadingSpinner";
 
 interface BudgetDataContextType {
   expensesQuery: UseQueryResult<Array<Expense>, Error>;
@@ -21,7 +22,7 @@ interface BudgetDataContextType {
 }
 
 const BudgetDataContext = createContext<BudgetDataContextType | undefined>(
-  undefined,
+  undefined
 );
 
 interface BudgetDataProviderProps {
@@ -33,11 +34,11 @@ export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
 
   const now = new Date();
   const startOfMonth = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth()- 1, 1),
   );
 
   const startOfNextMonth = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1),
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth()  , 1),
   );
 
   const expensesQuery = useQuery<Array<Expense>>({
@@ -62,10 +63,40 @@ export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
   });
 
   const isLoading = expensesQuery.isPending || debtsQuery.isPending;
-
   const isError = expensesQuery.isError || debtsQuery.isError;
-
   const error = expensesQuery.error || debtsQuery.error || null;
+
+  /* ----------------------------- */
+  /* 🚦 Render control (clean) */
+  /* ----------------------------- */
+
+  // Auth loading
+  if (isAuthLoading) {
+    return (
+      <LoadingSpinner
+        size="xl"
+        text="Fintrack Budget"
+        description="Manage your budget and expenses"
+        fullPage
+      />
+    );
+  }
+
+  // Not logged in → just render app (login page etc.)
+  if (!isAuthenticated) {
+    return <>{children}</>;
+  }
+
+  // Data loading
+  if (isLoading) {
+    return (
+      <LoadingSpinner
+        size="xl"
+        text="Loading your finances..."
+        fullPage
+      />
+    );
+  }
 
   return (
     <BudgetDataContext.Provider
@@ -77,9 +108,7 @@ export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
         error,
       }}
     >
-      {isAuthLoading && <>Loading auth..</>}
-      {!isAuthLoading && !isAuthenticated && children}
-      {isLoading ? <>Loading Data...</> : children}
+      {children}
     </BudgetDataContext.Provider>
   );
 }
