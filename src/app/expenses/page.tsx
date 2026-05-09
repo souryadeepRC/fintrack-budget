@@ -12,6 +12,7 @@ import { ExpenseTable } from "@/components/expense/expense-table";
 import { AddExpenseModal } from "@/components/modals/add-expense-modal";
 import { EditExpenseModal } from "@/components/modals/edit-expense-modal";
 import { DeleteExpenseModal } from "@/components/modals/delete-expense-modal";
+import { ExpenseChatbot } from "@/components/expense/expense-chatbot";
 import {
   EXPENSE_QUERY_CONSTANTS,
   QUERY_CONFIG,
@@ -134,6 +135,9 @@ export default function ExpensesPage() {
       <AddExpenseModal />
       <EditExpenseModal />
       <DeleteExpenseModal />
+
+      {/* AI Assistant Chatbot */}
+      <ExpenseChatbot expenses={currentMonthExpenses} />
     </div>
   );
 }
