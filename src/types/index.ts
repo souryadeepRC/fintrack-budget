@@ -114,7 +114,7 @@ export interface DashboardData {
 
 export type Debt = {
   id: string;
-  title:string;
+  title: string;
   name: string;
   amount: number;
   category: string;
@@ -127,10 +127,21 @@ export type Debt = {
 export type DebtCreatePayload = Omit<Debt, "id">;
 export type DebtPersonData = {
   name: string;
-  title:string;
+  title: string;
   category: string;
   totalPaid: number;
   totalRepaid: number;
   netBalance: number;
   transactions: Array<Debt>;
+};
+
+export type Notification = {
+  id: string;
+  title: string;
+  amount: number;
+  category: string;
+  expiryDate: string;
+  mode: string;
+  isMonthly: boolean;
+  period: number;
 };

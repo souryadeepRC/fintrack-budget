@@ -22,48 +22,45 @@ export default function ExpensesPage() {
 
   // Calculate date range for current month
   const currentMonthStart = useMemo(() => {
-    const [year, month] = filters.month.split("-").map(Number);
-    return startOfMonth(new Date(year, month - 1));
-  }, [filters.month]);
+    return startOfMonth(new Date());
+  }, []); 
 
   const currentMonthEnd = useMemo(() => {
     return endOfMonth(currentMonthStart);
-  }, [currentMonthStart]);
+  }, [currentMonthStart]); 
 
-  const {
-    data: currentMonthExpenses = [],
-    isLoading: isLoadingCurrent,
-  } = useQuery({
-    queryKey: EXPENSE_QUERY_CONSTANTS.ALL,
-    queryFn: () =>
-      getExpenses({
-        startDate: currentMonthStart.toISOString(),
-        endDate: currentMonthEnd.toISOString(),
-      }),
-    ...QUERY_CONFIG,
-  });
+  const { data: currentMonthExpenses = [], isLoading: isLoadingCurrent } =
+    useQuery({
+      queryKey: EXPENSE_QUERY_CONSTANTS.ALL,
+      queryFn: () =>
+        getExpenses({
+          startDate: currentMonthStart.toISOString(),
+          endDate: currentMonthEnd.toISOString(),
+        }),
+      ...QUERY_CONFIG,
+    });
 
   const filteredExpenses = useMemo(() => {
     let filtered = currentMonthExpenses;
 
     if (filters.search) {
       filtered = filtered.filter((expense) =>
-        expense.title.toLowerCase().includes(filters.search.toLowerCase())
+        expense.title.toLowerCase().includes(filters.search.toLowerCase()),
       );
     }
 
     if (filters.category) {
       filtered = filtered.filter(
-        (expense) => expense.category === filters.category
+        (expense) => expense.category === filters.category,
       );
     }
 
     if (filters.paymentMethod) {
       filtered = filtered.filter(
-        (expense) => expense.mode === filters.paymentMethod
+        (expense) => expense.mode === filters.paymentMethod,
       );
     }
-    
+
     filtered.sort((a, b) => {
       const aValue =
         filters.sortBy === "date" ? new Date(a.date).getTime() : a.amount;
@@ -78,7 +75,7 @@ export default function ExpensesPage() {
 
   const totalCurrentMonth = currentMonthExpenses.reduce(
     (sum, expense) => sum + expense.amount,
-    0
+    0,
   );
 
   return (
@@ -124,7 +121,7 @@ export default function ExpensesPage() {
                   totalCount={filteredExpenses.length}
                   totalAmount={filteredExpenses.reduce(
                     (sum, expense) => sum + expense.amount,
-                    0
+                    0,
                   )}
                 />
               </div>

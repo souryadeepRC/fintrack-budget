@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/providers/auth-provider";
-import { AuthenticatedHeader } from "@/components/header/authenticated-header";
+import { NavigationHeader } from "@/components/header/navigation-header";
 
 const PUBLIC_ROUTES = ["/", "/auth/login", "/auth/register"];
 
@@ -14,7 +14,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {shouldShowHeader && <AuthenticatedHeader />}
+      {shouldShowHeader && <NavigationHeader />}
       <main className="flex-1">{children}</main>
     </>
   );

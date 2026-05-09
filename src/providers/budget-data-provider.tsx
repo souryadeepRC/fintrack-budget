@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { getExpenses } from "@/services/expense.service";
 import { getDebts } from "@/services/debt.service";
@@ -12,6 +12,7 @@ import {
 } from "@/constants/query-constants";
 import { useAuth } from "./auth-provider";
 import { LoadingSpinner } from "@/components/loader/LoadingSpinner";
+import { endOfMonth, startOfMonth } from "date-fns";
 
 interface BudgetDataContextType {
   expensesQuery: UseQueryResult<Array<Expense>, Error>;
@@ -22,7 +23,7 @@ interface BudgetDataContextType {
 }
 
 const BudgetDataContext = createContext<BudgetDataContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface BudgetDataProviderProps {
@@ -32,14 +33,13 @@ interface BudgetDataProviderProps {
 export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
-  const now = new Date();
-  const startOfMonth = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth()- 1, 1),
-  );
+  const currentMonthStart = useMemo(() => {
+    return startOfMonth(new Date());
+  }, []);
 
-  const startOfNextMonth = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth()  , 1),
-  );
+  const currentMonthEnd = useMemo(() => {
+    return endOfMonth(currentMonthStart);
+  }, [currentMonthStart]);
 
   const expensesQuery = useQuery<Array<Expense>>({
     queryKey: EXPENSE_QUERY_CONSTANTS.ALL,
@@ -47,8 +47,8 @@ export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
       getExpenses({
         limit: 50,
         offset: 0,
-        startDate: startOfMonth.toISOString(),
-        endDate: startOfNextMonth.toISOString(),
+        startDate: currentMonthStart.toISOString(),
+        endDate: currentMonthEnd.toISOString(),
       }),
     enabled: isAuthenticated,
     ...QUERY_CONFIG,
@@ -90,11 +90,7 @@ export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
   // Data loading
   if (isLoading) {
     return (
-      <LoadingSpinner
-        size="xl"
-        text="Loading your finances..."
-        fullPage
-      />
+      <LoadingSpinner size="xl" text="Loading your finances..." fullPage />
     );
   }
 

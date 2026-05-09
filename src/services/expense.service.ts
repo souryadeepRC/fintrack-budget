@@ -51,8 +51,8 @@ export async function getExpenses(
   filters: ExpenseFilter,
 ): Promise<Array<Expense>> {
   try {
-    const queries: string[] = [];
-
+    const queries: string[] = []; 
+    
     if (filters.startDate) {
       queries.push(Query.greaterThanEqual("date", filters.startDate));
     }
@@ -76,7 +76,8 @@ export async function getExpenses(
     queries.push(Query.limit(limit));
     queries.push(Query.offset(offset));
     queries.push(Query.orderDesc("date"));
-
+ 
+    
     const response = await databases.listRows({
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.EXPENSES,

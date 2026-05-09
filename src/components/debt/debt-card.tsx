@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteDebt } from "@/services/debt.service";
 import { Debt } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 
@@ -22,8 +25,8 @@ export function DebtCard({ debt }: DebtCardProps) {
           {formatCurrency(debt.amount)}
         </span>
       </div>
+      
 
-       
     </div>
   );
 }
