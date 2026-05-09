@@ -188,7 +188,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw error;
     }
   };
-  console.log({ authState });
 
   const value: AuthContextType = {
     ...authState,

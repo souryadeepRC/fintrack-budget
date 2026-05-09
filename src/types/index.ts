@@ -114,16 +114,20 @@ export interface DashboardData {
 
 export type Debt = {
   id: string;
+  title:string;
   name: string;
   amount: number;
   category: string;
   isRepayment: boolean;
+  mode: string;
   date: string;
+  debtId: number;
 };
 
 export type DebtCreatePayload = Omit<Debt, "id">;
 export type DebtPersonData = {
   name: string;
+  title:string;
   category: string;
   totalPaid: number;
   totalRepaid: number;

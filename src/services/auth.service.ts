@@ -37,7 +37,6 @@ export async function registerUser(
     if (isDevMode) {
       return await mockRegisterUser(email, password, fullName);
     }
-    console.log(account);
 
     // Create user account in Appwrite
     const response = await account.create({
@@ -77,7 +76,6 @@ export async function loginUser(
   password: string,
 ): Promise<User | null> {
   try {
-    console.log({ email, password, isDevMode });
     if (isDevMode) {
       return await mockLoginUser(email, password);
     }
@@ -86,7 +84,6 @@ export async function loginUser(
       email,
       password,
     });
-    console.log({ response });
 
     return await getCurrentUser();
   } catch (error) {

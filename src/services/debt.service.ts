@@ -28,7 +28,7 @@ export async function createDebt(data: DebtCreatePayload): Promise<Debt> {
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.DEBTS,
       rowId: debtId,
-      data,
+      data: { ...data, debtId: data.debtId || Date.now() },
     });
 
     return formatDebtResponse(response);
@@ -70,7 +70,7 @@ export async function getDebts(filters?: DebtFilter): Promise<Debt[]> {
     }
 
     // Pagination
-    const limit = filters?.limit || 50;
+    const limit = filters?.limit || 100;
     const offset = filters?.offset || 0;
     queries.push(Query.limit(limit));
     queries.push(Query.offset(offset));
@@ -164,7 +164,7 @@ export async function getTotalDebt(): Promise<number> {
     const response = await databases.listRows({
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.DEBTS,
-      queries: [Query.equal("is_repayment", false)], // Only count actual debts, not repayments
+      queries: [Query.equal("isRepayment", false)], // Only count actual debts, not repayments
     });
 
     return response.rows.reduce((sum, doc) => sum + (doc.amount || 0), 0);
@@ -184,7 +184,7 @@ export async function getTotalRepayment(): Promise<number> {
     const response = await databases.listRows({
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.DEBTS,
-      queries: [Query.equal("is_repayment", true)],
+      queries: [Query.equal("isRepayment", true)],
     });
 
     return response.rows.reduce((sum, doc) => sum + (doc.amount || 0), 0);
@@ -202,9 +202,12 @@ function formatDebtResponse(doc: Record<string, unknown>): Debt {
   return {
     id: doc.$id as string,
     name: doc.name as string,
+    title: doc.title as string,
     amount: doc.amount as number,
     category: doc.category as string,
-    isRepayment: doc.is_repayment as boolean,
+    mode: doc.mode as string,
+    isRepayment: doc.isRepayment as boolean,
     date: doc.date as string,
+    debtId: doc.debtId as number,
   };
 }

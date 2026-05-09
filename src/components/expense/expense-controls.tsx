@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { format } from "date-fns";
 import { RootState } from "@/store";
-import { setExpenseFilters, openAddExpenseModal } from "@/store/slices/uiSlice";
+import { setExpenseFilters } from "@/store/slices/uiSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -58,10 +57,6 @@ export function ExpenseControls({
     return () => clearTimeout(timer);
   }, [debouncedSearch, dispatch]);
 
-  const handleMonthChange = (month: string) => {
-    dispatch(setExpenseFilters({ month }));
-  };
-
   const handleCategoryChange = (category: string) => {
     const newCategory = category === "all" ? "" : category;
     dispatch(setExpenseFilters({ category: newCategory }));
@@ -73,15 +68,6 @@ export function ExpenseControls({
   };
 
 
-  const monthOptions = [];
-  const now = new Date();
-  for (let i = 0; i < 12; i++) {
-    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const value = format(date, "yyyy-MM");
-    const label = format(date, "MMMM yyyy");
-    monthOptions.push({ value, label });
-  }
-
   const hasActiveFilters = !!(
     filters.search ||
     filters.category ||
@@ -89,48 +75,9 @@ export function ExpenseControls({
   );
 
   const filterContent = (
-    <div className="space-y-6 md:h-100">
-      {/* Month */}
-      <div className="space-y-2">
-        <Label
-          htmlFor="month-select"
-          className="text-sm font-semibold text-slate-700"
-        >
-          Month
-        </Label>
-        <Select value={filters.month} onValueChange={handleMonthChange}>
-          <SelectTrigger className="w-full border-emerald-200/50 bg-white/70 hover:bg-white hover:border-emerald-300/70">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {monthOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Search */}
-      <div className="space-y-2">
-        <Label
-          htmlFor="search-input"
-          className="text-sm font-semibold text-slate-700"
-        >
-          Search Title
-        </Label>
-        <Input
-          id="search-input"
-          placeholder="Search expenses..."
-          value={debouncedSearch}
-          onChange={(e) => setDebouncedSearch(e.target.value)}
-          className="w-full border-emerald-200/50 bg-white/70 placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white"
-        />
-      </div>
-
+    <div className="flex flex-col md:flex-row items-end gap-4 w-full">
       {/* Category */}
-      <div className="space-y-2">
+      <div className="w-full md:w-56 space-y-1.5 shrink-0">
         <Label
           htmlFor="category-select"
           className="text-sm font-semibold text-slate-700"
@@ -141,7 +88,7 @@ export function ExpenseControls({
           value={filters.category || "all"}
           onValueChange={handleCategoryChange}
         >
-          <SelectTrigger className="w-full border-emerald-200/50 bg-white/70 hover:bg-white hover:border-emerald-300/70">
+          <SelectTrigger className="w-full border-emerald-200/50 bg-white/70 hover:bg-white hover:border-emerald-300/70 h-10">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
@@ -156,7 +103,7 @@ export function ExpenseControls({
       </div>
 
       {/* Payment Method */}
-      <div className="space-y-2">
+      <div className="w-full md:w-56 space-y-1.5 shrink-0">
         <Label
           htmlFor="payment-select"
           className="text-sm font-semibold text-slate-700"
@@ -167,7 +114,7 @@ export function ExpenseControls({
           value={filters.paymentMethod || "all"}
           onValueChange={handlePaymentMethodChange}
         >
-          <SelectTrigger className="w-full border-emerald-200/50 bg-white/70 hover:bg-white hover:border-emerald-300/70">
+          <SelectTrigger className="w-full border-emerald-200/50 bg-white/70 hover:bg-white hover:border-emerald-300/70 h-10">
             <SelectValue placeholder="Select method" />
           </SelectTrigger>
           <SelectContent>
@@ -181,9 +128,26 @@ export function ExpenseControls({
         </Select>
       </div>
 
+      {/* Search */}
+      <div className="w-full md:flex-1 space-y-1.5 min-w-0">
+        <Label
+          htmlFor="search-input"
+          className="text-sm font-semibold text-slate-700"
+        >
+          Search by title
+        </Label>
+        <Input
+          id="search-input"
+          placeholder="Search expenses..."
+          value={debouncedSearch}
+          onChange={(e) => setDebouncedSearch(e.target.value)}
+          className="w-full border-emerald-200/50 bg-white/70 placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white h-10"
+        />
+      </div>
+
       {/* Clear Filters */}
       {hasActiveFilters && (
-        <div className="pt-4 border-t border-emerald-200/20">
+        <div className="w-full md:w-auto pt-2 md:pt-0 shrink-0">
           <Button
             variant="outline"
             onClick={() => {
@@ -196,9 +160,9 @@ export function ExpenseControls({
               );
               setDebouncedSearch("");
             }}
-            className="w-full text-sm text-red-600 border-red-200/50 hover:bg-red-50"
+            className="w-full text-sm text-red-600 border-red-200/50 hover:bg-red-50 hover:text-red-700 h-10 px-6"
           >
-            Clear Filters
+            Clear
           </Button>
         </div>
       )}

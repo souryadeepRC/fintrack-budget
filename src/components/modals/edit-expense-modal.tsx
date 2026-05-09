@@ -127,9 +127,9 @@ export function EditExpenseModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-[300px] md:max-w-[500px] rounded-2xl">
+      <DialogContent className="max-w-75 md:max-w-125 rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+          <DialogTitle className="text-xl font-bold bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Edit Expense
           </DialogTitle>
           <DialogDescription className="text-slate-600">
@@ -370,7 +370,7 @@ export function EditExpenseModal() {
                 <Button
                   type="submit"
                   disabled={!canSubmit || isSubmitting || updateMutation.isPending}
-                  className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-md hover:shadow-lg"
+                  className="bg-linear-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-md hover:shadow-lg"
                 >
                   {updateMutation.isPending ? "Updating..." : "Update Expense"}
                 </Button>

@@ -94,9 +94,9 @@ export function AddExpenseModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+          <DialogTitle className="text-xl font-bold bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Add New Expense
           </DialogTitle>
           <DialogDescription className="text-slate-600">
@@ -337,7 +337,7 @@ export function AddExpenseModal() {
                 <Button
                   type="submit"
                   disabled={!canSubmit || isSubmitting || createMutation.isPending}
-                  className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-md hover:shadow-lg"
+                  className="bg-linear-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-md hover:shadow-lg"
                 >
                   {createMutation.isPending ? "Adding..." : "Add Expense"}
                 </Button>

@@ -40,7 +40,7 @@ export function DeleteExpenseModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-[300px] md:max-w-[500px] rounded-2xl">
+      <DialogContent className="max-w-75 md:max-w-125 rounded-2xl">
         <DialogHeader>
           <div className="flex items-center gap-4">
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-100/80">

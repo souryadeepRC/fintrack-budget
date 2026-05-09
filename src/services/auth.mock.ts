@@ -26,7 +26,6 @@ const MOCK_DEV_USER: User = {
 function getMockUsers(): Record<string, User & { password: string }> {
   try {
     const stored = localStorage.getItem(MOCK_USERS_KEY);
-    console.log({stored});
     
     if (stored) {
       return JSON.parse(stored);

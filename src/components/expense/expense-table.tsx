@@ -52,7 +52,6 @@ export function ExpenseTable({
   totalAmount,
 }: ExpenseTableProps) {
   const dispatch = useDispatch();
-  console.log({ expenses });
 
   const ActionMenu = ({ expenseId }: { expenseId: string }) => (
     <DropdownMenu>
@@ -165,7 +164,7 @@ export function ExpenseTable({
 
   if (isLoading) {
     return (
-      <div className="rounded-2xl border border-emerald-200/30 bg-gradient-to-br from-emerald-50/40 via-white to-teal-50/30 p-6 md:p-8 shadow-md">
+      <div className="rounded-2xl border border-emerald-200/30 bg-linear-to-br from-emerald-50/40 via-white to-teal-50/30 p-6 md:p-8 shadow-md">
         <div className="text-center text-slate-500 text-sm md:text-base">
           <LoadingTable count={9} />
         </div>
@@ -174,11 +173,11 @@ export function ExpenseTable({
   }
 
   return (
-    <div className="rounded-2xl border border-emerald-200/30 bg-gradient-to-br from-emerald-50/40 via-white to-teal-50/30 shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 animate-in fade-in slide-in-from-left-4 duration-500">
+    <div className="rounded-2xl border border-emerald-200/30 bg-linear-to-br from-emerald-50/40 via-white to-teal-50/30 shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 animate-in fade-in slide-in-from-left-4 duration-500">
       {/* Header with Stats */}
       <div className="flex flex-col gap-3 px-4 md:px-6 py-4 border-b border-emerald-200/30 bg-white/50">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-base md:text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+          <h3 className="text-base md:text-lg font-bold bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Recent Expenses
           </h3>
           <span className="text-xs md:text-sm font-semibold text-slate-600">
@@ -238,7 +237,7 @@ export function ExpenseTable({
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table className="min-w-full border-separate border-spacing-0 text-sm">
-              <thead className="bg-gradient-to-r from-emerald-100/60 to-teal-100/60">
+              <thead className="bg-linear-to-r from-emerald-100/60 to-teal-100/60">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
