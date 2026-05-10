@@ -1,11 +1,11 @@
 export const EXPENSE_QUERY_CONSTANTS = {
-  ALL: ["expenses"],
+  ALL: ['expenses'],
 };
 export const DEBT_QUERY_CONSTANTS = {
-  ALL: ["debts"],
+  ALL: ['debts'],
 };
 export const PAYMENT_MODES_QUERY_CONSTANTS = {
-  ALL: ["paymentMethods"],
+  ALL: ['paymentMethods'],
 };
 
 export const QUERY_CONFIG = {

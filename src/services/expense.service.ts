@@ -3,15 +3,15 @@
  * Handles CRUD operations for expenses
  */
 
-import { databases } from "@/lib/appwrite";
-import { DATABASE_ID, COLLECTIONS } from "@/config/appwrite";
+import { ID,Query } from 'appwrite';
+
+import { COLLECTIONS,DATABASE_ID } from '@/config/appwrite';
+import { databases } from '@/lib/appwrite';
 import {
   Expense,
   ExpenseCreatePayload,
   ExpenseFilter,
-  PaginatedResponse,
-} from "@/types";
-import { Query, ID } from "appwrite";
+} from '@/types';
 
 /**
  * Create a new expense
@@ -37,7 +37,7 @@ export async function createExpense(
     return formatExpenseResponse(response);
   } catch (error) {
     throw new Error(
-      `Failed to create expense: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to create expense: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -54,19 +54,19 @@ export async function getExpenses(
     const queries: string[] = []; 
     
     if (filters.startDate) {
-      queries.push(Query.greaterThanEqual("date", filters.startDate));
+      queries.push(Query.greaterThanEqual('date', filters.startDate));
     }
 
     if (filters.endDate) {
-      queries.push(Query.lessThan("date", filters.endDate));
+      queries.push(Query.lessThan('date', filters.endDate));
     }
 
     if (filters.minAmount !== undefined) {
-      queries.push(Query.greaterThanEqual("amount", filters.minAmount));
+      queries.push(Query.greaterThanEqual('amount', filters.minAmount));
     }
 
     if (filters.maxAmount !== undefined) {
-      queries.push(Query.lessThanEqual("amount", filters.maxAmount));
+      queries.push(Query.lessThanEqual('amount', filters.maxAmount));
     }
 
     // Pagination
@@ -75,7 +75,7 @@ export async function getExpenses(
 
     queries.push(Query.limit(limit));
     queries.push(Query.offset(offset));
-    queries.push(Query.orderDesc("date"));
+    queries.push(Query.orderDesc('date'));
  
     
     const response = await databases.listRows({
@@ -87,7 +87,7 @@ export async function getExpenses(
     return response.rows.map(formatExpenseResponse);
   } catch (error) {
     throw new Error(
-      `Failed to fetch expenses: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to fetch expenses: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -108,7 +108,7 @@ export async function getExpenseById(expenseId: string): Promise<Expense> {
     return formatExpenseResponse(response);
   } catch (error) {
     throw new Error(
-      `Failed to fetch expense: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to fetch expense: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -121,7 +121,7 @@ export async function getExpenseById(expenseId: string): Promise<Expense> {
  */
 export async function updateExpense(
   expenseId: string,
-  updates: Partial<Omit<Expense, "$id" | "$createdAt" | "$updatedAt">>,
+  updates: Partial<Omit<Expense, '$id' | '$createdAt' | '$updatedAt'>>,
 ): Promise<Expense> {
   try {
     const response = await databases.updateRow({
@@ -134,7 +134,7 @@ export async function updateExpense(
     return formatExpenseResponse(response);
   } catch (error) {
     throw new Error(
-      `Failed to update expense: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to update expense: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -153,7 +153,7 @@ export async function deleteExpense(expenseId: string): Promise<void> {
     });
   } catch (error) {
     throw new Error(
-      `Failed to delete expense: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to delete expense: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -175,16 +175,16 @@ export async function getTotalSpending(
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.EXPENSES,
       queries: [
-        Query.equal("user_id", userId),
-        Query.greaterThanEqual("date", startDate),
-        Query.lessThanEqual("date", endDate),
+        Query.equal('user_id', userId),
+        Query.greaterThanEqual('date', startDate),
+        Query.lessThanEqual('date', endDate),
       ],
     });
 
     return response.rows.reduce((sum, doc) => sum + (doc.amount || 0), 0);
   } catch (error) {
     throw new Error(
-      `Failed to calculate total spending: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to calculate total spending: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }

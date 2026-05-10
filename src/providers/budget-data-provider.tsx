@@ -1,18 +1,20 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useMemo } from "react";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { getExpenses } from "@/services/expense.service";
-import { getDebts } from "@/services/debt.service";
-import { Expense, Debt } from "@/types";
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { endOfMonth, startOfMonth } from 'date-fns';
+import React, { createContext, useMemo } from 'react';
+
+import { LoadingSpinner } from '@/components/loader/LoadingSpinner';
 import {
   DEBT_QUERY_CONSTANTS,
   EXPENSE_QUERY_CONSTANTS,
   QUERY_CONFIG,
-} from "@/constants/query-constants";
-import { useAuth } from "./auth-provider";
-import { LoadingSpinner } from "@/components/loader/LoadingSpinner";
-import { endOfMonth, startOfMonth } from "date-fns";
+} from '@/constants/query-constants';
+import { getDebts } from '@/services/debt.service';
+import { getExpenses } from '@/services/expense.service';
+import { Debt,Expense } from '@/types';
+
+import { useAuth } from './auth-provider';
 
 interface BudgetDataContextType {
   expensesQuery: UseQueryResult<Array<Expense>, Error>;
@@ -74,9 +76,9 @@ export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
   if (isAuthLoading) {
     return (
       <LoadingSpinner
-        size="xl"
-        text="Fintrack Budget"
-        description="Manage your budget and expenses"
+        size='xl'
+        text='Fintrack Budget'
+        description='Manage your budget and expenses'
         fullPage
       />
     );
@@ -90,7 +92,7 @@ export function BudgetDataProvider({ children }: BudgetDataProviderProps) {
   // Data loading
   if (isLoading) {
     return (
-      <LoadingSpinner size="xl" text="Loading your finances..." fullPage />
+      <LoadingSpinner size='xl' text='Loading your finances...' fullPage />
     );
   }
 

@@ -1,7 +1,8 @@
-"use server";
+'use server';
 
-import Groq from "groq-sdk";
-import { Expense } from "@/types";
+import Groq from 'groq-sdk';
+
+import { Expense } from '@/types';
 
 const groq = new Groq({
   apiKey: process.env.NEXT_GROQ_API_KEY,
@@ -9,10 +10,10 @@ const groq = new Groq({
 
 export async function askGroqAction(messages: { role: string; content: string }[], expensesContext: Expense[]) {
   try {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split('T')[0];
     
     const systemMessage = {
-      role: "system",
+      role: 'system',
       content: `You are Fintract AI, a smart personal finance assistant.
 The user's current month expenses are provided below as a JSON array:
 ${JSON.stringify(expensesContext)}
@@ -36,17 +37,17 @@ To execute the addition, append EXACTLY this syntax at the very end of your resp
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [systemMessage, ...messages] as any,
-      model: "llama-3.3-70b-versatile",
+      model: 'llama-3.3-70b-versatile',
       temperature: 0.5,
       max_completion_tokens: 1024,
     });
 
     return {
-      content: chatCompletion.choices[0]?.message?.content || "",
+      content: chatCompletion.choices[0]?.message?.content || '',
       success: true,
     };
   } catch (error: any) {
-    console.error("Groq API Error:", error);
+    console.error('Groq API Error:', error);
     return { error: error.message, success: false };
   }
 }

@@ -45,7 +45,7 @@ export interface Expense {
   date: string; // ISO DateTime of the expense
 }
 
-export type ExpenseCreatePayload = Omit<Expense, "id">;
+export type ExpenseCreatePayload = Omit<Expense, 'id'>;
 /**
  * ExpenseFilter type - used for filtering expenses in queries
  */
@@ -56,7 +56,7 @@ export interface ExpenseFilter {
   endDate?: string; // Optional: filter to date (ISO DateTime)
   minAmount?: number; // Optional: minimum amount
   maxAmount?: number; // Optional: maximum amount
-  sortBy?: "date_asc" | "date_desc" | "amount_asc" | "amount_desc"; // Default: "date_desc"
+  sortBy?: 'date_asc' | 'date_desc' | 'amount_asc' | 'amount_desc'; // Default: "date_desc"
   limit?: number; // Default: 50
   offset?: number; // Default: 0
 }
@@ -124,7 +124,7 @@ export type Debt = {
   debtId: number;
 };
 
-export type DebtCreatePayload = Omit<Debt, "id">;
+export type DebtCreatePayload = Omit<Debt, 'id'>;
 export type DebtPersonData = {
   name: string;
   title: string;

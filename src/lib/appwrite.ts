@@ -1,4 +1,4 @@
-import { Client, Account, TablesDB  } from "appwrite";
+import { Account, Client, TablesDB  } from 'appwrite';
 
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)

@@ -1,11 +1,11 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
  // swcMinify: true,
-  pageExtensions: ["ts", "tsx", "js", "jsx"],
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
   images: {
-    formats: ["image/avif", "image/webp"],
+    formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true,
   },
   compress: true,
@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: false,
   }, */
   typescript: {
-    tsconfigPath: "./tsconfig.json",
+    tsconfigPath: './tsconfig.json',
   },
 };
 

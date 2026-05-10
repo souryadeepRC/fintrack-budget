@@ -3,12 +3,13 @@
  * Handles CRUD operations for notifications
  */
 
-import { databases } from "@/lib/appwrite";
-import { DATABASE_ID, COLLECTIONS } from "@/config/appwrite";
-import { Notification } from "@/types";
-import { Query, ID } from "appwrite";
+import { ID,Query } from 'appwrite';
 
-export type NotificationCreatePayload = Omit<Notification, "id">;
+import { COLLECTIONS,DATABASE_ID } from '@/config/appwrite';
+import { databases } from '@/lib/appwrite';
+import { Notification } from '@/types';
+
+export type NotificationCreatePayload = Omit<Notification, 'id'>;
 
 /**
  * Create a new notification
@@ -28,7 +29,7 @@ export async function createNotification(data: NotificationCreatePayload): Promi
     return formatNotificationResponse(response);
   } catch (error) {
     throw new Error(
-      `Failed to create notification: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to create notification: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -42,13 +43,13 @@ export async function getNotifications(): Promise<Notification[]> {
     const response = await databases.listRows({
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.NOTIFICATIONS,
-      queries: [Query.orderAsc("expiryDate"), Query.limit(100)],
+      queries: [Query.orderAsc('expiryDate'), Query.limit(100)],
     });
 
     return response.rows.map(formatNotificationResponse);
   } catch (error) {
     throw new Error(
-      `Failed to fetch notifications: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to fetch notifications: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -66,7 +67,7 @@ export async function updateNotification(
     });
     return formatNotificationResponse(response);
   } catch (error) {
-    throw new Error(`Failed to update notification: ${error instanceof Error ? error.message : "Unknown error"}`);
+    throw new Error(`Failed to update notification: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
@@ -78,7 +79,7 @@ export async function deleteNotification(notificationId: string): Promise<void> 
       rowId: notificationId,
     });
   } catch (error) {
-    throw new Error(`Failed to delete notification: ${error instanceof Error ? error.message : "Unknown error"}`);
+    throw new Error(`Failed to delete notification: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 

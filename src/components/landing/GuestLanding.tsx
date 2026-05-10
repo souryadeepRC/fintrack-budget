@@ -11,89 +11,89 @@ export default function FintrackLanding() {
   }, []);
 
   return (
-    <main className="fintrack-root">
+    <main className='fintrack-root'>
       {/* ── NAV ─────────────────────────────────────────── */}
-      <nav className="nav">
-        <div className="nav-inner">
-          <a href="#" className="nav-logo">
-            <span className="logo-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 2L3 7v6l7 5 7-5V7L10 2z" fill="url(#logoGrad)" />
+      <nav className='nav'>
+        <div className='nav-inner'>
+          <a href='#' className='nav-logo'>
+            <span className='logo-icon'>
+              <svg width='20' height='20' viewBox='0 0 20 20' fill='none'>
+                <path d='M10 2L3 7v6l7 5 7-5V7L10 2z' fill='url(#logoGrad)' />
                 <defs>
-                  <linearGradient id="logoGrad" x1="3" y1="2" x2="17" y2="18" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#2EC4A0" />
-                    <stop offset="1" stopColor="#0EA5C9" />
+                  <linearGradient id='logoGrad' x1='3' y1='2' x2='17' y2='18' gradientUnits='userSpaceOnUse'>
+                    <stop stopColor='#2EC4A0' />
+                    <stop offset='1' stopColor='#0EA5C9' />
                   </linearGradient>
                 </defs>
               </svg>
             </span>
             Fintrack
           </a>
-          <div className="nav-links">
-            <a href="#">Features</a>
-            <a href="#">Security</a>
-            <a href="#">Pricing</a>
-            <a href="#">Blog</a>
+          <div className='nav-links'>
+            <a href='#'>Features</a>
+            <a href='#'>Security</a>
+            <a href='#'>Pricing</a>
+            <a href='#'>Blog</a>
           </div>
-          <div className="nav-actions">
-            <a href="#" className="nav-login">Log in</a>
-            <a href="#" className="nav-cta">Get started</a>
+          <div className='nav-actions'>
+            <a href='#' className='nav-login'>Log in</a>
+            <a href='#' className='nav-cta'>Get started</a>
           </div>
         </div>
       </nav>
 
       {/* ── HERO ────────────────────────────────────────── */}
-      <section className="hero" ref={heroRef}>
+      <section className='hero' ref={heroRef}>
         {/* Background mesh */}
-        <div className="hero-mesh" aria-hidden />
+        <div className='hero-mesh' aria-hidden />
 
-        <div className="hero-inner">
+        <div className='hero-inner'>
           {/* Left column */}
           <div className={`hero-copy ${mounted ? 'visible' : ''}`}>
             {/* Badge */}
-            <div className="badge">
-              <span className="badge-dot" />
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                <line x1="12" y1="19" x2="12" y2="22"/>
+            <div className='badge'>
+              <span className='badge-dot' />
+              <svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+                <path d='M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z'/>
+                <path d='M19 10v2a7 7 0 0 1-14 0v-2'/>
+                <line x1='12' y1='19' x2='12' y2='22'/>
               </svg>
               New AI Feature: Voice Speech Update
             </div>
 
             {/* Headline */}
-            <h1 className="headline">
+            <h1 className='headline'>
               Fintrack Budget:<br />
               Smart Money{' '}
-              <span className="headline-accent">Intelligence</span>
+              <span className='headline-accent'>Intelligence</span>
             </h1>
 
-            <p className="hero-body">
+            <p className='hero-body'>
               Master your money with intelligent tracking and budgeting. Fintrack Budget combines
               AI&#8209;driven insights with intuitive design to help you achieve financial freedom.
             </p>
 
             {/* CTA row */}
-            <div className="hero-actions">
-              <a href="/auth/register" className="btn-primary">
+            <div className='hero-actions'>
+              <a href='/auth/register' className='btn-primary'>
                 Sign up for free
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' strokeLinejoin='round'>
+                  <path d='M5 12h14M12 5l7 7-7 7'/>
                 </svg>
               </a>
-              <a href="/auth/login" className="btn-ghost">
+              <a href='/auth/login' className='btn-ghost'>
                 Already a user? Login
               </a>
             </div>
 
             {/* Trust row */}
-            <div className="trust-row">
-              <div className="trust-avatars">
+            <div className='trust-row'>
+              <div className='trust-avatars'>
                 {['#2EC4A0','#0EA5C9','#6366F1','#F59E0B'].map((c, i) => (
-                  <div key={i} className="trust-avatar" style={{ background: c, zIndex: 4 - i }} />
+                  <div key={i} className='trust-avatar' style={{ background: c, zIndex: 4 - i }} />
                 ))}
               </div>
-              <span className="trust-text">
+              <span className='trust-text'>
                 <strong>50,000+</strong> users trust Fintrack
               </span>
             </div>
@@ -107,94 +107,94 @@ export default function FintrackLanding() {
       </section>
 
       {/* ── STATS BAR ───────────────────────────────────── */}
-      <div className="stats-bar">
-        <div className="stats-inner">
+      <div className='stats-bar'>
+        <div className='stats-inner'>
           {[
             { value: '$2.4B', label: 'Money tracked' },
             { value: '50K+', label: 'Active users' },
             { value: '99.9%', label: 'Uptime SLA' },
             { value: '4.9★', label: 'App store rating' },
           ].map((s) => (
-            <div key={s.label} className="stat-item">
-              <span className="stat-value">{s.value}</span>
-              <span className="stat-label">{s.label}</span>
+            <div key={s.label} className='stat-item'>
+              <span className='stat-value'>{s.value}</span>
+              <span className='stat-label'>{s.label}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── FEATURES ────────────────────────────────────── */}
-      <section className="features">
-        <div className="features-inner">
-          <div className="section-head">
-            <div className="section-eyebrow">Intelligent Features</div>
-            <h2 className="section-title">Advanced AI-powered tools designed<br />for modern financial management</h2>
+      <section className='features'>
+        <div className='features-inner'>
+          <div className='section-head'>
+            <div className='section-eyebrow'>Intelligent Features</div>
+            <h2 className='section-title'>Advanced AI-powered tools designed<br />for modern financial management</h2>
           </div>
 
-          <div className="feat-grid">
+          <div className='feat-grid'>
             <FeatureCard
               icon={<MicIcon />}
-              color="teal"
-              title="Voice Speech Update"
-              desc="Control finances and get insights using voice commands. Hands-free finance management, powered by on-device AI."
-              tag="NEW"
+              color='teal'
+              title='Voice Speech Update'
+              desc='Control finances and get insights using voice commands. Hands-free finance management, powered by on-device AI.'
+              tag='NEW'
               highlight
             />
             <FeatureCard
               icon={<ChartIcon />}
-              color="cyan"
-              title="Expense Analysis"
-              desc="Automatically categorize transactions and visualize your spending patterns with detailed, real-time reports."
+              color='cyan'
+              title='Expense Analysis'
+              desc='Automatically categorize transactions and visualize your spending patterns with detailed, real-time reports.'
             />
             <FeatureCard
               icon={<TargetIcon />}
-              color="blue"
-              title="Financial Goals"
-              desc="Create savings goals and track your progress with personalized recommendations and dynamic timelines."
+              color='blue'
+              title='Financial Goals'
+              desc='Create savings goals and track your progress with personalized recommendations and dynamic timelines.'
             />
             <FeatureCard
               icon={<LockIcon />}
-              color="indigo"
-              title="Secure Insights"
-              desc="Your financial data is protected with bank-level encryption and advanced security protocols, always."
+              color='indigo'
+              title='Secure Insights'
+              desc='Your financial data is protected with bank-level encryption and advanced security protocols, always.'
             />
           </div>
         </div>
       </section>
 
       {/* ── AI SHOWCASE ─────────────────────────────────── */}
-      <section className="ai-section">
-        <div className="ai-inner">
-          <div className="ai-visual">
+      <section className='ai-section'>
+        <div className='ai-inner'>
+          <div className='ai-visual'>
             <AiDashboardMockup />
           </div>
-          <div className="ai-copy">
-            <div className="section-eyebrow">AI at the core</div>
-            <h2 className="section-title left">Your money, understood in real time</h2>
-            <p className="ai-body">
+          <div className='ai-copy'>
+            <div className='section-eyebrow'>AI at the core</div>
+            <h2 className='section-title left'>Your money, understood in real time</h2>
+            <p className='ai-body'>
               Our proprietary AI engine analyses every transaction the moment it lands, clusters
               spending into smart categories, and surfaces anomalies before they become problems.
             </p>
-            <ul className="ai-list">
+            <ul className='ai-list'>
               {[
                 'Predictive cash-flow forecasting up to 90 days',
                 'Smart subscription detection & cancel reminders',
                 'Personalised saving nudges based on your patterns',
               ].map((item) => (
                 <li key={item}>
-                  <span className="ai-check">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <span className='ai-check'>
+                    <svg width='12' height='12' viewBox='0 0 12 12' fill='none'>
+                      <path d='M2 6l3 3 5-5' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
                     </svg>
                   </span>
                   {item}
                 </li>
               ))}
             </ul>
-            <a href="#" className="btn-primary">
+            <a href='#' className='btn-primary'>
               Explore AI features
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+              <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' strokeLinejoin='round'>
+                <path d='M5 12h14M12 5l7 7-7 7'/>
               </svg>
             </a>
           </div>
@@ -202,64 +202,64 @@ export default function FintrackLanding() {
       </section>
 
       {/* ── CTA BANNER ──────────────────────────────────── */}
-      <section className="cta-section">
-        <div className="cta-mesh" aria-hidden />
-        <div className="cta-inner">
-          <div className="cta-icons" aria-hidden>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-              <line x1="12" y1="19" x2="12" y2="22"/>
+      <section className='cta-section'>
+        <div className='cta-mesh' aria-hidden />
+        <div className='cta-inner'>
+          <div className='cta-icons' aria-hidden>
+            <svg width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' strokeLinecap='round' strokeLinejoin='round'>
+              <path d='M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z'/>
+              <path d='M19 10v2a7 7 0 0 1-14 0v-2'/>
+              <line x1='12' y1='19' x2='12' y2='22'/>
             </svg>
           </div>
-          <h2 className="cta-title">Ready for smarter finances?</h2>
-          <p className="cta-body">
+          <h2 className='cta-title'>Ready for smarter finances?</h2>
+          <p className='cta-body'>
             Join thousands of users leveraging AI-powered insights to take control of their
             financial future.
           </p>
-          <a href="#" className="btn-white">
+          <a href='#' className='btn-white'>
             Get Started Free
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+            <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' strokeLinejoin='round'>
+              <path d='M5 12h14M12 5l7 7-7 7'/>
             </svg>
           </a>
         </div>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────── */}
-      <footer className="footer">
-        <div className="footer-inner">
-          <div className="footer-brand">
-            <a href="#" className="nav-logo">
-              <span className="logo-icon">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 2L3 7v6l7 5 7-5V7L10 2z" fill="url(#logoGrad2)" />
+      <footer className='footer'>
+        <div className='footer-inner'>
+          <div className='footer-brand'>
+            <a href='#' className='nav-logo'>
+              <span className='logo-icon'>
+                <svg width='18' height='18' viewBox='0 0 20 20' fill='none'>
+                  <path d='M10 2L3 7v6l7 5 7-5V7L10 2z' fill='url(#logoGrad2)' />
                   <defs>
-                    <linearGradient id="logoGrad2" x1="3" y1="2" x2="17" y2="18" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#2EC4A0" />
-                      <stop offset="1" stopColor="#0EA5C9" />
+                    <linearGradient id='logoGrad2' x1='3' y1='2' x2='17' y2='18' gradientUnits='userSpaceOnUse'>
+                      <stop stopColor='#2EC4A0' />
+                      <stop offset='1' stopColor='#0EA5C9' />
                     </linearGradient>
                   </defs>
                 </svg>
               </span>
               Fintrack
             </a>
-            <p className="footer-tagline">Smart money, intelligently managed.</p>
+            <p className='footer-tagline'>Smart money, intelligently managed.</p>
           </div>
-          <div className="footer-links">
+          <div className='footer-links'>
             {[
               { head: 'Product', links: ['Features', 'Security', 'Pricing', 'Changelog'] },
               { head: 'Company', links: ['About', 'Blog', 'Careers', 'Press'] },
               { head: 'Legal', links: ['Privacy', 'Terms', 'Cookies', 'Contact'] },
             ].map((col) => (
-              <div key={col.head} className="footer-col">
+              <div key={col.head} className='footer-col'>
                 <h4>{col.head}</h4>
-                {col.links.map((l) => <a key={l} href="#">{l}</a>)}
+                {col.links.map((l) => <a key={l} href='#'>{l}</a>)}
               </div>
             ))}
           </div>
         </div>
-        <div className="footer-bottom">
+        <div className='footer-bottom'>
           <span>© 2025 Fintrack, Inc. All rights reserved.</span>
         </div>
       </footer>
@@ -711,34 +711,34 @@ export default function FintrackLanding() {
 /* ─── Hero Illustration ─────────────────────────────── */
 function HeroIllustration() {
   return (
-    <div className="hero-illus">
-      <div className="illus-glow" />
-      <div className="illus-float">
-        <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto', filter: 'drop-shadow(0 32px 64px rgba(46,196,160,.25))' }}>
+    <div className='hero-illus'>
+      <div className='illus-glow' />
+      <div className='illus-float'>
+        <svg viewBox='0 0 520 520' fill='none' xmlns='http://www.w3.org/2000/svg' style={{ width: '100%', height: 'auto', filter: 'drop-shadow(0 32px 64px rgba(46,196,160,.25))' }}>
           <defs>
             {/* Gradients */}
-            <linearGradient id="coreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop stopColor="#2EC4A0" offset="0%" />
-              <stop stopColor="#0EA5C9" offset="100%" />
+            <linearGradient id='coreGradient' x1='0%' y1='0%' x2='100%' y2='100%'>
+              <stop stopColor='#2EC4A0' offset='0%' />
+              <stop stopColor='#0EA5C9' offset='100%' />
             </linearGradient>
-            <linearGradient id="aiGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop stopColor="#7DD6F0" offset="0%" />
-              <stop stopColor="#2EC4A0" offset="100%" />
+            <linearGradient id='aiGlow' x1='0%' y1='0%' x2='100%' y2='100%'>
+              <stop stopColor='#7DD6F0' offset='0%' />
+              <stop stopColor='#2EC4A0' offset='100%' />
             </linearGradient>
-            <radialGradient id="pulseGrad" cx="50%" cy="50%" r="50%">
-              <stop stopColor="#2EC4A0" stopOpacity="0.4" offset="0%" />
-              <stop stopColor="#2EC4A0" stopOpacity="0" offset="100%" />
+            <radialGradient id='pulseGrad' cx='50%' cy='50%' r='50%'>
+              <stop stopColor='#2EC4A0' stopOpacity='0.4' offset='0%' />
+              <stop stopColor='#2EC4A0' stopOpacity='0' offset='100%' />
             </radialGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <filter id='glow' x='-50%' y='-50%' width='200%' height='200%'>
+              <feGaussianBlur stdDeviation='6' result='coloredBlur'/>
               <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
+                <feMergeNode in='coloredBlur'/>
+                <feMergeNode in='SourceGraphic'/>
               </feMerge>
             </filter>
-            <filter id="softGlow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            <filter id='softGlow'>
+              <feGaussianBlur stdDeviation='3' result='blur' />
+              <feMerge><feMergeNode in='blur'/><feMergeNode in='SourceGraphic'/></feMerge>
             </filter>
             <style>{`
               @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
@@ -751,101 +751,101 @@ function HeroIllustration() {
           </defs>
 
           {/* Background Mesh */}
-          <rect x="0" y="0" width="520" height="520" fill="rgba(244,251,249,.5)" opacity="0" />
-          <circle cx="260" cy="260" r="240" fill="url(#pulseGrad)" opacity="0.3" />
+          <rect x='0' y='0' width='520' height='520' fill='rgba(244,251,249,.5)' opacity='0' />
+          <circle cx='260' cy='260' r='240' fill='url(#pulseGrad)' opacity='0.3' />
 
           {/* AI Core Central Hub */}
-          <g className="core-element">
-            <circle cx="260" cy="260" r="55" fill="url(#coreGradient)" filter="url(#glow)" opacity="0.95" />
-            <circle cx="260" cy="260" r="50" fill="rgba(255,255,255,.1)" strokeWidth="2" stroke="rgba(255,255,255,.3)" />
+          <g className='core-element'>
+            <circle cx='260' cy='260' r='55' fill='url(#coreGradient)' filter='url(#glow)' opacity='0.95' />
+            <circle cx='260' cy='260' r='50' fill='rgba(255,255,255,.1)' strokeWidth='2' stroke='rgba(255,255,255,.3)' />
             {/* AI Brain Icon */}
-            <g transform="translate(260, 260)">
-              <circle cx="0" cy="-8" r="4" fill="white" />
-              <circle cx="-8" cy="4" r="4" fill="white" />
-              <circle cx="8" cy="4" r="4" fill="white" />
-              <circle cx="0" cy="12" r="4" fill="white" />
-              <line x1="0" y1="-4" x2="-6" y2="0" stroke="white" strokeWidth="1.5" opacity="0.6" />
-              <line x1="0" y1="-4" x2="6" y2="0" stroke="white" strokeWidth="1.5" opacity="0.6" />
-              <line x1="-6" y1="4" x2="0" y2="8" stroke="white" strokeWidth="1.5" opacity="0.6" />
-              <line x1="6" y1="4" x2="0" y2="8" stroke="white" strokeWidth="1.5" opacity="0.6" />
+            <g transform='translate(260, 260)'>
+              <circle cx='0' cy='-8' r='4' fill='white' />
+              <circle cx='-8' cy='4' r='4' fill='white' />
+              <circle cx='8' cy='4' r='4' fill='white' />
+              <circle cx='0' cy='12' r='4' fill='white' />
+              <line x1='0' y1='-4' x2='-6' y2='0' stroke='white' strokeWidth='1.5' opacity='0.6' />
+              <line x1='0' y1='-4' x2='6' y2='0' stroke='white' strokeWidth='1.5' opacity='0.6' />
+              <line x1='-6' y1='4' x2='0' y2='8' stroke='white' strokeWidth='1.5' opacity='0.6' />
+              <line x1='6' y1='4' x2='0' y2='8' stroke='white' strokeWidth='1.5' opacity='0.6' />
             </g>
           </g>
 
           {/* Pulse Ring */}
-          <circle cx="260" cy="260" r="45" fill="none" stroke="url(#coreGradient)" strokeWidth="2" className="pulse-ring" opacity="0.6" />
+          <circle cx='260' cy='260' r='45' fill='none' stroke='url(#coreGradient)' strokeWidth='2' className='pulse-ring' opacity='0.6' />
 
           {/* Left Category Icons */}
           {/* Groceries */}
-          <g transform="translate(90, 140)">
-            <circle cx="0" cy="0" r="32" fill="rgba(46,196,160,.15)" stroke="rgba(46,196,160,.4)" strokeWidth="2" />
-            <path d="M -8 -6 L -2 0 L 8 -8 M -8 4 L 2 8 L 8 4" stroke="#2EC4A0" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <g transform='translate(90, 140)'>
+            <circle cx='0' cy='0' r='32' fill='rgba(46,196,160,.15)' stroke='rgba(46,196,160,.4)' strokeWidth='2' />
+            <path d='M -8 -6 L -2 0 L 8 -8 M -8 4 L 2 8 L 8 4' stroke='#2EC4A0' strokeWidth='2.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
           </g>
 
           {/* Utilities */}
-          <g transform="translate(70, 260)">
-            <circle cx="0" cy="0" r="32" fill="rgba(46,196,160,.15)" stroke="rgba(46,196,160,.4)" strokeWidth="2" />
-            <path d="M -4 -8 L -4 4 M 0 -6 L 0 6 M 4 -8 L 4 4 M -8 8 L 8 8" stroke="#2EC4A0" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <g transform='translate(70, 260)'>
+            <circle cx='0' cy='0' r='32' fill='rgba(46,196,160,.15)' stroke='rgba(46,196,160,.4)' strokeWidth='2' />
+            <path d='M -4 -8 L -4 4 M 0 -6 L 0 6 M 4 -8 L 4 4 M -8 8 L 8 8' stroke='#2EC4A0' strokeWidth='2.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
           </g>
 
           {/* Education */}
-          <g transform="translate(100, 380)">
-            <circle cx="0" cy="0" r="32" fill="rgba(46,196,160,.15)" stroke="rgba(46,196,160,.4)" strokeWidth="2" />
-            <path d="M -10 -6 L 0 -10 L 10 -6 L 10 8 L -10 8 Z M -4 0 L 4 0 M -4 4 L 4 4" stroke="#2EC4A0" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <g transform='translate(100, 380)'>
+            <circle cx='0' cy='0' r='32' fill='rgba(46,196,160,.15)' stroke='rgba(46,196,160,.4)' strokeWidth='2' />
+            <path d='M -10 -6 L 0 -10 L 10 -6 L 10 8 L -10 8 Z M -4 0 L 4 0 M -4 4 L 4 4' stroke='#2EC4A0' strokeWidth='2.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
           </g>
 
           {/* Right Category Icons */}
           {/* Transport */}
-          <g transform="translate(430, 140)">
-            <circle cx="0" cy="0" r="32" fill="rgba(14,165,201,.15)" stroke="rgba(14,165,201,.4)" strokeWidth="2" />
-            <path d="M -10 4 L -6 -6 L 6 -6 L 10 4 M -8 4 L -8 8 M 8 4 L 8 8 M -6 8 L 6 8" stroke="#0EA5C9" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <g transform='translate(430, 140)'>
+            <circle cx='0' cy='0' r='32' fill='rgba(14,165,201,.15)' stroke='rgba(14,165,201,.4)' strokeWidth='2' />
+            <path d='M -10 4 L -6 -6 L 6 -6 L 10 4 M -8 4 L -8 8 M 8 4 L 8 8 M -6 8 L 6 8' stroke='#0EA5C9' strokeWidth='2.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
           </g>
 
           {/* Healthcare */}
-          <g transform="translate(450, 260)">
-            <circle cx="0" cy="0" r="32" fill="rgba(14,165,201,.15)" stroke="rgba(14,165,201,.4)" strokeWidth="2" />
-            <path d="M -2 -8 L -2 8 M -8 2 L 8 2" stroke="#0EA5C9" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <g transform='translate(450, 260)'>
+            <circle cx='0' cy='0' r='32' fill='rgba(14,165,201,.15)' stroke='rgba(14,165,201,.4)' strokeWidth='2' />
+            <path d='M -2 -8 L -2 8 M -8 2 L 8 2' stroke='#0EA5C9' strokeWidth='2.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
           </g>
 
           {/* Entertainment */}
-          <g transform="translate(420, 380)">
-            <circle cx="0" cy="0" r="32" fill="rgba(14,165,201,.15)" stroke="rgba(14,165,201,.4)" strokeWidth="2" />
-            <path d="M -8 -4 Q -8 -8 -4 -8 Q 0 -8 0 -4 L 0 8 Q -4 6 -8 8 Z M 8 -4 Q 8 -8 4 -8 Q 0 -8 0 -4 L 0 8 Q 4 6 8 8 Z" stroke="#0EA5C9" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <g transform='translate(420, 380)'>
+            <circle cx='0' cy='0' r='32' fill='rgba(14,165,201,.15)' stroke='rgba(14,165,201,.4)' strokeWidth='2' />
+            <path d='M -8 -4 Q -8 -8 -4 -8 Q 0 -8 0 -4 L 0 8 Q -4 6 -8 8 Z M 8 -4 Q 8 -8 4 -8 Q 0 -8 0 -4 L 0 8 Q 4 6 8 8 Z' stroke='#0EA5C9' strokeWidth='2' fill='none' strokeLinecap='round' strokeLinejoin='round' />
           </g>
 
           {/* Connection Lines - Animated */}
-          <g strokeDasharray="4 4" opacity="0.4">
-            <line x1="260" y1="260" x2="90" y2="140" stroke="#2EC4A0" strokeWidth="1.5" />
-            <line x1="260" y1="260" x2="70" y2="260" stroke="#2EC4A0" strokeWidth="1.5" />
-            <line x1="260" y1="260" x2="100" y2="380" stroke="#2EC4A0" strokeWidth="1.5" />
-            <line x1="260" y1="260" x2="430" y2="140" stroke="#0EA5C9" strokeWidth="1.5" />
-            <line x1="260" y1="260" x2="450" y2="260" stroke="#0EA5C9" strokeWidth="1.5" />
-            <line x1="260" y1="260" x2="420" y2="380" stroke="#0EA5C9" strokeWidth="1.5" />
+          <g strokeDasharray='4 4' opacity='0.4'>
+            <line x1='260' y1='260' x2='90' y2='140' stroke='#2EC4A0' strokeWidth='1.5' />
+            <line x1='260' y1='260' x2='70' y2='260' stroke='#2EC4A0' strokeWidth='1.5' />
+            <line x1='260' y1='260' x2='100' y2='380' stroke='#2EC4A0' strokeWidth='1.5' />
+            <line x1='260' y1='260' x2='430' y2='140' stroke='#0EA5C9' strokeWidth='1.5' />
+            <line x1='260' y1='260' x2='450' y2='260' stroke='#0EA5C9' strokeWidth='1.5' />
+            <line x1='260' y1='260' x2='420' y2='380' stroke='#0EA5C9' strokeWidth='1.5' />
           </g>
 
           {/* Top AI Badge */}
-          <g className="float-item" style={{ animationDelay: '0.3s' }}>
-            <rect x="160" y="30" width="200" height="48" rx="14" fill="rgba(255,255,255,.9)" stroke="rgba(46,196,160,.3)" strokeWidth="2" />
-            <circle cx="180" cy="54" r="6" fill="rgba(46,196,160,.3)" />
-            <path d="M 175 54 L 178 57 L 185 50" stroke="#2EC4A0" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            <text x="200" y="48" fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="700" fontSize="13" fill="#0D1F1B">AI Smart Analytics</text>
-            <text x="200" y="62" fontFamily="'DM Sans', sans-serif" fontWeight="400" fontSize="11" fill="#5A7A72">Real-time insights</text>
+          <g className='float-item' style={{ animationDelay: '0.3s' }}>
+            <rect x='160' y='30' width='200' height='48' rx='14' fill='rgba(255,255,255,.9)' stroke='rgba(46,196,160,.3)' strokeWidth='2' />
+            <circle cx='180' cy='54' r='6' fill='rgba(46,196,160,.3)' />
+            <path d='M 175 54 L 178 57 L 185 50' stroke='#2EC4A0' strokeWidth='1.5' fill='none' strokeLinecap='round' strokeLinejoin='round' />
+            <text x='200' y='48' fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight='700' fontSize='13' fill='#0D1F1B'>AI Smart Analytics</text>
+            <text x='200' y='62' fontFamily="'DM Sans', sans-serif" fontWeight='400' fontSize='11' fill='#5A7A72'>Real-time insights</text>
           </g>
 
           {/* Bottom Insight Badge */}
-          <g className="float-item" style={{ animationDelay: '0.5s' }}>
-            <rect x="150" y="450" width="220" height="44" rx="12" fill="rgba(255,255,255,.88)" stroke="rgba(14,165,201,.3)" strokeWidth="2" />
-            <circle cx="172" cy="472" r="5" fill="rgba(14,165,201,.3)" />
-            <path d="M 168 472 L 170 474 L 176 468" stroke="#0EA5C9" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            <text x="190" y="469" fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="600" fontSize="12" fill="#0D1F1B">Optimized Tracking</text>
-            <text x="190" y="482" fontFamily="'DM Sans', sans-serif" fontWeight="400" fontSize="10" fill="#5A7A72">Indian categories</text>
+          <g className='float-item' style={{ animationDelay: '0.5s' }}>
+            <rect x='150' y='450' width='220' height='44' rx='12' fill='rgba(255,255,255,.88)' stroke='rgba(14,165,201,.3)' strokeWidth='2' />
+            <circle cx='172' cy='472' r='5' fill='rgba(14,165,201,.3)' />
+            <path d='M 168 472 L 170 474 L 176 468' stroke='#0EA5C9' strokeWidth='1.2' fill='none' strokeLinecap='round' strokeLinejoin='round' />
+            <text x='190' y='469' fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight='600' fontSize='12' fill='#0D1F1B'>Optimized Tracking</text>
+            <text x='190' y='482' fontFamily="'DM Sans', sans-serif" fontWeight='400' fontSize='10' fill='#5A7A72'>Indian categories</text>
           </g>
 
           {/* Floating Particles */}
-          <g opacity="0.2">
-            <circle cx="140" cy="100" r="2" fill="#2EC4A0" className="float-item" style={{ animationDelay: '0.2s' }} />
-            <circle cx="380" cy="420" r="2" fill="#0EA5C9" className="float-item" style={{ animationDelay: '0.6s' }} />
-            <circle cx="480" cy="200" r="1.5" fill="#6366F1" className="float-item" style={{ animationDelay: '0.8s' }} />
-            <circle cx="50" cy="350" r="1.5" fill="#F59E0B" className="float-item" style={{ animationDelay: '1s' }} />
+          <g opacity='0.2'>
+            <circle cx='140' cy='100' r='2' fill='#2EC4A0' className='float-item' style={{ animationDelay: '0.2s' }} />
+            <circle cx='380' cy='420' r='2' fill='#0EA5C9' className='float-item' style={{ animationDelay: '0.6s' }} />
+            <circle cx='480' cy='200' r='1.5' fill='#6366F1' className='float-item' style={{ animationDelay: '0.8s' }} />
+            <circle cx='50' cy='350' r='1.5' fill='#F59E0B' className='float-item' style={{ animationDelay: '1s' }} />
           </g>
         </svg>
       </div>
@@ -857,26 +857,26 @@ function HeroIllustration() {
 function AiDashboardMockup() {
   const heights = [35, 55, 45, 70, 60, 85, 65];
   return (
-    <div className="ai-dash">
-      <div className="dash-header">
-        <span className="dash-title">Monthly Overview</span>
-        <span className="dash-pill">AI Live</span>
+    <div className='ai-dash'>
+      <div className='dash-header'>
+        <span className='dash-title'>Monthly Overview</span>
+        <span className='dash-pill'>AI Live</span>
       </div>
-      <div className="dash-balance">₹84,320</div>
-      <div className="dash-sub">Total balance · Updated just now</div>
-      <div className="dash-chart">
+      <div className='dash-balance'>₹84,320</div>
+      <div className='dash-sub'>Total balance · Updated just now</div>
+      <div className='dash-chart'>
         {heights.map((h, i) => (
           <div key={i} className={`dash-bar${i === 5 ? ' active' : ''}`} style={{ height: `${h}%` }} />
         ))}
       </div>
-      <div className="dash-tags">
+      <div className='dash-tags'>
         {[
           { color: '#2EC4A0', label: 'Savings +18%' },
           { color: '#0EA5C9', label: 'Food ₹4,200' },
           { color: '#6366F1', label: 'Goal 82%' },
         ].map((t) => (
-          <div key={t.label} className="dash-tag">
-            <span className="dash-tag-dot" style={{ background: t.color }} />
+          <div key={t.label} className='dash-tag'>
+            <span className='dash-tag-dot' style={{ background: t.color }} />
             {t.label}
           </div>
         ))}
@@ -898,9 +898,9 @@ function FeatureCard({
 }) {
   return (
     <div className={`feat-card${highlight ? ' highlight' : ''}`}>
-      <div className="feat-card-top">
+      <div className='feat-card-top'>
         <div className={`feat-icon-wrap ${color}`}>{icon}</div>
-        {tag && <span className="feat-tag">{tag}</span>}
+        {tag && <span className='feat-tag'>{tag}</span>}
       </div>
       <h3>{title}</h3>
       <p>{desc}</p>
@@ -910,26 +910,26 @@ function FeatureCard({
 
 /* ─── SVG Icons ─────────────────────────────────── */
 const MicIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-    <line x1="12" y1="19" x2="12" y2="22"/>
+  <svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <path d='M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z'/>
+    <path d='M19 10v2a7 7 0 0 1-14 0v-2'/>
+    <line x1='12' y1='19' x2='12' y2='22'/>
   </svg>
 );
 const ChartIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
-    <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+  <svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/>
+    <line x1='6' y1='20' x2='6' y2='14'/><line x1='2' y1='20' x2='22' y2='20'/>
   </svg>
 );
 const TargetIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+  <svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/>
   </svg>
 );
 const LockIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  <svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <rect x='3' y='11' width='18' height='11' rx='2' ry='2'/>
+    <path d='M7 11V7a5 5 0 0 1 10 0v4'/>
   </svg>
 );

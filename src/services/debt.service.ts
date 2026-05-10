@@ -3,17 +3,18 @@
  * Handles CRUD operations for debts and repayments
  */
 
-import { databases } from "@/lib/appwrite";
-import { DATABASE_ID, COLLECTIONS } from "@/config/appwrite";
-import { Debt, DebtCreatePayload } from "@/types";
-import { Query, ID } from "appwrite";
+import { ID,Query } from 'appwrite';
+
+import { COLLECTIONS,DATABASE_ID } from '@/config/appwrite';
+import { databases } from '@/lib/appwrite';
+import { Debt, DebtCreatePayload } from '@/types';
 
 export interface DebtFilter {
   limit?: number; // Default: 50
   offset?: number; // Default: 0
   isRepayment?: boolean; // Filter by repayment status
   category?: string; // Filter by category
-  sortBy?: "date_asc" | "date_desc" | "amount_asc" | "amount_desc"; // Default: "date_desc"
+  sortBy?: 'date_asc' | 'date_desc' | 'amount_asc' | 'amount_desc'; // Default: "date_desc"
 }
 
 /**
@@ -34,7 +35,7 @@ export async function createDebt(data: DebtCreatePayload): Promise<Debt> {
     return formatDebtResponse(response);
   } catch (error) {
     throw new Error(
-      `Failed to create debt: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to create debt: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -50,23 +51,23 @@ export async function getDebts(filters?: DebtFilter): Promise<Debt[]> {
 
     // Add filters
     if (filters?.isRepayment !== undefined) {
-      queries.push(Query.equal("is_repayment", filters.isRepayment));
+      queries.push(Query.equal('is_repayment', filters.isRepayment));
     }
 
     if (filters?.category) {
-      queries.push(Query.equal("category", filters.category));
+      queries.push(Query.equal('category', filters.category));
     }
 
     // Sorting
-    if (filters?.sortBy === "date_asc") {
-      queries.push(Query.orderAsc("date"));
-    } else if (filters?.sortBy === "amount_asc") {
-      queries.push(Query.orderAsc("amount"));
-    } else if (filters?.sortBy === "amount_desc") {
-      queries.push(Query.orderDesc("amount"));
+    if (filters?.sortBy === 'date_asc') {
+      queries.push(Query.orderAsc('date'));
+    } else if (filters?.sortBy === 'amount_asc') {
+      queries.push(Query.orderAsc('amount'));
+    } else if (filters?.sortBy === 'amount_desc') {
+      queries.push(Query.orderDesc('amount'));
     } else {
       // Default: sort by date descending
-      queries.push(Query.orderDesc("date"));
+      queries.push(Query.orderDesc('date'));
     }
 
     // Pagination
@@ -84,7 +85,7 @@ export async function getDebts(filters?: DebtFilter): Promise<Debt[]> {
     return response.rows.map(formatDebtResponse);
   } catch (error) {
     throw new Error(
-      `Failed to fetch debts: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to fetch debts: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -105,7 +106,7 @@ export async function getDebtById(debtId: string): Promise<Debt> {
     return formatDebtResponse(response);
   } catch (error) {
     throw new Error(
-      `Failed to fetch debt: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to fetch debt: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -118,7 +119,7 @@ export async function getDebtById(debtId: string): Promise<Debt> {
  */
 export async function updateDebt(
   debtId: string,
-  updates: Partial<Omit<Debt, "id">>,
+  updates: Partial<Omit<Debt, 'id'>>,
 ): Promise<Debt> {
   try {
     const response = await databases.updateRow({
@@ -131,7 +132,7 @@ export async function updateDebt(
     return formatDebtResponse(response);
   } catch (error) {
     throw new Error(
-      `Failed to update debt: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to update debt: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -150,7 +151,7 @@ export async function deleteDebt(debtId: string): Promise<void> {
     });
   } catch (error) {
     throw new Error(
-      `Failed to delete debt: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to delete debt: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -164,13 +165,13 @@ export async function getTotalDebt(): Promise<number> {
     const response = await databases.listRows({
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.DEBTS,
-      queries: [Query.equal("isRepayment", false)], // Only count actual debts, not repayments
+      queries: [Query.equal('isRepayment', false)], // Only count actual debts, not repayments
     });
 
     return response.rows.reduce((sum, doc) => sum + (doc.amount || 0), 0);
   } catch (error) {
     throw new Error(
-      `Failed to calculate total debt: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to calculate total debt: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -184,13 +185,13 @@ export async function getTotalRepayment(): Promise<number> {
     const response = await databases.listRows({
       databaseId: DATABASE_ID,
       tableId: COLLECTIONS.DEBTS,
-      queries: [Query.equal("isRepayment", true)],
+      queries: [Query.equal('isRepayment', true)],
     });
 
     return response.rows.reduce((sum, doc) => sum + (doc.amount || 0), 0);
   } catch (error) {
     throw new Error(
-      `Failed to calculate total repayment: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Failed to calculate total repayment: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }

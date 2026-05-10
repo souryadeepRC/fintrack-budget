@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
-import { Geist, Poppins } from "next/font/google";
-import "./globals.css";
-import { QueryProvider } from "@/providers/query-provider";
-import { AuthProvider } from "@/providers/auth-provider";
-import { BudgetDataProvider } from "@/providers/budget-data-provider";
-import { StoreProvider } from "@/providers/store-provider";
-import { LayoutWrapper } from "@/components/layout/layout-wrapper";
-import { Toaster } from "sonner";
+import './globals.css';
 
-const poppins = Poppins({ weight: "400" });
+import type { Metadata } from 'next';
+import { Poppins } from 'next/font/google';
+import { Toaster } from 'sonner';
+
+import { LayoutWrapper } from '@/components/layout/layout-wrapper';
+import { AuthProvider } from '@/providers/auth-provider';
+import { BudgetDataProvider } from '@/providers/budget-data-provider';
+import { QueryProvider } from '@/providers/query-provider';
+import { StoreProvider } from '@/providers/store-provider';
+
+const poppins = Poppins({ weight: '400' });
 
 export const metadata: Metadata = {
   title: 'Fintrack Budget - Smart Money Intelligence',
@@ -39,13 +41,13 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang='en'
       className={`${poppins.style} ${poppins.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/30">
+      <body className='min-h-full flex flex-col bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/30'>
         <QueryProvider>
           <StoreProvider>
-            <Toaster richColors position="top-right" />
+            <Toaster richColors position='top-right' />
             <AuthProvider>
               <BudgetDataProvider>
                 <LayoutWrapper>{children}</LayoutWrapper>

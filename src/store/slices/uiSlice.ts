@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ExpenseFilters {
   month: string; // YYYY-MM
   search: string;
   category: string;
   paymentMethod: string;
-  sortBy: "date" | "amount";
-  sortOrder: "asc" | "desc";
+  sortBy: 'date' | 'amount';
+  sortOrder: 'asc' | 'desc';
 }
 
 export interface UiState {
@@ -21,11 +21,11 @@ export interface UiState {
 const initialState: UiState = {
   expenseFilters: {
     month: new Date().toISOString().slice(0, 7), // YYYY-MM
-    search: "",
-    category: "",
-    paymentMethod: "",
-    sortBy: "date",
-    sortOrder: "desc",
+    search: '',
+    category: '',
+    paymentMethod: '',
+    sortBy: 'date',
+    sortOrder: 'desc',
   },
   isAddExpenseModalOpen: false,
   isEditExpenseModalOpen: false,
@@ -35,7 +35,7 @@ const initialState: UiState = {
 };
 
 const uiSlice = createSlice({
-  name: "ui",
+  name: 'ui',
   initialState,
   reducers: {
     setExpenseFilters: (state, action: PayloadAction<Partial<ExpenseFilters>>) => {

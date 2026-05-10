@@ -4,22 +4,22 @@
  * Supports dev mode with localStorage mocking
  */
 
-import { account } from "@/lib/appwrite";
-import { User } from "@/types";
+import { account } from '@/lib/appwrite';
 import {
-  mockRegisterUser,
-  mockLoginUser,
   mockGetCurrentUser,
+  mockLoginUser,
   mockLogoutUser,
-} from "@/services/auth.mock";
+  mockRegisterUser,
+} from '@/services/auth.mock';
+import { User } from '@/types';
 
 /**
  * Check if dev mode is enabled (uses mock auth)
  */
 const isDevMode =
-  process.env.NEXT_PUBLIC_AUTH_MODE === "mock" ||
-  (typeof window !== "undefined" &&
-    localStorage.getItem("USE_MOCK_AUTH") === "true");
+  process.env.NEXT_PUBLIC_AUTH_MODE === 'mock' ||
+  (typeof window !== 'undefined' &&
+    localStorage.getItem('USE_MOCK_AUTH') === 'true');
 
 /**
  * Register a new user
@@ -40,7 +40,7 @@ export async function registerUser(
 
     // Create user account in Appwrite
     const response = await account.create({
-      userId: "unique()",
+      userId: 'unique()',
       email,
       password,
       name: fullName,
@@ -55,12 +55,12 @@ export async function registerUser(
       user_id: response.$id,
       email: response.email,
       full_name: response.name,
-      preferred_currency: "USD",
+      preferred_currency: 'USD',
       created_at: new Date().toISOString(),
     };
   } catch (error) {
     throw new Error(
-      `Registration failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Registration failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }
@@ -87,7 +87,7 @@ export async function loginUser(
 
     return await getCurrentUser();
   } catch (error) {
-    console.error("Login error:", error);
+    console.error('Login error:', error);
     throw error;
   }
 }
@@ -108,13 +108,13 @@ export async function getCurrentUser(): Promise<User | null> {
       user_id: response.$id,
       email: response.email,
       full_name: response.name,
-      preferred_currency: "USD",
+      preferred_currency: 'USD',
       created_at: response.$createdAt,
       $createdAt: response.$createdAt,
       $updatedAt: response.$updatedAt,
     };
   } catch (error) {
-    console.error("Get current user error:", error);
+    console.error('Get current user error:', error);
     return null;
   }
 }
@@ -133,7 +133,7 @@ export async function logoutUser(): Promise<void> {
     await account.deleteSessions();
   } catch (error) {
     throw new Error(
-      `Logout failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `Logout failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 }

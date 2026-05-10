@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Auth Context Provider
@@ -7,18 +7,19 @@
 
 import {
   createContext,
+  ReactNode,
   useContext,
   useEffect,
   useState,
-  ReactNode,
-} from "react";
-import { User, AuthState } from "@/types";
+} from 'react';
+
 import {
-  registerUser,
+  getCurrentUser,
   loginUser,
   logoutUser,
-  getCurrentUser,
-} from "@/services/auth.service";
+  registerUser,
+} from '@/services/auth.service';
+import { AuthState } from '@/types';
 
 /**
  * Auth Context Type
@@ -104,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : "Login failed";
+        error instanceof Error ? error.message : 'Login failed';
 
       setAuthState({
         user: null,
@@ -112,7 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: false,
         error: {
           message: errorMessage,
-          code: "LOGIN_ERROR",
+          code: 'LOGIN_ERROR',
         },
       });
 
@@ -141,7 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : "Registration failed";
+        error instanceof Error ? error.message : 'Registration failed';
 
       setAuthState({
         user: null,
@@ -149,7 +150,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: false,
         error: {
           message: errorMessage,
-          code: "REGISTRATION_ERROR",
+          code: 'REGISTRATION_ERROR',
         },
       });
 
@@ -174,14 +175,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : "Logout failed";
+        error instanceof Error ? error.message : 'Logout failed';
 
       setAuthState((prev) => ({
         ...prev,
         isLoading: false,
         error: {
           message: errorMessage,
-          code: "LOGOUT_ERROR",
+          code: 'LOGOUT_ERROR',
         },
       }));
 
@@ -210,8 +211,8 @@ export function useAuth(): AuthContextType {
 
   if (!context) {
     throw new Error(
-      "useAuth must be used within an AuthProvider. " +
-        "Make sure your component is wrapped with <AuthProvider>",
+      'useAuth must be used within an AuthProvider. ' +
+        'Make sure your component is wrapped with <AuthProvider>',
     );
   }
 

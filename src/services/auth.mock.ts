@@ -3,20 +3,20 @@
  * Uses localStorage instead of calling Appwrite API
  */
 
-import { User } from "@/types";
+import { User } from '@/types';
 
-const MOCK_STORAGE_KEY = "fintrack_mock_auth";
-const MOCK_USERS_KEY = "fintrack_mock_users";
+const MOCK_STORAGE_KEY = 'fintrack_mock_auth';
+const MOCK_USERS_KEY = 'fintrack_mock_users';
 
 /**
  * Mock user for dev testing
  */
 const MOCK_DEV_USER: User = {
-  $id: "dev-user-123",
-  user_id: "dev-user-123",
-  email: "dev@example.com",
-  full_name: "Dev User",
-  preferred_currency: "INR",
+  $id: 'dev-user-123',
+  user_id: 'dev-user-123',
+  email: 'dev@example.com',
+  full_name: 'Dev User',
+  preferred_currency: 'INR',
   created_at: new Date().toISOString(),
 };
 
@@ -31,23 +31,23 @@ function getMockUsers(): Record<string, User & { password: string }> {
       return JSON.parse(stored);
     }
   } catch (error) {
-    console.warn("Failed to parse mock users from localStorage");
+    console.warn('Failed to parse mock users from localStorage');
   }
 
   // Return default test users
   return {
-    "dev@example.com": {
+    'dev@example.com': {
       ...MOCK_DEV_USER,
-      password: "password123",
+      password: 'password123',
     },
-    "test@example.com": {
-      $id: "test-user-456",
-      user_id: "test-user-456",
-      email: "test@example.com",
-      full_name: "Test User",
-      preferred_currency: "INR",
+    'test@example.com': {
+      $id: 'test-user-456',
+      user_id: 'test-user-456',
+      email: 'test@example.com',
+      full_name: 'Test User',
+      preferred_currency: 'INR',
       created_at: new Date().toISOString(),
-      password: "test123",
+      password: 'test123',
     },
   };
 }
@@ -61,7 +61,7 @@ function saveMockUsers(
   try {
     localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
   } catch (error) {
-    console.warn("Failed to save mock users to localStorage");
+    console.warn('Failed to save mock users to localStorage');
   }
 }
 
@@ -79,7 +79,7 @@ export async function mockLoginUser(
   const user = users[email];
 
   if (!user || user.password !== password) {
-    throw new Error("Invalid email or password");
+    throw new Error('Invalid email or password');
   }
 
   // Store session in localStorage
@@ -116,7 +116,7 @@ export async function mockRegisterUser(
   const users = getMockUsers();
 
   if (users[email]) {
-    throw new Error("Email already registered");
+    throw new Error('Email already registered');
   }
 
   const newUserId = `user-${Date.now()}`;
@@ -125,7 +125,7 @@ export async function mockRegisterUser(
     user_id: newUserId,
     email,
     full_name: fullName,
-    preferred_currency: "INR",
+    preferred_currency: 'INR',
     created_at: new Date().toISOString(),
     password,
   };
@@ -158,7 +158,7 @@ export async function mockGetCurrentUser(): Promise<User | null> {
 
     return session.user as User;
   } catch (error) {
-    console.warn("Failed to get current user from localStorage");
+    console.warn('Failed to get current user from localStorage');
     return null;
   }
 }
