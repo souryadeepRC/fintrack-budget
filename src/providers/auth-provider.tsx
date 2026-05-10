@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             error: null,
           });
         }
-      } catch (error) {
+      } catch (_error) {
         // No active session or session expired - this is normal
         setAuthState({
           user: null,

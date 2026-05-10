@@ -7,7 +7,7 @@ import { DebtDTO,toDebtDTO } from '../dto/debt';
 const verifySession = async () => ({ userId: 'user_123' });
 const db = {
   debt: {
-    findMany: async (args: any) => [
+    findMany: async () => [
       { id: '1', name: 'Credit Card', amount: 3500, secretDbField: 'hidden' },
       { id: '2', name: 'Student Loan', amount: 15000, secretDbField: 'hidden' },
     ],

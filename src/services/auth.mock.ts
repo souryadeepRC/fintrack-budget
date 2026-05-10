@@ -26,12 +26,12 @@ const MOCK_DEV_USER: User = {
 function getMockUsers(): Record<string, User & { password: string }> {
   try {
     const stored = localStorage.getItem(MOCK_USERS_KEY);
-    
+
     if (stored) {
       return JSON.parse(stored);
     }
   } catch (error) {
-    console.warn('Failed to parse mock users from localStorage');
+    console.warn('Failed to parse mock users from localStorage', error);
   }
 
   // Return default test users
@@ -56,12 +56,12 @@ function getMockUsers(): Record<string, User & { password: string }> {
  * Save mock users to localStorage
  */
 function saveMockUsers(
-  users: Record<string, User & { password: string }>
+  users: Record<string, User & { password: string }>,
 ): void {
   try {
     localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
   } catch (error) {
-    console.warn('Failed to save mock users to localStorage');
+    console.warn('Failed to save mock users to localStorage',error);
   }
 }
 
@@ -70,7 +70,7 @@ function saveMockUsers(
  */
 export async function mockLoginUser(
   email: string,
-  password: string
+  password: string,
 ): Promise<User> {
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -108,7 +108,7 @@ export async function mockLoginUser(
 export async function mockRegisterUser(
   email: string,
   password: string,
-  fullName: string
+  fullName: string,
 ): Promise<User> {
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -158,7 +158,7 @@ export async function mockGetCurrentUser(): Promise<User | null> {
 
     return session.user as User;
   } catch (error) {
-    console.warn('Failed to get current user from localStorage');
+    console.warn('Failed to get current user from localStorage',error);
     return null;
   }
 }

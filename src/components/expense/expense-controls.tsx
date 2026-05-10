@@ -2,6 +2,7 @@
 
 import { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Filter, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -49,6 +50,7 @@ export function ExpenseControls({
   const dispatch = useDispatch();
   const filters = useSelector((state: RootState) => state.ui.expenseFilters);
   const [debouncedSearch, setDebouncedSearch] = useState(filters.search);
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -193,5 +195,27 @@ export function ExpenseControls({
   }
 
   // Desktop/Sidebar View
-  return filterContent;
+  return (
+    <div className="w-full">
+      {/* Mobile Toggle Button */}
+      <div className="md:hidden w-full">
+        <Button
+          variant="outline"
+          onClick={() => setShowFilters(!showFilters)}
+          className={`w-full flex items-center justify-center gap-2 border-emerald-200 text-slate-700 hover:bg-emerald-50 ${showFilters ? 'mb-4' : ''}`}
+        >
+          {showFilters ? (
+            <><X className="w-4 h-4" /> Hide Filters</>
+          ) : (
+            <><Filter className="w-4 h-4" /> Show Filters</>
+          )}
+        </Button>
+      </div>
+      
+      {/* Filter Content */}
+      <div className={`${showFilters ? 'animate-in fade-in slide-in-from-top-2 duration-200 block' : 'hidden md:block'}`}>
+        {filterContent}
+      </div>
+    </div>
+  );
 }

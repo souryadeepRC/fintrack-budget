@@ -7,7 +7,8 @@ export default function FintrackLanding() {
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -30,14 +31,13 @@ export default function FintrackLanding() {
             Fintrack
           </a>
           <div className='nav-links'>
-            <a href='#'>Features</a>
-            <a href='#'>Security</a>
-            <a href='#'>Pricing</a>
-            <a href='#'>Blog</a>
+            <a href='#features'>Features</a>
+            <a href='#aiChat'>Chat with AI</a>
+            <a href='#pricing'>Pricing</a>
+            <a href='#blog'>Blog</a>
+            <a href='#faq'>FAQ</a>
           </div>
           <div className='nav-actions'>
-            <a href='#' className='nav-login'>Log in</a>
-            <a href='#' className='nav-cta'>Get started</a>
           </div>
         </div>
       </nav>
@@ -124,7 +124,7 @@ export default function FintrackLanding() {
       </div>
 
       {/* ── FEATURES ────────────────────────────────────── */}
-      <section className='features'>
+      <section id="features" className='features'>
         <div className='features-inner'>
           <div className='section-head'>
             <div className='section-eyebrow'>Intelligent Features</div>
@@ -191,12 +191,149 @@ export default function FintrackLanding() {
                 </li>
               ))}
             </ul>
-            <a href='#' className='btn-primary'>
+            <a href='#features' className='btn-primary'>
               Explore AI features
               <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' strokeLinejoin='round'>
                 <path d='M5 12h14M12 5l7 7-7 7'/>
               </svg>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── AI CHAT SHOWCASE ────────────────────────────── */}
+      <section id="aiChat" className='chat-feature-section'>
+        <div className='chat-feature-inner'>
+          <div className='chat-feature-copy'>
+            <div className='section-eyebrow'>Conversational Interface</div>
+            <h2 className='section-title left'>Chat with your finances</h2>
+            <p className='chat-feature-body'>
+              Meet Fintract AI, your personal financial assistant. Just type or speak naturally to log expenses, check balances, or get smart insights on your spending habits. No more manual entry forms.
+            </p>
+            <ul className='ai-list'>
+              <li><span className='ai-check'><CheckIcon /></span> Natural language expense logging</li>
+              <li><span className='ai-check'><CheckIcon /></span> Instant category assignments</li>
+              <li><span className='ai-check'><CheckIcon /></span> Real-time budget queries</li>
+            </ul>
+          </div>
+          <div className='chat-feature-visual'>
+            <AiChatMockup />
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING ─────────────────────────────────────── */}
+      <section id="pricing" className='pricing-section'>
+        <div className='pricing-inner'>
+          <div className='section-head'>
+            <div className='section-eyebrow'>Pricing</div>
+            <h2 className='section-title'>Simple, transparent plans for<br />every financial journey</h2>
+          </div>
+
+          <div className='pricing-grid'>
+            {/* Free Tier */}
+            <div className='pricing-card'>
+              <h3 className='plan-name'>Free</h3>
+              <div className='plan-price'>₹0<span>/month</span></div>
+              <ul className='plan-features'>
+                <li><span className='plan-check'><CheckIcon /></span>Basic expense tracking</li>
+                <li><span className='plan-check'><CheckIcon /></span>Up to 50 transactions/month</li>
+                <li><span className='plan-check'><CheckIcon /></span>Simple debt management</li>
+                <li><span className='plan-check'><CheckIcon /></span>Standard email support</li>
+              </ul>
+              <a href='/auth/register' className='btn-ghost w-full justify-center'>Get Started</a>
+            </div>
+
+            {/* Pro Tier */}
+            <div className='pricing-card popular'>
+              <div className='popular-badge'>Most Popular</div>
+              <h3 className='plan-name'>Pro</h3>
+              <div className='plan-price'>₹199<span>/month</span></div>
+              <ul className='plan-features'>
+                <li><span className='plan-check'><CheckIcon /></span>Unlimited transactions</li>
+                <li><span className='plan-check'><CheckIcon /></span>AI-powered categorisation</li>
+                <li><span className='plan-check'><CheckIcon /></span>Advanced debt settlements</li>
+                <li><span className='plan-check'><CheckIcon /></span>Detailed analytics & reports</li>
+              </ul>
+              <a href='/auth/register' className='btn-primary w-full justify-center'>Go Pro</a>
+            </div>
+
+            {/* Elite Tier */}
+            <div className='pricing-card'>
+              <h3 className='plan-name'>Elite</h3>
+              <div className='plan-price'>₹599<span>/month</span></div>
+              <ul className='plan-features'>
+                <li><span className='plan-check'><CheckIcon /></span>Everything in Pro</li>
+                <li><span className='plan-check'><CheckIcon /></span>Voice Speech updates</li>
+                <li><span className='plan-check'><CheckIcon /></span>Predictive cash-flow (90 days)</li>
+                <li><span className='plan-check'><CheckIcon /></span>Priority 24/7 support</li>
+              </ul>
+              <a href='/auth/register' className='btn-ghost w-full justify-center'>Go Elite</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* ── BLOG & TESTIMONIALS ─────────────────────────── */}
+      <section id="blog" className='testi-section'>
+        <div className='testi-inner'>
+          <div className='section-head'>
+            <div className='section-eyebrow'>Community Voices</div>
+            <h2 className='section-title'>See what our users are<br />saying about Fintrack</h2>
+          </div>
+
+          <div className='testi-grid'>
+            {/* Testimonial 1 */}
+            <div className='testi-card'>
+              <div className='stars'>
+                {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+              </div>
+              <p className='testi-comment'>
+                "The new voice update feature is a game-changer. I literally just tell my phone I bought a coffee and Fintrack logs it instantly!"
+              </p>
+              <div className='testi-author'>
+                <div className='testi-avatar'>AS</div>
+                <div className='testi-author-info'>
+                  <h4>Souryadeep Roy Chowdhury</h4>
+                  <p>Product Designer</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className='testi-card'>
+              <div className='stars'>
+                {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+              </div>
+              <p className='testi-comment'>
+                "Managing shared expenses with my roommates used to be a nightmare. The debt tracking and net position dashboard changed everything."
+              </p>
+              <div className='testi-author'>
+                <div className='testi-avatar bg-cyan'>PP</div>
+                <div className='testi-author-info'>
+                  <h4>Subhadip Mondal</h4>
+                  <p>Software Engineer</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className='testi-card'>
+              <div className='stars'>
+                {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+              </div>
+              <p className='testi-comment'>
+                "The predictive cash-flow forecasting is spot on. It has helped me set clear saving goals and actually stick to them without stress."
+              </p>
+              <div className='testi-author'>
+                <div className='testi-avatar bg-indigo'>RD</div>
+                <div className='testi-author-info'>
+                  <h4>Sumit Kumar</h4>
+                  <p>Business Owner</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -217,7 +354,7 @@ export default function FintrackLanding() {
             Join thousands of users leveraging AI-powered insights to take control of their
             financial future.
           </p>
-          <a href='#' className='btn-white'>
+          <a href='/auth/register'  className='btn-white'>
             Get Started Free
             <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' strokeLinejoin='round'>
               <path d='M5 12h14M12 5l7 7-7 7'/>
@@ -226,6 +363,34 @@ export default function FintrackLanding() {
         </div>
       </section>
 
+      {/* ── FAQ ─────────────────────────────────────────── */}
+      <section id="faq" className='faq-section'>
+        <div className='faq-inner'>
+          <div className='section-head'>
+            <div className='section-eyebrow'>FAQ</div>
+            <h2 className='section-title'>Frequently asked questions</h2>
+          </div>
+          <div className='faq-list'>
+            {[
+              { q: "Is my financial data secure?", a: "Absolutely. We use bank-level 256-bit encryption. Your data is stored securely on our Appwrite backend and is never sold to third parties." },
+              { q: "How does the AI categorization work?", a: "Our AI engine analyzes the transaction title and context to automatically assign it to the most relevant category. It learns from your edits to get smarter over time." },
+              { q: "Can I use Fintract for free?", a: "Yes! Our Free tier includes basic expense tracking, debt management, and up to 50 transactions per month at no cost." },
+              { q: "What devices are supported?", a: "Fintract is a responsive web application. It works perfectly on your desktop browser, tablet, and mobile phone." }
+            ].map((faq, i) => (
+              <details key={i} className='faq-item'>
+                <summary className='faq-question'>
+                  {faq.q}
+                  <span className='faq-icon'>
+                    <svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'><path d='M6 9l6 6 6-6'/></svg>
+                  </span>
+                </summary>
+                <div className='faq-answer'><p>{faq.a}</p></div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+      
       {/* ── FOOTER ──────────────────────────────────────── */}
       <footer className='footer'>
         <div className='footer-inner'>
@@ -289,6 +454,7 @@ export default function FintrackLanding() {
           --shadow-sm:  0 2px 12px rgba(0,0,0,.06);
           --shadow-md:  0 8px 32px rgba(0,0,0,.10);
           --shadow-lg:  0 24px 64px rgba(0,0,0,.14);
+          --warning:    #F59E0B;
         }
 
         html { scroll-behavior: smooth; }
@@ -421,6 +587,7 @@ export default function FintrackLanding() {
         }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(46,196,160,.5); }
         .btn-ghost {
+          cursor: pointer;
           display: inline-flex; align-items: center; gap: 8px;
           padding: 14px 28px; border-radius: 12px;
           background: var(--surface); color: var(--text);
@@ -431,6 +598,8 @@ export default function FintrackLanding() {
           transition: border-color .2s, transform .2s;
         }
         .btn-ghost:hover { border-color: rgba(46,196,160,.5); transform: translateY(-1px); }
+        .w-full { width: 100%; }
+        .justify-center { justify-content: center; }
 
         /* trust */
         .trust-row { display: flex; align-items: center; gap: 12px; }
@@ -627,6 +796,140 @@ export default function FintrackLanding() {
         }
         .dash-tag-dot { width: 6px; height: 6px; border-radius: 50%; }
 
+        /* ─── AI CHAT SECTION ─── */
+        .chat-feature-section { padding: 100px 28px; background: var(--bg); }
+        .chat-feature-inner {
+          max-width: 1180px; margin: 0 auto;
+          display: grid; grid-template-columns: 1fr 1fr;
+          gap: 72px; align-items: center;
+        }
+        .chat-feature-body { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-bottom: 28px; }
+        
+        .chat-mockup {
+          background: #0f172a; border: 1px solid rgba(46,196,160,.2);
+          border-radius: var(--radius-xl); overflow: hidden;
+          box-shadow: 0 24px 64px rgba(0,0,0,.15);
+          display: flex; flex-direction: column;
+        }
+        .chat-header {
+          display: flex; align-items: center; gap: 12px;
+          padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.1);
+          background: rgba(255,255,255,.02);
+        }
+        .chat-avatar {
+          width: 36px; height: 36px; border-radius: 50%;
+          background: linear-gradient(135deg, var(--teal), var(--cyan));
+          display: flex; align-items: center; justify-content: center; color: #fff;
+        }
+        .chat-name { color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 14px; line-height: 1.2; }
+        .chat-status { color: var(--teal); font-size: 11px; font-weight: 600; line-height: 1.2; }
+        .chat-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+        .chat-bubble {
+          max-width: 85%; padding: 12px 16px; border-radius: 16px;
+          font-size: 14px; line-height: 1.5;
+        }
+        .chat-bubble.user {
+          align-self: flex-end; background: linear-gradient(135deg, var(--teal-mid), var(--teal-dark));
+          color: #fff; border-bottom-right-radius: 4px;
+        }
+        .chat-bubble.ai {
+          align-self: flex-start; background: #1e293b;
+          color: #cbd5e1; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,.05);
+        }
+        .chat-input-area {
+          padding: 16px 20px; border-top: 1px solid rgba(255,255,255,.1);
+          display: flex; gap: 12px; align-items: center;
+        }
+        .chat-input-pill {
+          flex: 1; background: #1e293b; border-radius: 100px;
+          padding: 10px 16px; color: #64748b; font-size: 13px;
+          border: 1px solid rgba(255,255,255,.05);
+        }
+        .chat-send {
+          width: 40px; height: 40px; border-radius: 50%;
+          background: linear-gradient(135deg, var(--teal), var(--cyan));
+          display: flex; align-items: center; justify-content: center; color: #fff;
+          box-shadow: 0 4px 12px rgba(46,196,160,.3);
+        }
+
+        /* ─── PRICING SECTION ─── */
+        .pricing-section { padding: 100px 28px; background: var(--bg); }
+        .pricing-inner { max-width: 1180px; margin: 0 auto; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+        .pricing-card {
+          background: var(--surface); border: 1.5px solid var(--border);
+          border-radius: var(--radius-lg); padding: 40px 32px;
+          display: flex; flex-direction: column; transition: transform .3s, box-shadow .3s;
+        }
+        .pricing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+        .pricing-card.popular {
+          border-color: rgba(46,196,160,.4);
+          background: linear-gradient(155deg, #E8FAF5 0%, #F0FAFC 100%);
+          position: relative;
+        }
+        .popular-badge {
+          position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+          background: linear-gradient(135deg, var(--teal), var(--cyan)); color: #fff;
+          font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 12px;
+          border-radius: 100px; letter-spacing: 1px;
+        }
+        .plan-name { font-family: var(--font-head); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+        .plan-price { font-family: var(--font-head); font-size: 36px; font-weight: 800; color: var(--text); letter-spacing: -1px; margin-bottom: 24px; display: flex; align-items: baseline; gap: 4px; }
+        .plan-price span { font-size: 15px; color: var(--text-muted); font-weight: 500; letter-spacing: 0; }
+        .plan-features { list-style: none; margin-bottom: 36px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+        .plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; color: var(--text-muted); }
+        .plan-check { color: var(--teal); flex-shrink: 0; display: flex; margin-top: 2px; }
+
+        /* ─── FAQ SECTION ─── */
+        .faq-section { padding: 100px 28px; background: var(--surface); }
+        .faq-inner { max-width: 800px; margin: 0 auto; }
+        .faq-list { display: flex; flex-direction: column; gap: 16px; }
+        .faq-item {
+          background: var(--bg); border: 1.5px solid var(--border);
+          border-radius: var(--radius-lg); overflow: hidden;
+          transition: box-shadow .3s, border-color .3s;
+        }
+        .faq-item:hover { border-color: rgba(46,196,160,.4); }
+        .faq-item[open] { border-color: rgba(46,196,160,.5); box-shadow: var(--shadow-sm); background: var(--surface); }
+        .faq-question {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 24px; font-family: var(--font-head); font-weight: 700;
+          font-size: 16px; color: var(--text); cursor: pointer;
+          list-style: none; /* Hide default arrow */
+        }
+        .faq-question::-webkit-details-marker { display: none; }
+        .faq-icon { color: var(--teal); transition: transform .3s; }
+        .faq-item[open] .faq-icon { transform: rotate(180deg); }
+        .faq-answer { padding: 0 24px 24px; font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+        /* ─── TESTIMONIALS SECTION ─── */
+        .testi-section { padding: 100px 28px; background: var(--bg); }
+        .testi-inner { max-width: 1180px; margin: 0 auto; }
+        .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+        .testi-card {
+          background: var(--bg); border: 1.5px solid var(--border);
+          border-radius: var(--radius-lg); padding: 32px;
+          display: flex; flex-direction: column; background: var(--surface);
+        }
+        .stars { display: flex; gap: 4px; color: var(--warning); margin-bottom: 16px; }
+        .testi-comment { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 28px; flex: 1; }
+        .testi-author { display: flex; align-items: center; gap: 14px; }
+        .testi-avatar {
+          width: 44px; height: 44px; border-radius: 50%;
+          background: var(--teal); color: #fff;
+          display: flex; align-items: center; justify-content: center;
+          font-family: var(--font-head); font-weight: 700; font-size: 16px;
+        }
+        .testi-avatar.bg-cyan { background: var(--cyan); }
+        .testi-avatar.bg-indigo { background: #6366F1; }
+        .testi-author-info h4 {
+          font-family: var(--font-head); font-size: 14.5px;
+          font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 2px;
+        }
+        .testi-author-info p {
+          font-size: 12px; color: var(--text-muted); line-height: 1.2;
+        }
+
         /* ─── CTA SECTION ─── */
         .cta-section {
           position: relative; overflow: hidden;
@@ -692,7 +995,9 @@ export default function FintrackLanding() {
           .feat-grid { grid-template-columns: repeat(2, 1fr); }
           .hero-inner { grid-template-columns: 1fr; gap: 48px; }
           .hero-visual { order: -1; }
-          .ai-inner { grid-template-columns: 1fr; }
+          .ai-inner, .chat-feature-inner { grid-template-columns: 1fr; }
+          .chat-feature-visual { order: 1; }
+          .pricing-grid, .testi-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
           .feat-grid { grid-template-columns: 1fr; }
@@ -702,6 +1007,9 @@ export default function FintrackLanding() {
           .footer-links { flex-wrap: wrap; gap: 32px; }
           .nav-links { display: none; }
           .cta-section { margin: 0 16px 48px; padding: 56px 28px; }
+          .nav-inner { gap: 0 }
+          .pricing-grid, .testi-grid { grid-template-columns: 1fr; }
+        }
         }
       `}</style>
     </main>
@@ -885,6 +1193,39 @@ function AiDashboardMockup() {
   );
 }
 
+/* ─── AI Chat Mockup ─────────────────────────────── */
+function AiChatMockup() {
+  return (
+    <div className='chat-mockup'>
+      <div className='chat-header'>
+        <div className='chat-avatar'><BotIcon /></div>
+        <div>
+          <div className='chat-name'>Fintract AI</div>
+          <div className='chat-status'>Online • Ready to help</div>
+        </div>
+      </div>
+      <div className='chat-body'>
+        <div className='chat-bubble user'>
+          Log a coffee for ₹150 from Starbucks
+        </div>
+        <div className='chat-bubble ai'>
+          Got it! I've logged ₹150 for "Coffee" under the <strong>Food & Dining</strong> category. ☕
+        </div>
+        <div className='chat-bubble user'>
+          How much have I spent on food this month?
+        </div>
+        <div className='chat-bubble ai'>
+          You've spent ₹4,200 on Food & Dining so far this month. You're 18% below your usual average!
+        </div>
+      </div>
+      <div className='chat-input-area'>
+        <div className='chat-input-pill'>Ask Fintract AI...</div>
+        <div className='chat-send'><SendIcon /></div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Feature card sub-component ──────────────────── */
 function FeatureCard({
   icon, color, title, desc, tag, highlight,
@@ -914,6 +1255,29 @@ const MicIcon = () => (
     <path d='M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z'/>
     <path d='M19 10v2a7 7 0 0 1-14 0v-2'/>
     <line x1='12' y1='19' x2='12' y2='22'/>
+  </svg>
+);
+const BotIcon = () => (
+  <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <path d='M12 8V4H8'/>
+    <rect width='16' height='12' x='4' y='8' rx='2'/>
+    <path d='M2 14h2'/><path d='M20 14h2'/><path d='M15 13v2'/><path d='M9 13v2'/>
+  </svg>
+);
+const SendIcon = () => (
+  <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <line x1='22' y1='2' x2='11' y2='13'/>
+    <polygon points='22 2 15 22 11 13 2 9 22 2'/>
+  </svg>
+);
+const CheckIcon = () => (
+  <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.5' strokeLinecap='round' strokeLinejoin='round'>
+    <polyline points='20 6 9 17 4 12' />
+  </svg>
+);
+const StarIcon = () => (
+  <svg width='18' height='18' viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/>
   </svg>
 );
 const ChartIcon = () => (

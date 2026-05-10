@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import React from 'react';
 
 interface HeaderBannerProps {
@@ -17,7 +17,7 @@ export function HeaderBanner({
   description,
   aiLabel,
   actionLabel,
-  actionIcon: ActionIcon = Plus,
+  actionIcon: ActionIcon,
   onAction,
 }: HeaderBannerProps) {
   return (

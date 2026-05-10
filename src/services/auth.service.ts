@@ -80,7 +80,7 @@ export async function loginUser(
       return await mockLoginUser(email, password);
     }
 
-    const response = await account.createEmailPasswordSession({
+    await account.createEmailPasswordSession({
       email,
       password,
     });

@@ -31,3 +31,24 @@ export const DebtNames = [
   { id: 'debt-08', name: 'Business Loan' },
   { id: 'debt-09', name: 'Friend Loan' },
 ];
+
+export const CATEGORIES = [
+  "Food & Dining",
+  "Groceries",
+  "Transport",
+  "Shopping",
+  "Bills & Utilities",
+  "Entertainment",
+  "Health",
+  "Travel",
+  "Other",
+];
+
+export const PAYMENT_METHODS = [
+  "Credit Card",
+  "Debit Card",
+  "Cash",
+  "Bank Transfer",
+  "Google Pay",
+  "PhonePe",
+];

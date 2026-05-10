@@ -1,38 +1,47 @@
-'use client';
+"use client";
 
-import { useQuery } from '@tanstack/react-query';
-import { endOfMonth,format, startOfMonth } from 'date-fns';
-import { Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useEffect,useMemo } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { endOfMonth, format, startOfMonth } from "date-fns";
+import { Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
-import { HeaderBanner } from '@/components/common/header-banner';
-import { SummaryCards } from '@/components/common/summary-cards';
-import { ExpenseChatbot } from '@/components/expense/expense-chatbot';
-import { ExpenseControls } from '@/components/expense/expense-controls';
-import { ExpenseTable } from '@/components/expense/expense-table';
-import { AddExpenseModal } from '@/components/modals/add-expense-modal';
-import { DeleteExpenseModal } from '@/components/modals/delete-expense-modal';
-import { EditExpenseModal } from '@/components/modals/edit-expense-modal';
+import { DeleteConfirmation } from "@/components/common/DeleteConfirmation";
+import { HeaderBanner } from "@/components/common/HeaderBanner";
+import { SummaryCards } from "@/components/common/SummaryCards";
+import { ExpenseChatbot } from "@/components/expense/expense-chatbot";
+import { ExpenseControls } from "@/components/expense/expense-controls";
+import { ExpenseForm } from "@/components/expense/expense-form";
+import { ExpenseTable } from "@/components/expense/expense-table";
+import { LoadingSpinner } from "@/components/loader/LoadingSpinner";
 import {
   EXPENSE_QUERY_CONSTANTS,
   QUERY_CONFIG,
-} from '@/constants/query-constants';
-import { useAuth } from '@/providers/auth-provider';
-import { getExpenses } from '@/services/expense.service';
-import { RootState } from '@/store';
+} from "@/constants/query-constants";
+import { useAuth } from "@/providers/auth-provider";
+import { deleteExpense, getExpenses } from "@/services/expense.service";
+import { RootState } from "@/store";
+import { Expense } from "@/types";
+import { Modal } from "@/components/common/Modal";
+import { Button } from "@/components/common";
 
 export default function ExpensesPage() {
-  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const filters = useSelector((state: RootState) => state.ui.expenseFilters);
   const router = useRouter();
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
+  const [deletingExpenseId, setDeletingExpenseId] = useState<string | null>(
+    null,
+  );
 
   // Protect route: Redirect unauthenticated users to home
   useEffect(() => {
     if (!isAuthLoading && !isAuthenticated) {
-      router.replace('/');
+      router.replace("/");
     }
   }, [isAuthLoading, isAuthenticated, router]);
 
@@ -84,11 +93,11 @@ export default function ExpensesPage() {
 
     filtered.sort((a, b) => {
       const aValue =
-        filters.sortBy === 'date' ? new Date(a.date).getTime() : a.amount;
+        filters.sortBy === "date" ? new Date(a.date).getTime() : a.amount;
       const bValue =
-        filters.sortBy === 'date' ? new Date(b.date).getTime() : b.amount;
+        filters.sortBy === "date" ? new Date(b.date).getTime() : b.amount;
 
-      return filters.sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
+      return filters.sortOrder === "asc" ? aValue - bValue : bValue - aValue;
     });
 
     return filtered;
@@ -106,76 +115,119 @@ export default function ExpensesPage() {
     return filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
   }, [filteredExpenses]);
 
-  // Handler for opening the Add Expense modal
-  const handleOpenAddExpense = () => {
-    console.log('Trigger Add Expense Modal via Redux');
-  };
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => deleteExpense(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      toast.success("Expense deleted successfully");
+      setDeletingExpenseId(null);
+    },
+    onError: (error: Error) => {
+      toast.error(`Failed to delete expense: ${error.message}`);
+    },
+  });
+
+  const handleOpenAddExpense = useCallback(() => {
+    setEditingExpense(null);
+    setIsFormOpen(true);
+  }, []);
+
+  const handleEditExpense = useCallback((expense: Expense) => {
+    setEditingExpense(expense);
+    setIsFormOpen(true);
+  }, []);
 
   // Show loading state while verifying auth
   if (isAuthLoading || !isAuthenticated) {
-    return (
-      <div className='flex items-center justify-center min-h-screen bg-linear-to-br from-white via-emerald-50/30 to-teal-50/30'>
-        <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto'></div>
-      </div>
-    );
+    return <LoadingSpinner size="lg" text="Loading expenses..." />;
   }
 
   return (
-    <div className='min-h-screen bg-linear-to-br from-white via-emerald-50/30 to-teal-50/30'>
-      {/* Main Content */}
-      <div className='container mx-auto px-4 py-6 md:py-10 space-y-8'>
-        <HeaderBanner
-          title='Manage your spending'
-          description='Track, filter, and organize your expenses. Use monthly insights to understand where your money goes and build better spending habits.'
-          aiLabel='Expense Tracking Active'
-          actionLabel='Add Expense'
-          actionIcon={Plus}
-          onAction={handleOpenAddExpense}
+    <>
+      <HeaderBanner
+        title="Manage your spending"
+        description="Track, filter, and organize your expenses. Use monthly insights to understand where your money goes and build better spending habits."
+        aiLabel="Expense Tracking Active"
+        actionLabel="Add Expense"
+        actionIcon={Plus}
+        onAction={handleOpenAddExpense}
+      />
+
+      {/* Main Content Section */}
+      <div className="space-y-6 md:space-y-8">
+        {/* Overview Card */}
+        <SummaryCards
+          items={[
+            {
+              title: format(currentMonthStart, "MMMM yyyy"),
+              amount: totalCurrentMonth,
+              amountClassName: "text-emerald-600",
+            },
+          ]}
         />
 
-        {/* Main Content Section */}
-        <div className='space-y-6 md:space-y-8'>
-          {/* Overview Card */}
-          <SummaryCards
-            items={[
-              {
-                title: format(currentMonthStart, 'MMMM yyyy'),
-                amount: totalCurrentMonth,
-                amountClassName: 'text-emerald-600',
-              },
-            ]}
-          />
+        {/* Layout: Top Filters + Content */}
+        <div className="flex flex-col gap-6">
+          {/* Top Filter Panel */}
+          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <ExpenseControls isMobilePanel={false} />
+          </div>
 
-          {/* Layout: Top Filters + Content */}
-          <div className='flex flex-col gap-6'>
-            {/* Top Filter Panel */}
-            <div className='rounded-2xl border border-emerald-200/30 bg-linear-to-br from-emerald-50/60 via-white to-teal-50/40 p-4 md:p-6 shadow-md backdrop-blur-sm'>
-              <ExpenseControls isMobilePanel={false} />
-            </div>
-
-            {/* Main Content Area */}
-            <div className='flex-1 space-y-4 md:space-y-6 min-w-0'>
-              {/* Table Section */}
-              <div className='animate-in fade-in slide-in-from-left-4 duration-500 delay-300'>
-                <ExpenseTable
-                  expenses={filteredExpenses}
-                  isLoading={isLoadingCurrent}
-                  totalCount={filteredExpenses.length}
-                  totalAmount={totalFilteredAmount}
-                />
-              </div>
+          {/* Main Content Area */}
+          <div className="flex-1 space-y-4 md:space-y-6 min-w-0">
+            {/* Table Section */}
+            <div className="animate-in fade-in slide-in-from-left-4 duration-500 delay-300">
+              <ExpenseTable
+                expenses={filteredExpenses}
+                isLoading={isLoadingCurrent}
+                totalCount={filteredExpenses.length}
+                totalAmount={totalFilteredAmount}
+                onEdit={handleEditExpense}
+                onDelete={setDeletingExpenseId}
+              />
             </div>
           </div>
         </div>
       </div>
 
       {/* Modals */}
-      <AddExpenseModal />
-      <EditExpenseModal />
-      <DeleteExpenseModal />
+      {deletingExpenseId && (
+        <DeleteConfirmation
+          title="Delete Expense"
+          description="Are you sure you want to delete this expense? The data will be permanently removed."
+          isDeleting={deleteMutation.isPending}
+          onConfirm={() => deleteMutation.mutate(deletingExpenseId)}
+          onCancel={() => setDeletingExpenseId(null)}
+        />
+      )}
+
+      {isFormOpen && (
+        <Modal
+          isOpen={isFormOpen}
+          title={!!editingExpense ? "Edit Expense" : "Add New Expense"}
+          description={
+            !!editingExpense
+              ? "Update the expense details."
+              : "Enter the details of your expense."
+          }
+          onClose={() => {
+            setIsFormOpen(false);
+            setEditingExpense(null);
+          }}
+           
+        >
+          <ExpenseForm
+            initialData={editingExpense}
+            onClose={() => {
+              setIsFormOpen(false);
+              setEditingExpense(null);
+            }}
+          />
+        </Modal>
+      )}
 
       {/* AI Assistant Chatbot */}
       <ExpenseChatbot expenses={currentMonthExpenses} />
-    </div>
+    </>
   );
 }

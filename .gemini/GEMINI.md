@@ -79,6 +79,11 @@ All agents and sub-agents MUST adhere to the following rules when writing, revie
 * Follow single-responsibility principles. If a component exceeds 150-200 lines, consider breaking it into smaller, composable sub-components.
 * Run internal checks for unused variables or imports before finalizing code.
 
+### 6. AI Linting & Formatting Hook (Strict)
+* **Quotes:** You MUST use single quotes (`'`) for string literals and JSX attributes (`className='...'`). Do NOT use double quotes anywhere unless escaping requires it.
+* **Imports:** Sort imports cleanly (React/Next first, third-party libraries, local components, types/utils). Remove any unused imports.
+* **ESLint Compliance:** Ensure generated code strictly adheres to the project's ESLint flat config.
+
 ---
 
 ## 🕵️‍♂️ Available Sub-Agents

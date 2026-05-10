@@ -1,22 +1,23 @@
-'use client';
+"use client";
 
-import { useQuery } from '@tanstack/react-query';
-import { useMemo,useState } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
 
-import { HeaderBanner } from '@/components/common/header-banner';
-import { PageTabs } from '@/components/common/page-tabs';
-import { SummaryCards } from '@/components/common/summary-cards';
-import { DebtCard, DebtGroup } from '@/components/debt/debt-card';
-import { DebtForm } from '@/components/debt/debt-form';
-import { DebtHistoryModal } from '@/components/debt/debt-history-modal';
-import { LoadingSpinner } from '@/components/loader/LoadingSpinner';
-import { QUERY_CONFIG } from '@/constants/query-constants';
-import { getDebts } from '@/services/debt.service';
-import { Debt,DebtCreatePayload } from '@/types';
+import { HeaderBanner } from "@/components/common/HeaderBanner";
+import { PageTabs } from "@/components/common/PageTabs";
+import { SummaryCards } from "@/components/common/SummaryCards";
+import { DebtCard, DebtGroup } from "@/components/debt/debt-card";
+import { DebtForm } from "@/components/debt/debt-form";
+import { DebtHistoryModal } from "@/components/debt/debt-history-modal";
+import { LoadingSpinner } from "@/components/loader/LoadingSpinner";
+import { QUERY_CONFIG } from "@/constants/query-constants";
+import { getDebts } from "@/services/debt.service";
+import { Debt, DebtCreatePayload } from "@/types";
+import { Modal } from "@/components/common/Modal";
 
 export default function DebtsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'active' | 'settled'>('active');
+  const [activeTab, setActiveTab] = useState<"active" | "settled">("active");
   const [selectedHistoryGroup, setSelectedHistoryGroup] = useState<{
     name: string;
     records: Debt[];
@@ -27,7 +28,7 @@ export default function DebtsPage() {
 
   // Fetch all debts
   const { data: debts, isLoading } = useQuery({
-    queryKey: ['debts', 'all'],
+    queryKey: ["debts", "all"],
     queryFn: () => getDebts(),
     ...QUERY_CONFIG,
   });
@@ -79,9 +80,9 @@ export default function DebtsPage() {
       if (group.remaining > 0) {
         const category =
           group.borrows[0]?.category || group.records[0]?.category;
-        if (category === 'Lend') {
+        if (category === "Lend") {
           activeDebts += group.remaining;
-        } else if (category === 'Borrow') {
+        } else if (category === "Borrow") {
           activeBorrowed += group.remaining;
         }
       }
@@ -95,7 +96,7 @@ export default function DebtsPage() {
 
   const filteredGroups = useMemo(() => {
     return debtGroups.filter((group) =>
-      activeTab === 'active' ? group.remaining > 0 : group.remaining <= 0,
+      activeTab === "active" ? group.remaining > 0 : group.remaining <= 0,
     );
   }, [debtGroups, activeTab]);
 
@@ -104,7 +105,7 @@ export default function DebtsPage() {
       debtId: group.debtId,
       name: group.name,
       category:
-        group.borrows[0]?.category || group.records[0]?.category || 'Lend',
+        group.borrows[0]?.category || group.records[0]?.category || "Lend",
       isRepayment: true,
     });
     setIsModalOpen(true);
@@ -113,17 +114,21 @@ export default function DebtsPage() {
     setPrefillData(undefined);
     setIsModalOpen(true);
   };
+  const onDebtFormClose = () => {
+    setIsModalOpen(false);
+    setPrefillData(undefined);
+  };
   if (isLoading) {
-    return <LoadingSpinner size='lg' text='Loading debts...' />;
+    return <LoadingSpinner size="lg" text="Loading debts..." />;
   }
 
   return (
-    <main className='max-w-6xl mx-auto p-6 md:p-8 space-y-8'>
+    <>
       <HeaderBanner
-        title='Loans & Debts'
-        description='Track your borrowing, lending, and settlement history.'
-        aiLabel='Debts Tracking Active'
-        actionLabel='Add Transaction'
+        title="Loans & Debts"
+        description="Track your borrowing, lending, and settlement history."
+        aiLabel="Debts Tracking Active"
+        actionLabel="Add Transaction"
         onAction={handleOpenAddTransaction}
       />
 
@@ -131,14 +136,14 @@ export default function DebtsPage() {
       <SummaryCards
         items={[
           {
-            title: 'Total Active Debts',
+            title: "Total Active Debts",
             amount: totalActiveDebts,
-            amountClassName: 'text-emerald-600',
+            amountClassName: "text-emerald-600",
           },
           {
-            title: 'Total Active Borrowed',
+            title: "Total Active Borrowed",
             amount: totalActiveBorrowed,
-            amountClassName: 'text-red-600',
+            amountClassName: "text-red-600",
           },
         ]}
       />
@@ -147,29 +152,29 @@ export default function DebtsPage() {
       <PageTabs
         tabs={[
           {
-            title: 'Active',
-            onClick: () => setActiveTab('active'),
-            isActive: activeTab === 'active',
+            title: "Active",
+            onClick: () => setActiveTab("active"),
+            isActive: activeTab === "active",
           },
           {
-            title: 'Settled',
-            onClick: () => setActiveTab('settled'),
-            isActive: activeTab === 'settled',
+            title: "Settled",
+            onClick: () => setActiveTab("settled"),
+            isActive: activeTab === "settled",
           },
         ]}
       />
 
       {/* Loans List by Person */}
-      <section className='space-y-4'>
-        <h2 className='text-xl font-bold text-slate-800'>Records by Person</h2>
+      <section className="space-y-4">
+        <h2 className="text-xl font-bold text-slate-800">Records by Person</h2>
         {filteredGroups.length === 0 ? (
-          <div className='text-center py-16 border border-dashed rounded-xl bg-slate-50 text-slate-500'>
-            {activeTab === 'active'
+          <div className="text-center py-16 border border-dashed rounded-xl bg-slate-50 text-slate-500">
+            {activeTab === "active"
               ? "No active loan records found. You're all settled up! 🎉"
-              : 'No settled loan records found yet.'}
+              : "No settled loan records found yet."}
           </div>
         ) : (
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredGroups.map((group) => {
               return (
                 <DebtCard
@@ -192,13 +197,17 @@ export default function DebtsPage() {
 
       {/* Form Modal */}
       {isModalOpen && (
-        <DebtForm
-          initialData={prefillData}
-          onClose={() => {
-            setIsModalOpen(false);
-            setPrefillData(undefined);
-          }}
-        />
+        <Modal
+          isOpen={isModalOpen}
+          title={
+            !!prefillData?.debtId
+              ? `Add Payment for ${prefillData?.name}`
+              : "Add Transaction"
+          }
+          onClose={onDebtFormClose}
+        >
+          <DebtForm initialData={prefillData} onClose={onDebtFormClose} />
+        </Modal>
       )}
 
       {/* History Modal */}
@@ -209,6 +218,6 @@ export default function DebtsPage() {
           onClose={() => setSelectedHistoryGroup(null)}
         />
       )}
-    </main>
+    </>
   );
 }

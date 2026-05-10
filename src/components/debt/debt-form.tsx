@@ -1,8 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useForm } from "@tanstack/react-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-import { createDebt } from '@/services/debt.service';
-import { DebtCreatePayload } from '@/types';
+import { createDebt } from "@/services/debt.service";
+import { DebtCreatePayload } from "@/types";
+import { PAYMENT_METHODS } from "@/constants/app-constants";
+import { Button, DropDown, RadioOption, TextInput } from "@/components/common";
 
 interface DebtFormProps {
   onClose: () => void;
@@ -11,156 +14,259 @@ interface DebtFormProps {
 
 export function DebtForm({ onClose, initialData }: DebtFormProps) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState('');
-  
-  const [formData, setFormData] = useState<any>({
-    title: initialData?.title || '',
-    name: initialData?.name || '',
-    amount: initialData?.amount || 0,
-    category: initialData?.category || 'Lend',
-    isRepayment: initialData?.isRepayment ?? false,
-    date: new Date().toISOString().split('T')[0],
-    mode: initialData?.mode || 'Cash',
-    debtId: initialData?.debtId || undefined
-  });
-
-  const isPaymentMode = !!formData.debtId;
+  const isPaymentMode = !!initialData?.debtId;
 
   const mutation = useMutation({
     mutationFn: createDebt,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['debts'] });
+      queryClient.invalidateQueries({ queryKey: ["debts"] });
+      toast.success("Record saved successfully");
       onClose();
     },
-    onError: (err: Error) => setError(err.message || 'Failed to save record')
+    onError: (error: any) => {
+      toast.error(`Failed to save record: ${error.message}`);
+    },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    
-    if (!formData.title || !formData.name || formData.amount <= 0) {
-      setError('Please provide a valid title, name, and amount greater than 0.');
-      return;
-    }
-    
-    mutation.mutate({
-      ...formData,
-      isRepayment: isPaymentMode ? formData.isRepayment : false,
-      date: new Date(formData.date).toISOString() // Appwrite expects ISO
-    } as DebtCreatePayload);
-  };
+  const form = useForm({
+    defaultValues: {
+      title: initialData?.title || "",
+      name: initialData?.name || "",
+      amount: initialData?.amount?.toString() || "",
+      category: initialData?.category || "Lend",
+      isRepayment: initialData?.isRepayment ? "true" : "false",
+      date: initialData?.date
+        ? new Date(initialData.date).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0],
+      mode: initialData?.mode || "Cash",
+      debtId: initialData?.debtId || undefined,
+    },
+    onSubmit: async ({ value }) => {
+      const amount = parseFloat(value.amount);
+      if (isNaN(amount) || amount <= 0) {
+        toast.error("Amount must be a valid positive number");
+        return;
+      }
+
+      await mutation.mutateAsync({
+        ...value,
+        amount,
+        isRepayment: isPaymentMode ? value.isRepayment === "true" : false,
+        date: new Date(value.date).toISOString(), // Appwrite expects ISO
+      } as DebtCreatePayload);
+    },
+  });
 
   return (
-    <div className='fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4'>
-      <form onSubmit={handleSubmit} className='bg-white w-full max-w-md rounded-2xl shadow-xl p-6 flex flex-col gap-5 overflow-y-auto max-h-[90vh]'>
-        
-        <div className='flex justify-between items-center pb-2 border-b border-slate-100'>
-          <h2 className='text-xl font-bold text-slate-800'>
-            {isPaymentMode ? `Add Payment for ${formData.name}` : 'Add Transaction'}
-          </h2>
-          <button type='button' onClick={onClose} className='text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors'>✕</button>
-        </div>
-
-        {error && <div className='p-3 bg-red-50 text-red-700 border border-red-100 rounded-lg text-sm'>{error}</div>}
-
-        {!isPaymentMode && (
-          <>
-            <div className='flex flex-col gap-1.5'>
-              <label className='text-sm font-semibold text-slate-700'>Transaction Type</label>
-              <div className='flex gap-4 mt-1 bg-slate-50 p-1.5 rounded-lg border border-slate-200'>
-                <label className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md cursor-pointer transition-colors ${formData.category === 'Lend' ? 'bg-white shadow-sm border border-slate-200 text-slate-800 font-semibold' : 'text-slate-500'}`}>
-                  <input type='radio' className='hidden' checked={formData.category === 'Lend'} onChange={() => setFormData({ ...formData, category: 'Lend' })} />
-                  Lend
-                </label>
-                <label className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md cursor-pointer transition-colors ${formData.category === 'Borrow' ? 'bg-white shadow-sm border border-slate-200 text-slate-800 font-semibold' : 'text-slate-500'}`}>
-                  <input type='radio' className='hidden' checked={formData.category === 'Borrow'} onChange={() => setFormData({ ...formData, category: 'Borrow' })} />
-                  Borrow
-                </label>
-              </div>
-            </div>
-
-            <div className='flex flex-col gap-1.5'>
-              <label className='text-sm font-semibold text-slate-700'>Person Name</label>
-              <input 
-                type='text' required value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-shadow'
-                placeholder='e.g. John Doe'
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit();
+      }}
+      className="space-y-5"
+    >
+      {!isPaymentMode && (
+        <>
+          <form.Field name="category">
+            {(field) => (
+              <RadioOption
+                label="Transaction Type"
+                options={[
+                  { label: "Lend", value: "Lend" },
+                  { label: "Borrow", value: "Borrow" },
+                ]}
+                name="category"
+                value={field.state.value}
+                onChange={(value) => field.handleChange(value)}
+                required
               />
-            </div>
-          </>
-        )}
+            )}
+          </form.Field>
 
-        {isPaymentMode && (
-          <div className='flex flex-col gap-1.5'>
-            <label className='text-sm font-semibold text-slate-700'>Record Type</label>
-            <div className='flex gap-4 mt-1 bg-slate-50 p-1.5 rounded-lg border border-slate-200'>
-              <label className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md cursor-pointer transition-colors ${formData.isRepayment ? 'bg-white shadow-sm border border-slate-200 text-slate-800 font-semibold' : 'text-slate-500'}`}>
-                <input type='radio' className='hidden' checked={formData.isRepayment} onChange={() => setFormData({ ...formData, isRepayment: true })} />
-                Repayment
-              </label>
-              <label className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md cursor-pointer transition-colors ${!formData.isRepayment ? 'bg-white shadow-sm border border-slate-200 text-slate-800 font-semibold' : 'text-slate-500'}`}>
-                <input type='radio' className='hidden' checked={!formData.isRepayment} onChange={() => setFormData({ ...formData, isRepayment: false })} />
-                Additional Amount
-              </label>
-            </div>
-          </div>
-        )}
-
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Title</label>
-          <input 
-            type='text' required value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-shadow'
-            placeholder='e.g. Dinner bill split'
-          />
-        </div>
-
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Amount</label>
-          <input 
-            type='number' required min='0.01' step='0.01' value={formData.amount || ''}
-            onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
-            className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-shadow'
-            placeholder='0.00'
-          />
-        </div>
-
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Payment Mode</label>
-          <select 
-            value={formData.mode} onChange={(e) => setFormData({ ...formData, mode: e.target.value })}
-            className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 bg-white'
+          <form.Field
+            name="name"
+            validators={{
+              onChange: ({ value }) =>
+                !value.trim() ? "Person name is required" : undefined,
+              onBlur: ({ value }) =>
+                !value.trim() ? "Person name is required" : undefined,
+            }}
           >
-            <option value='Cash'>Cash</option>
-            <option value='Google Pay'>Google Pay</option>
-            <option value='PhonePe'>PhonePe</option>
-            <option value='Bank Transfer'>Bank Transfer</option>
-            <option value='Credit Card'>Credit Card</option>
-            <option value='Debit Card'>Debit Card</option>
-          </select>
-        </div>
+            {(field) => (
+              <TextInput
+                label="Person Name"
+                required
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                onBlur={field.handleBlur}
+                placeholder="e.g. John Doe"
+                error={field.state.meta.errors[0]}
+                enterKeyHint="next"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    document.getElementById("debt-title")?.focus();
+                  }
+                }}
+              />
+            )}
+          </form.Field>
+        </>
+      )}
 
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Date</label>
-          <input 
-            type='date' required value={formData.date}
-            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-            className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600'
+      {isPaymentMode && (
+        <form.Field name="isRepayment">
+          {(field) => (
+            <RadioOption
+              label="Record Type"
+              options={[
+                { label: "Repayment", value: "true" },
+                { label: "Additional Amount", value: "false" },
+              ]}
+              name="isRepayment"
+              value={field.state.value}
+              onChange={(value) => field.handleChange(value)}
+              required
+            />
+          )}
+        </form.Field>
+      )}
+
+      <form.Field
+        name="title"
+        validators={{
+          onChange: ({ value }) =>
+            !value.trim() ? "Title is required" : undefined,
+          onBlur: ({ value }) =>
+            !value.trim() ? "Title is required" : undefined,
+        }}
+      >
+        {(field) => (
+          <TextInput
+            label="Title"
+            required
+            id="debt-title"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            placeholder="e.g. Dinner bill split"
+            error={field.state.meta.errors[0]}
+            enterKeyHint="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("debt-amount")?.focus();
+              }
+            }}
           />
-        </div>
+        )}
+      </form.Field>
 
-        <div className='mt-2 flex gap-3 pt-4 border-t border-slate-100'>
-          <button type='button' onClick={onClose} className='flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 py-2.5 rounded-lg font-bold transition-colors'>
-            Cancel
-          </button>
-          <button type='submit' disabled={mutation.isPending} className='flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-bold disabled:opacity-50 transition-colors shadow-sm'>
-            {mutation.isPending ? 'Saving...' : 'Save Record'}
-          </button>
-        </div>
-      </form>
-    </div>
+      <form.Field
+        name="amount"
+        validators={{
+          onChange: ({ value }) => {
+            if (!value || !value.trim()) return "Amount is required";
+            const num = parseFloat(value);
+            if (isNaN(num)) return "Amount must be a valid number";
+            if (num <= 0) return "Amount must be greater than 0";
+            return undefined;
+          },
+          onBlur: ({ value }) => {
+            if (!value || !value.trim()) return "Amount is required";
+            const num = parseFloat(value);
+            if (isNaN(num)) return "Amount must be a valid number";
+            if (num <= 0) return "Amount must be greater than 0";
+            return undefined;
+          },
+        }}
+      >
+        {(field) => (
+          <TextInput
+            label="Amount"
+            type="number"
+            required
+            min="0.01"
+            id="debt-amount"
+            step="0.01"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            placeholder="0.00"
+            error={field.state.meta.errors[0]}
+            enterKeyHint="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("debt-mode-trigger")?.focus();
+              }
+            }}
+          />
+        )}
+      </form.Field>
+
+      <form.Field name="mode">
+        {(field) => (
+          <DropDown
+            label="Payment Mode"
+            id="debt-mode-trigger"
+            value={field.state.value}
+            options={PAYMENT_METHODS.map((mode) => ({
+              label: mode,
+              value: mode,
+            }))}
+            onValueChange={(value: string) => field.handleChange(value)}
+            required
+            error={field.state.meta.errors[0]}
+          />
+        )}
+      </form.Field>
+
+      <form.Field
+        name="date"
+        validators={{
+          onChange: ({ value }) => (!value ? "Date is required" : undefined),
+          onBlur: ({ value }) => (!value ? "Date is required" : undefined),
+        }}
+      >
+        {(field) => (
+          <TextInput
+            label="Date"
+            type="date"
+            required
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            error={field.state.meta.errors[0]}
+          />
+        )}
+      </form.Field>
+
+      <div className="flex gap-3 pt-4 border-t border-slate-100">
+        <Button
+          type="button"
+          variant="outlined"
+          onClick={onClose}
+          disabled={mutation.isPending}
+          className="flex-1 border-slate-200 text-slate-700 hover:bg-slate-50"
+        >
+          Cancel
+        </Button>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+        >
+          {([canSubmit, isSubmitting]) => (
+            <Button
+              type="submit"
+              disabled={!canSubmit || isSubmitting || mutation.isPending}
+              className="flex-1 bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors"
+            >
+              {mutation.isPending ? "Saving..." : "Save Record"}
+            </Button>
+          )}
+        </form.Subscribe>
+      </div>
+    </form>
   );
 }

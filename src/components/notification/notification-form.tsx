@@ -1,127 +1,297 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useForm } from "@tanstack/react-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import { toast } from "sonner";
 
-import { createNotification, updateNotification } from '@/services/notification.service';
-import { Notification } from '@/types';
+import {
+  createNotification,
+  updateNotification,
+} from "@/services/notification.service";
+import { Notification } from "@/types";
+import { Button, DropDown, RadioOption, TextInput } from "@/components/common";
+import { CATEGORIES, PAYMENT_METHODS } from "@/constants/app-constants";
 
 interface NotificationFormProps {
   initialData?: Notification;
   onClose: () => void;
 }
 
-export function NotificationForm({ initialData, onClose }: NotificationFormProps) {
+export function NotificationForm({
+  initialData,
+  onClose,
+}: NotificationFormProps) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState('');
-
-  const [formData, setFormData] = useState({
-    title: initialData?.title || '',
-    amount: initialData?.amount || 0,
-    category: initialData?.category || 'Bills & Utilities',
-    mode: initialData?.mode || 'Credit Card',
-    expiryDate: initialData?.expiryDate ? new Date(initialData.expiryDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-    isMonthly: initialData?.isMonthly ?? true,
-    period: initialData?.period || 1,
-  });
-
   const isEditMode = !!initialData;
 
   const mutation = useMutation({
-    mutationFn: (data: any) => isEditMode ? updateNotification(initialData.id, data) : createNotification(data),
+    mutationFn: async (data: any) =>
+      isEditMode
+        ? updateNotification(initialData.id, data)
+        : createNotification(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      toast.success(
+        `Notification ${isEditMode ? "updated" : "added"} successfully`
+      );
       onClose();
     },
-    onError: (err: Error) => setError(err.message || 'Failed to save notification')
+    onError: (error: any) => {
+      toast.error(
+        `Failed to ${isEditMode ? "update" : "add"} notification: ${error.message}`
+      );
+    },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+  const form = useForm({
+    defaultValues: {
+      title: initialData?.title || "",
+      amount: initialData?.amount?.toString() || "",
+      category: initialData?.category || "Bills & Utilities",
+      mode: initialData?.mode || "Credit Card",
+      expiryDate: initialData?.expiryDate
+        ? new Date(initialData.expiryDate).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0],
+      isMonthly: initialData?.isMonthly !== false ? "true" : "false",
+      period: initialData?.period?.toString() || "1",
+    },
+    onSubmit: async ({ value }) => {
+      const amount = parseFloat(value.amount);
+      const isMonthly = value.isMonthly === "true";
+      const period = parseInt(value.period);
 
-    if (!formData.title || formData.amount <= 0 || (!formData.isMonthly && formData.period <= 0)) {
-      setError('Please verify all fields are valid positive values.');
-      return;
-    }
+      if (isNaN(amount) || amount <= 0) {
+        toast.error("Amount must be a valid positive number");
+        return;
+      }
 
-    mutation.mutate({
-      ...formData,
-      period: formData.isMonthly ? 30 : formData.period,
-      expiryDate: new Date(formData.expiryDate).toISOString()
-    });
-  };
+      if (!isMonthly && (isNaN(period) || period <= 0)) {
+        toast.error("Period interval must be at least 1 day");
+        return;
+      }
+
+      await mutation.mutateAsync({
+        ...value,
+        amount,
+        isMonthly,
+        period: isMonthly ? 30 : period,
+        expiryDate: new Date(value.expiryDate).toISOString(),
+      });
+    },
+  });
 
   return (
-    <div className='fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4'>
-      <form onSubmit={handleSubmit} className='bg-white w-full max-w-md rounded-2xl shadow-xl p-6 flex flex-col gap-4 overflow-y-auto max-h-[90vh]'>
-        <div className='flex justify-between items-center pb-2 border-b border-slate-100'>
-          <h2 className='text-xl font-bold text-slate-800'>{isEditMode ? 'Edit Notification' : 'Add Notification'}</h2>
-          <button type='button' onClick={onClose} className='text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-full w-8 h-8 flex items-center justify-center transition-colors'>✕</button>
-        </div>
-
-        {error && <div className='p-3 bg-red-50 text-red-700 border border-red-100 rounded-lg text-sm'>{error}</div>}
-
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Title</label>
-          <input type='text' required value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600' placeholder='e.g. Netflix Subscription' />
-        </div>
-
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Amount</label>
-          <input type='number' required min='0.01' step='0.01' value={formData.amount || ''} onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })} className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600' placeholder='0.00' />
-        </div>
-
-        <div className='flex gap-4'>
-          <div className='flex-1 flex flex-col gap-1.5'>
-            <label className='text-sm font-semibold text-slate-700'>Category</label>
-            <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 bg-white'>
-              <option value='Bills & Utilities'>Bills & Utilities</option>
-              <option value='Entertainment'>Entertainment</option>
-              <option value='Health'>Health</option>
-              <option value='Transport'>Transport</option>
-              <option value='Shopping'>Shopping</option>
-              <option value='Other'>Other</option>
-            </select>
-          </div>
-          <div className='flex-1 flex flex-col gap-1.5'>
-            <label className='text-sm font-semibold text-slate-700'>Mode</label>
-            <select value={formData.mode} onChange={(e) => setFormData({ ...formData, mode: e.target.value })} className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 bg-white'>
-              <option value='Credit Card'>Credit Card</option>
-              <option value='Debit Card'>Debit Card</option>
-              <option value='Bank Transfer'>Bank Transfer</option>
-              <option value='Google Pay'>Google Pay</option>
-              <option value='PhonePe'>PhonePe</option>
-              <option value='Cash'>Cash</option>
-            </select>
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Frequency Type</label>
-          <div className='flex gap-4 bg-slate-50 p-1.5 rounded-lg border border-slate-200'>
-            <label className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md cursor-pointer transition-colors ${formData.isMonthly ? 'bg-white shadow-sm border border-slate-200 text-slate-800 font-semibold' : 'text-slate-500'}`}><input type='radio' className='hidden' checked={formData.isMonthly} onChange={() => setFormData({ ...formData, isMonthly: true })} />Monthly</label>
-            <label className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md cursor-pointer transition-colors ${!formData.isMonthly ? 'bg-white shadow-sm border border-slate-200 text-slate-800 font-semibold' : 'text-slate-500'}`}><input type='radio' className='hidden' checked={!formData.isMonthly} onChange={() => setFormData({ ...formData, isMonthly: false })} />Days</label>
-          </div>
-        </div>
-
-        {!formData.isMonthly && (
-          <div className='flex flex-col gap-1.5'>
-            <label className='text-sm font-semibold text-slate-700'>Period Interval (Days)</label>
-            <input type='number' required min='1' value={formData.period} onChange={(e) => setFormData({ ...formData, period: parseInt(e.target.value) })} className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600' />
-          </div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit();
+      }}
+      className="space-y-3"
+    >
+      <form.Field
+        name="title"
+        validators={{
+          onChange: ({ value }) =>
+            !value.trim() ? "Title is required" : undefined,
+          onBlur: ({ value }) =>
+            !value.trim() ? "Title is required" : undefined,
+        }}
+      >
+        {(field) => (
+          <TextInput
+            label="Title"
+            required
+            id="notification-title"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            placeholder="e.g. Netflix Subscription"
+            error={field.state.meta.errors[0]}
+            enterKeyHint="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("notification-amount")?.focus();
+              }
+            }}
+          />
         )}
+      </form.Field>
 
-        <div className='flex flex-col gap-1.5'>
-          <label className='text-sm font-semibold text-slate-700'>Next Expiry Date</label>
-          <input type='date' required value={formData.expiryDate} onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })} className='border border-slate-300 rounded-lg p-2.5 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600' />
-        </div>
+      <form.Field
+        name="amount"
+        validators={{
+          onChange: ({ value }) => {
+            if (!value || !value.trim()) return "Amount is required";
+            const num = parseFloat(value);
+            if (isNaN(num)) return "Amount must be a valid number";
+            if (num <= 0) return "Amount must be greater than 0";
+            return undefined;
+          },
+          onBlur: ({ value }) => {
+            if (!value || !value.trim()) return "Amount is required";
+            const num = parseFloat(value);
+            if (isNaN(num)) return "Amount must be a valid number";
+            if (num <= 0) return "Amount must be greater than 0";
+            return undefined;
+          },
+        }}
+      >
+        {(field) => (
+          <TextInput
+            label="Amount"
+            type="number"
+            required
+            id="notification-amount"
+            min="0.01"
+            step="0.01"
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            placeholder="0.00"
+            error={field.state.meta.errors[0]}
+            enterKeyHint="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("category-trigger")?.focus();
+              }
+            }}
+          />
+        )}
+      </form.Field>
 
-        <div className='mt-2 flex gap-3 pt-4 border-t border-slate-100'>
-          <button type='button' onClick={onClose} className='flex-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 py-2.5 rounded-lg font-bold transition-colors'>Cancel</button>
-          <button type='submit' disabled={mutation.isPending} className='flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-bold disabled:opacity-50 transition-colors shadow-sm'>
-            {mutation.isPending ? 'Saving...' : 'Save Record'}
-          </button>
-        </div>
-      </form>
-    </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form.Field name="category">
+          {(field) => (
+            <DropDown
+              label="Category"
+              required
+              id="category-trigger"
+              value={field.state.value}
+              onValueChange={(value) => field.handleChange(value)}
+              options={CATEGORIES.map((category) => ({
+                label: category,
+                value: category,
+              }))}
+              error={field.state.meta.errors[0]}
+            />
+          )}
+        </form.Field>
+
+        <form.Field name="mode">
+          {(field) => (
+            <DropDown
+              label="Mode"
+              required
+              id="mode-trigger"
+              value={field.state.value}
+              onValueChange={(value) => field.handleChange(value)}
+              options={PAYMENT_METHODS.map((method) => ({
+                label: method,
+                value: method,
+              }))}
+              error={field.state.meta.errors[0]}
+            />
+          )}
+        </form.Field>
+      </div>
+
+      <form.Field name="isMonthly">
+        {(field) => (
+          <RadioOption
+            label="Frequency Type"
+            name="isMonthly"
+            required
+            value={field.state.value}
+            onChange={(value) => field.handleChange(value)}
+            options={[
+              { label: "Monthly", value: "true" },
+              { label: "Days", value: "false" },
+            ]}
+          />
+        )}
+      </form.Field>
+
+      <form.Subscribe selector={(state) => state.values.isMonthly}>
+        {(isMonthly) =>
+          isMonthly === "false" ? (
+            <form.Field
+              name="period"
+              validators={{
+                onChange: ({ value }) => {
+                  const num = parseInt(value);
+                  if (isNaN(num) || num < 1) return "Period must be at least 1 day";
+                  return undefined;
+                },
+                onBlur: ({ value }) => {
+                  const num = parseInt(value);
+                  if (isNaN(num) || num < 1) return "Period must be at least 1 day";
+                  return undefined;
+                },
+              }}
+            >
+              {(field) => (
+                <TextInput
+                  label="Period Interval (Days)"
+                  type="number"
+                  required
+                  min="1"
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  onBlur={field.handleBlur}
+                  error={field.state.meta.errors[0]}
+                />
+              )}
+            </form.Field>
+          ) : null
+        }
+      </form.Subscribe>
+
+      <form.Field
+        name="expiryDate"
+        validators={{
+          onChange: ({ value }) => (!value ? "Date is required" : undefined),
+          onBlur: ({ value }) => (!value ? "Date is required" : undefined),
+        }}
+      >
+        {(field) => (
+          <TextInput
+            label="Next Expiry Date"
+            type="date"
+            required
+            value={field.state.value}
+            onChange={(e) => field.handleChange(e.target.value)}
+            onBlur={field.handleBlur}
+            error={field.state.meta.errors[0]}
+          />
+        )}
+      </form.Field>
+
+      <div className="flex gap-3 pt-4 border-t border-slate-100">
+        <Button
+          type="button"
+          variant="outlined"
+          onClick={onClose}
+          disabled={mutation.isPending}
+          className="flex-1 border-slate-200 text-slate-700 hover:bg-slate-50"
+        >
+          Cancel
+        </Button>
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+        >
+          {([canSubmit, isSubmitting]) => (
+            <Button
+              type="submit"
+              disabled={!canSubmit || isSubmitting || mutation.isPending}
+              className="flex-1 bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition-colors"
+            >
+              {mutation.isPending ? "Saving..." : "Save Record"}
+            </Button>
+          )}
+        </form.Subscribe>
+      </div>
+    </form>
   );
 }

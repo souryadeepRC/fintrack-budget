@@ -44,7 +44,7 @@ export default function RootLayout({
       lang='en'
       className={`${poppins.style} ${poppins.className} h-full antialiased`}
     >
-      <body className='min-h-full flex flex-col bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/30'>
+      <body className='min-h-full flex flex-col bg-linear-to-br from-white via-emerald-50/30 to-teal-50/30'>
         <QueryProvider>
           <StoreProvider>
             <Toaster richColors position='top-right' />

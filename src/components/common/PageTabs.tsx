@@ -21,11 +21,11 @@ export function PageTabs({ tabs, children }: PageTabsProps) {
           <button
             key={index}
             onClick={tab.onClick}
-            className={`pb-3 px-2 text-sm font-semibold transition-colors border-b-2 ${
-              index !== tabs.length - 1 ? 'mr-6' : ''
+            className={`pb-3 px-1 md:px-2 text-xs md:text-md font-semibold transition-colors border-b-2 ${
+              index !== tabs.length - 1 ? 'mr-2 md:mr-6' : ''
             } ${
               tab.isActive
-                ? 'border-blue-600 text-blue-600'
+                ? 'border-emerald-700 text-emerald-700'
                 : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
           >

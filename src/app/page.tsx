@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-/* import { useAuth } from "@/providers/auth-provider"; */
 import GuestLanding from '@/components/landing/GuestLanding';
 import { LoadingSpinner } from '@/components/loader/LoadingSpinner';
 import { useAuth } from '@/providers/auth-provider';

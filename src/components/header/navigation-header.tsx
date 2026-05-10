@@ -168,7 +168,7 @@ export function NavigationHeader() {
         <div className='fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4'>
           <div className='bg-slate-900 border border-slate-800 w-full max-w-sm rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.5)] p-6 flex flex-col gap-4'>
             <h3 className='text-xl font-bold text-white'>Confirm Logout</h3>
-            <p className='text-sm text-slate-400 leading-relaxed'>Are you sure you want to log out of your Fintract account? You'll need to sign in again to access your dashboard.</p>
+            <p className='text-sm text-slate-400 leading-relaxed'>Are you sure you want to log out of your Fintract account? You&apos;ll need to sign in again to access your dashboard.</p>
             <div className='flex justify-end gap-3 mt-4'>
               <button onClick={() => setShowLogoutConfirm(false)} disabled={isLoggingOut} className='px-5 py-2.5 text-sm font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors'>
                 Cancel

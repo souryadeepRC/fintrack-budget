@@ -16,7 +16,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   return (
     <>
       {shouldShowHeader && <NavigationHeader />}
-      <main className='flex-1'>{children}</main>
+      <main className="max-w-6xl md:mx-auto py-2 px-4 md:p-8  space-y-3 md:space-y-8">{children}</main>
     </>
   );
 }
