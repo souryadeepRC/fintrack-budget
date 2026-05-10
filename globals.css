@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    @apply antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-all duration-300;
+  }
+
+  .card {
+    @apply rounded-2xl border-2 hover:shadow-xl transition-all duration-300;
+  }
+
+  .section-title {
+    @apply text-4xl font-bold text-slate-900;
+  }
+}
+
+@supports (font-variation-settings: normal) {
+  html {
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}

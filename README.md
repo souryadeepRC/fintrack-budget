@@ -1,54 +1,36 @@
-# 🧾 FinTrack - Smart Budget & Expense Tracker
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**FinTrack** is a modern web application built with React, TypeScript, and ShadCN UI, designed to help users track monthly income, expenses, and loans. It includes budgeting tools, analytics, and alert features to promote smart financial management — especially tailored for Indian households.
+## Getting Started
 
-
-🔗 **Live App**: [https://fintrack-budget.vercel.app/](https://fintrack-budget.vercel.app/)
-
-
----
-
-## 🛠️ Tech Stack
-
-- ⚛️ **React** – Component-based UI
-- 💬 **TypeScript** – Static typing for reliability
-- 🎨 **ShadCN/UI** – Beautiful and accessible UI components
-- 💨 **Tailwind CSS** – Utility-first styling
-- 🧰 **Vite** – Lightning-fast dev environment
-- 🔐 **Appwrite** – For API Integration
-- ☁️ **Deploy** – Vercel
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the repo
+First, run the development server:
 
 ```bash
-git clone https://github.com/souryadeepRC/fintrack-budget.git
-cd fintrack-budget
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Install dependencies
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-npm install
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 🧩 Features
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-📌 Monthly Budgeting
+## Learn More
 
-💰 Income & Expense Tracking
+To learn more about Next.js, take a look at the following resources:
 
-🔔 Overspend Alerts
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-📉 Visual Analytics (Pie/Line Charts)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-🧾 Lend/Borrow Tracking
+## Deploy on Vercel
 
-🪙 Category-based Budgeting (Indian context)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## License
-MIT License
-(c) 2025 Souryadeep Roy Chowdhury
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
