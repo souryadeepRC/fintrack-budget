@@ -36,7 +36,7 @@ export function RegisterForm() {
 
       setIsLoading(true);
       try {
-        await auth.registerAsync(value.name, value.email, value.password);
+        await auth.registerAsync( value.email, value.password,value.name,);
         toast.success('Account created successfully!');
         router.push('/dashboard');
       } catch (error) {
@@ -67,6 +67,14 @@ export function RegisterForm() {
               <span className='text-sm font-semibold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent'>
                 Start Your Journey
               </span>
+            </div>
+            <div className="text-start">
+              <Link
+                href="/"
+                className="text-sm text-teal-600/60 hover:text-teal-600 font-medium inline-flex items-center gap-2 transition-colors"
+              >
+                ← Explore features
+              </Link>
             </div>
 
             <h1 className='text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-900 to-teal-900 bg-clip-text text-transparent'>
@@ -239,12 +247,12 @@ export function RegisterForm() {
               </Button>
 
               {/* Divider */}
-              <div className='relative my-5'>
+              <div className='relative my-0'>
                 <div className='absolute inset-0 flex items-center'>
                   <div className='w-full border-t border-cyan-200/30' />
                 </div>
                 <div className='relative flex justify-center text-xs'>
-                  <span className='px-2 bg-gradient-to-br from-white/40 to-white/60 text-cyan-600/70 font-medium'>
+                  <span className='px-2 bg-gradient-to-br from-white/40 to-white/60 text-cyan-600/70 font-bold'>
                     Already have an account?
                   </span>
                 </div>
@@ -260,14 +268,7 @@ export function RegisterForm() {
                 </Button>
               </Link>
 
-              <div className='text-center pt-3'>
-                <Link
-                  href='/'
-                  className='text-sm text-cyan-600/60 hover:text-cyan-600 font-medium inline-flex items-center gap-2 transition-colors'
-                >
-                  ← Back to Home
-                </Link>
-              </div>
+               
             </FieldGroup>
           </form>
         </div>

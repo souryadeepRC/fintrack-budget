@@ -33,6 +33,8 @@ export const DebtNames = [
 ];
 
 export const CATEGORIES = [
+  "EMI",
+  "Investment",
   "Food & Dining",
   "Groceries",
   "Transport",
@@ -50,5 +52,5 @@ export const PAYMENT_METHODS = [
   "Cash",
   "Bank Transfer",
   "Google Pay",
-  "PhonePe",
+  "PhonePe"
 ];

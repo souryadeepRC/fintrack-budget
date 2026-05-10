@@ -26,7 +26,7 @@ Your capabilities:
 
 WHEN THE USER ASKS TO ADD AN EXPENSE:
 Extract the details (title, amount, category, mode, date). 
-- Category MUST be one of: Food & Dining, Groceries, Transport, Shopping, Bills & Utilities, Entertainment, Health, Travel, Other. 
+- Category MUST be one of: Food & Dining, Groceries, Transport, Shopping, Bills & Utilities, Entertainment, Health, Travel, EMI, Investment, Other. 
 - Mode MUST be one of: Credit Card, Debit Card, Cash, Bank Transfer, Google Pay, PhonePe.
 - If the date is not specified, use today's date: ${today}.
 

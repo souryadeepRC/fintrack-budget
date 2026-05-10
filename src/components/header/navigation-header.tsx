@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/providers/auth-provider';
+import { ExpenseChatbot } from '@/components/expense/expense-chatbot';
 
 export function NavigationHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ export function NavigationHeader() {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const pathname = usePathname();
-  const { user, logoutAsync } = useAuth();
+  const { user, logoutAsync, isAuthenticated } = useAuth();
 
   // Handle glassmorphism blur effect on scroll
   useEffect(() => {
@@ -55,7 +56,13 @@ export function NavigationHeader() {
     { name: 'Notifications', href: '/notifications', icon: <BellDot className='w-4 h-4' /> },
   ];
 
+  const handleOpenChat = () => {
+    window.dispatchEvent(new CustomEvent('open-ai-chat'));
+    if (isOpen) setIsOpen(false);
+  };
+
   return (
+    <>
     <header 
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled 
@@ -99,7 +106,7 @@ export function NavigationHeader() {
 
           {/* Action Buttons (Desktop) */}
           <div className='hidden md:flex items-center gap-4'>
-            <button className='relative group overflow-hidden rounded-full p-[1px]'>
+            <button onClick={handleOpenChat} className='relative group overflow-hidden rounded-full p-[1px]'>
               <span className='absolute inset-0 bg-gradient-to-r from-emerald-500 via-cyan-500 to-emerald-500 rounded-full animate-[spin_3s_linear_infinite] opacity-70 group-hover:opacity-100 transition-opacity'></span>
               <div className='relative flex items-center gap-2 px-4 py-1.5 bg-slate-950 rounded-full text-sm font-semibold text-emerald-400 transition-all group-hover:bg-slate-900'>
                 <Sparkles className='w-4 h-4' />
@@ -156,7 +163,7 @@ export function NavigationHeader() {
             <button onClick={() => { setIsOpen(false); setShowLogoutConfirm(true); }} className='w-full flex items-center justify-center gap-2 px-4 py-2 mb-3 bg-slate-800/80 hover:bg-slate-700 text-slate-300 rounded-xl text-base font-semibold transition-colors'>
               <LogOut className='w-4 h-4' /> Logout
             </button>
-            <button className='w-full flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-cyan-600 text-white rounded-xl text-base font-semibold shadow-[0_0_20px_rgba(16,185,129,0.3)]'>
+            <button onClick={handleOpenChat} className='w-full flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-cyan-600 text-white rounded-xl text-base font-semibold shadow-[0_0_20px_rgba(16,185,129,0.3)]'>
               <Sparkles className='w-5 h-5' /> Ask Fintract AI
             </button>
           </div>
@@ -181,5 +188,7 @@ export function NavigationHeader() {
         </div>
       )}
     </header>
+    {isAuthenticated && <ExpenseChatbot />}
+    </>
   );
 }

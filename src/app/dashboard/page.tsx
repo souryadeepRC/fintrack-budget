@@ -4,11 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import { Bot, Lightbulb, Sparkles, TrendingUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import {  useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import {  useEffect, useMemo } from 'react'; 
 
-import { HeaderBanner } from '@/components/common/HeaderBanner';
-import { ExpenseChatbot } from '@/components/expense/expense-chatbot';
+import { HeaderBanner } from '@/components/common/HeaderBanner'; 
 import {
   EXPENSE_QUERY_CONSTANTS,
   QUERY_CONFIG,
@@ -187,9 +185,7 @@ export default function DashboardPage() {
           </section>
         </div>
       </div>
-
-      {/* 4. Global Chatbot (includes the floating action button) */}
-      <ExpenseChatbot expenses={currentMonthExpenses} />
+ 
     </div>
   );
 }

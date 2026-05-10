@@ -2,16 +2,22 @@
 
 import { Bot, Loader2, Send, User,X } from 'lucide-react';
 import React, { useEffect,useRef, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { endOfMonth, startOfMonth } from 'date-fns';
 
-import { askGroqAction } from '@/actions/chat-actions';
-import { Expense } from '@/types';
+import { askGroqAction } from '@/actions/chat-actions'; 
+import { createExpense, getExpenses } from '@/services/expense.service';
+import { EXPENSE_QUERY_CONSTANTS, QUERY_CONFIG } from '@/constants/query-constants';
+import { useAuth } from '@/providers/auth-provider';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
-export function ExpenseChatbot({ expenses }: { expenses: Expense[] }) {
+export function ExpenseChatbot() {
+  const { isAuthenticated } = useAuth();
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +25,30 @@ export function ExpenseChatbot({ expenses }: { expenses: Expense[] }) {
     { role: 'assistant', content: "Hi! I'm Fintract AI. I can analyze your expenses, offer insights, or help you log a new expense. How can I help today?" }
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const currentMonthStart = React.useMemo(() => startOfMonth(new Date()), []);
+  const currentMonthEnd = React.useMemo(() => endOfMonth(currentMonthStart), [currentMonthStart]);
+
+  const { data: expenses = [] } = useQuery({
+    queryKey: [
+      EXPENSE_QUERY_CONSTANTS.ALL,
+      currentMonthStart.toISOString(),
+      currentMonthEnd.toISOString(),
+    ],
+    queryFn: () =>
+      getExpenses({
+        startDate: currentMonthStart.toISOString(),
+        endDate: currentMonthEnd.toISOString(),
+      }),
+    enabled: !!isAuthenticated,
+    ...QUERY_CONFIG,
+  });
+
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-ai-chat', handleOpen);
+    return () => window.removeEventListener('open-ai-chat', handleOpen);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -51,10 +81,22 @@ export function ExpenseChatbot({ expenses }: { expenses: Expense[] }) {
             const payload = JSON.parse(match[1]);
             console.log('🔥 AI Add Expense Triggered! Payload:', payload);
             
-            // Remove the raw JSON command from the chat bubble and add a success note
-            aiText = aiText.replace(expenseCmdRegex, '').trim() + '\n\n*(Expense payload successfully logged to console!)*';
+            // Create the expense via API
+            await createExpense({
+              title: payload.title,
+              amount: parseFloat(payload.amount),
+              category: payload.category,
+              mode: payload.mode,
+              date: new Date(payload.date).toISOString(),
+            });
+            
+            // Invalidate queries to refresh the expense lists/charts
+            queryClient.invalidateQueries({ queryKey: [EXPENSE_QUERY_CONSTANTS.ALL] });
+            
+            aiText = aiText.replace(expenseCmdRegex, '').trim() + '\n\n*(Expense added successfully!)*';
           } catch (e) {
-            console.error('Failed to parse AI payload:', e);
+            console.error('Failed to parse AI payload or save expense:', e);
+            aiText = aiText.replace(expenseCmdRegex, '').trim() + '\n\n*(Failed to log expense due to an error.)*';
           }
         }
 

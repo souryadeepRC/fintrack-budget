@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import { DeleteConfirmation } from "@/components/common/DeleteConfirmation";
 import { HeaderBanner } from "@/components/common/HeaderBanner";
 import { SummaryCards } from "@/components/common/SummaryCards";
-import { ExpenseChatbot } from "@/components/expense/expense-chatbot";
 import { ExpenseControls } from "@/components/expense/expense-controls";
 import { ExpenseForm } from "@/components/expense/expense-form";
 import { ExpenseTable } from "@/components/expense/expense-table";
@@ -66,6 +65,7 @@ export default function ExpensesPage() {
           startDate: currentMonthStart.toISOString(),
           endDate: currentMonthEnd.toISOString(),
         }),
+      enabled: !!isAuthenticated,
       ...QUERY_CONFIG,
     });
 
@@ -226,8 +226,6 @@ export default function ExpensesPage() {
         </Modal>
       )}
 
-      {/* AI Assistant Chatbot */}
-      <ExpenseChatbot expenses={currentMonthExpenses} />
     </>
   );
 }
