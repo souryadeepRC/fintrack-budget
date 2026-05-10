@@ -32,7 +32,7 @@ export default function DebtsPage() {
     queryFn: () => getDebts(),
     ...QUERY_CONFIG,
   });
-
+  
   const debtGroups = useMemo(() => {
     if (!debts) return [];
 

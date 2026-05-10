@@ -78,8 +78,7 @@ export function ExpenseChatbot() {
         
         if (match) {
           try {
-            const payload = JSON.parse(match[1]);
-            console.log('🔥 AI Add Expense Triggered! Payload:', payload);
+            const payload = JSON.parse(match[1]); 
             
             // Create the expense via API
             await createExpense({

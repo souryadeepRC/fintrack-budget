@@ -12,6 +12,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   getCurrentUser,
@@ -50,6 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthenticated: false,
     error: null,
   });
+  const router = useRouter();
 
   /**
    * Initialize auth state on mount
@@ -103,6 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: true,
         error: null,
       });
+      router.push('/expenses');
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Login failed';
@@ -140,6 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: true,
         error: null,
       });
+      router.push('/expenses');
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Registration failed';
@@ -173,6 +177,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: false,
         error: null,
       });
+      router.push('/');
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Logout failed';
